@@ -7,10 +7,22 @@ achieve the desired learning outcomes. The timeline here is a
 suggestion that I've found to work well for most projects.
 
 ## Generella frågor om tidsplanen
-- Ska vi ligga före KIs tilltänkta tidsplan och ha mer tid över i slutet av terminen? Din exempeltidsplan nedan har inlämningar av saker långt innan KI kräver att det ska vara på canvas vilket jag tycker är bra, bara att det är medvetet och inte efter en gammal tidsplan.
+- Ska vi ligga före KIs tilltänkta tidsplan och ha mer tid över i slutet av terminen? 
+
+Yes
+
+Din exempeltidsplan nedan har inlämningar av saker långt innan KI kräver att det ska vara på canvas vilket jag tycker är bra, bara att det är medvetet och inte efter en gammal tidsplan.
 - Om detta skall leda till en ev publikation som vi prata om, när är detta tänkt och hur ser tidsplanen för det ut parallellt?
+
+The study plan forms the basis of the publication and you can think of the project paper as an extended version of the publication. Therefore I suggest that your first draft in each step is in the publication format, i.e. shorter, and that subsequent drafts are more elaborate to fit the KI format.
+
 - Vecka 44 dvs sportlovet 24/10-1/11 skulle jag behöva vara frånvarande från ex-jobbet. Är scoutledare och behöver vara bortrest och ta hand om dom då. Och om det går så lägger jag gärna en plan där min arbetsbelasning den veckan är minimal och så tar jag igen det innan och ev efter om det behövs.
+
+That's fine.
+
 - Jag tänker att jag hoppas tidsplanen kan revideras allt eftersom för i min position just nu så kan jag bara svälja och anta att tar 5 veckor ish att skriva kod och få fram preliminära resultat, inte tillräckligt mycket erfarenhet för att egentligen göra någon egentlig välgrundad förändring i ditt förslag.
+
+Sure.
 
 
 ## Week 1 31/8 - 7/9
@@ -26,9 +38,9 @@ suggestion that I've found to work well for most projects.
   and upload to your project repository.
   
 ## Week 2 8/9 - 13/9
-- [ ] Revise your study plan based on feedback
+- [ ] Revise your study plan based on feedback 
 - [ ] Revise project timeline based on discussion and feedback
-- [ ] Continue getting familiar with R, Rstudio and swirl, **do you have any package/library thats recomended for this kind of data proccessing?**
+- [ ] Continue getting familiar with R, Rstudio and swirl, **do you have any package/library thats recomended for this kind of data proccessing?** There are many but we have some useful functions in the package https://github.com/martingerdin/bengaltiger
 - [ ] Read up
 
 ## Week 3 14/9 - 20/9
