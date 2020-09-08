@@ -42,7 +42,7 @@ citations and the reference list will be formatted. Leave as it is.* ->>
 
 Methods
 =======
-__Känns som jag mest kopierar det som du skrev i PPFen i våras helt ärligt. Och sen är det en del statistiska termer och index jag inte hört om, ska google men kanske kommer behöva lite förtydliganden på torsdag... Och en del av Tripodkriterierna vet jag faktiskt inte då jag inte vet så mycket om hur databasen kom till eller ser ut vad gäller inklussion etc.__
+__Känns som jag mest kopierar det som du skrev i PPFen i våras helt ärligt, känns inte som jag bidrar med så mycket i den här delen. Och sen är det en del statistiska termer och index jag inte hört om, ska google men kanske kommer behöva lite förtydliganden på torsdag... Och en del av Tripodkriterierna vet jag faktiskt inte då jag inte vet så mycket om hur databasen kom till eller ser ut vad gäller inklussion etc.__
 
 A retrospective cohort study of 16 000 trauma patients admitted to four university hospitals in urban India between 2013 and 2015 that seeks to study the predictive value of qSOFA on the primary outcome of ICU admissions. 
 
