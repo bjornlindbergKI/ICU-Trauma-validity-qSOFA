@@ -38,18 +38,19 @@ references in that file as bibtex entries and cite as
 [@Courvoisier2011].*-->
 
 <!--*bmcemerg.csl is a citation style language file that governs how 
-citations and the reference list will be formatted. Leave as it is.* ->>
+citations and the reference list will be formatted. Leave as it is.* -->
 
 Methods
 =======
-__Känns som jag mest kopierar det som du skrev i PPFen i våras helt ärligt, känns inte som jag bidrar med så mycket i den här delen. Och sen är det en del statistiska termer och index jag inte hört om, ska google men kanske kommer behöva lite förtydliganden på torsdag... Och en del av Tripodkriterierna vet jag faktiskt inte då jag inte vet så mycket om hur databasen kom till eller ser ut vad gäller inklussion etc.__
 
 A retrospective cohort study of 16 000 trauma patients admitted to four university hospitals in urban India between 2013 and 2015 that seeks to study the predictive value of qSOFA on the primary outcome of ICU admissions. 
+
+__Känns som jag mest kopierar det som du skrev i PPFen i våras helt ärligt, känns inte som jag bidrar med så mycket i den här delen. Och sen är det en del statistiska termer och index jag inte hört om, ska google men kanske kommer behöva lite förtydliganden på torsdag... Och en del av Tripodkriterierna vet jag faktiskt inte då jag inte vet så mycket om hur databasen kom till eller ser ut vad gäller inklussion etc.__
 
 Från PPF "This will be a retrospective analysis of a cohort of trauma patients admitted to four public university hospitals in urban India between 2013 and 2015. The complete cohort includes 16 000 patients. The primary outcome will be ICU admission. The predictors included in qSOFA are respiratory rate, Glasgow coma scale, and systolic blood pressure. Validity will be assessed in terms of predictive performance, which in turn will be measures as discrimination an calibration. Calibration will further be visualised using calibration plots. An optimal cutoff will be identified using the Youden index and sensitivity, specificity, precision, recall, positive and negative predictive values will assessed at this cutoff. The original model will finally be compared to a updated model, using the same predictive performance measures. Updating will be performed using logistic regression. Bootstrapping will be used to estimate 95% confidence intervals associated with point estimates. Missing data will be handled using multiple imputation. "
 
 
-<--*Refer to the appropriate reporting guideline for details. If you are
+<!--*Refer to the appropriate reporting guideline for details. If you are
 developing, updating or validating a clinical prediction model then
 use
 [TRIPOD](https://www.equator-network.org/reporting-guidelines/tripod-statement/). If
