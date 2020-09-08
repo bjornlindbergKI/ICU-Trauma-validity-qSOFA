@@ -22,14 +22,13 @@ suggestion that I've found to work well for most projects.
 - [ ] Draft a detailed timeline with dates and deliveries and upload to
   your project repository
 - [ ] Draft a [study plan](study-plan.md) based on the appropriate study
-  reporting guideline, 
-  [TRIPOD](https://www.equator-network.org/reporting-guidelines/tripod-statement/),
+  reporting guideline, [TRIPOD](https://www.equator-network.org/reporting-guidelines/tripod-statement/),
   and upload to your project repository.
   
 ## Week 2 8/9 - 13/9
 - [ ] Revise your study plan based on feedback
 - [ ] Revise project timeline based on discussion and feedback
-- [ ] Continue getting familiar with R, Rstudio and swirl, **do you have any library thats recomended for this kind of data proccessing?**
+- [ ] Continue getting familiar with R, Rstudio and swirl, **do you have any package/library thats recomended for this kind of data proccessing?**
 - [ ] Read up
 
 ## Week 3 14/9 - 20/9
