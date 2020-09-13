@@ -25,6 +25,7 @@ __WHAT IS THE REASON FOR WRITING THIS AND THE SCOPE OF THE ARTICLE__ The, SOFA, 
 
 <!-- End with the aim -->
 
+
 __något mer som bör tas upp i indroduction?__
 
 <!--*The background/introduction should summarise the scope of the problem,
@@ -46,21 +47,74 @@ Methods
 =======
 
 ## Source of data
+
+<!-- 
+4a) Describe the study design or source of data (e.g., randomized trial, cohort, or
+registry data), separately for the development and validation data sets, if applicable
+4b) Specify the key study dates, including start of accrual; end of accrual; and, if
+applicable, end of follow-up. 
+
+-->
+
 A retrospective analysis of a cohort study of 16 000 trauma patients admitted to four university hospitals in urban India between 2013 and 2015 that seeks to study the predictive value of qSOFA on the primary outcome of ICU admissions. 
 
 ## Participants
+<!-- 
+5a) Specify key elements of the study setting (e.g., primary care, secondary care,
+general population) including number and location of centres. [D;V]
+5b) Describe eligibility criteria for participants. [D;V]
+5c) Give details of treatments received, if relevant.  [D;V]
+-->
+
 
 ## Outcome
+<!--
+6a) Clearly define the outcome that is predicted by the prediction model, including how
+and when assessed. [D;V]
+6b) Report any actions to blind assessment of the outcome to be predicted. [D;V]
+-->
+
 
 ## Predictors
+<!--
+7a) Clearly define all predictors used in developing or validating the multivariable
+prediction model, including how and when they were measured. [D;V]
+7b) Report any actions to blind assessment of predictors for the outcome and other
+predictors. [D;V]
+-->
+
 
 ## Sample size
+<!--
+8) Explain how the study size was arrived at [D;V]
+-->
+
 
 ## Missing data
+<!--
+9) Describe how missing data were handled (e.g., complete-case analysis, single
+imputation, multiple imputation) with details of any imputation method. [D;V]
+
+-->
+
 
 ## Statistical analysis methods
+<!--
+10a) Describe how predictors were handled in the analyses. [D]
+10b) Specify type of model, all model-building procedures (including any predictor
+selection), and method for internal validation. [D]
+10c. For validation, describe how the predictions were calculated. [V]
+10d) Specify all measures used to assess model performance and, if relevant, to
+compare multiple models [D;V]
+10e. Describe any model updating (for example, recalibration) arising from the validation, if done. [V]
 
-__Känns som jag mest kopierar det som du skrev i PPFen i våras helt ärligt, känns inte som jag bidrar med så mycket i den här delen. Och sen är det en del statistiska termer och index jag inte hört om, ska google men kanske kommer behöva lite förtydliganden på torsdag... Och en del av Tripodkriterierna vet jag faktiskt inte då jag inte vet så mycket om hur databasen kom till eller ser ut vad gäller inklussion etc.__
+-->
+
+## Risk groups
+<!--
+Item 11. Provide details on how risk groups were created, if done. [D;V]
+-->
+
 
 <!-- Go ahead and add the TRIPOD subheadings. Read for example https://bjssjournals.onlinelibrary.wiley.com/doi/abs/10.1002/bjs.10862 for a description of the cohort-->
 
