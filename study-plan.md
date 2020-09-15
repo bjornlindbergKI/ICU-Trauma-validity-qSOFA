@@ -8,8 +8,7 @@ csl: bmcemerg.csl
 
 *The study plan should be 3-4 pages long and written in
 [markdown](https://rmarkdown.rstudio.com/) (like this
-document). Remove all comments in italic when you use this document as
-a template for your own study plan.* 
+document).*
 
 __Jag har lagt källor som kommentarer i md filen för nu, fixar korrekt citering senare.__
 
@@ -17,16 +16,13 @@ Introduction
 ============
 
 <!--__TRAUMA IS A GLOBAL PROBLEM AND MORE SO IN LOW INCOME REGION:__--> 
-Globally about 13% of all Disease Adjusted Life Years (DALY) lost can be attributed to trauma, defiended as the clinical entity composed of both the injury and the body's associated response <!-- reference? --> [@GBD2017DALY]And about 8% of deaths globally, or about 4.5 million deaths, was caused by trauma in 2017 <!-- Try to merge these first two sentences --> <!-- https://www.thelancet.com/lancet/visualisations/gbd-compare --> Trauma often require extensive medical treatment and sometimes admission to the ICU<!-- Spell out the first time-->. In a paper publiced 2012 Charles mock et al calculated that in 2010 90% of all deaths due to trauma and injuries was in low and middle income cuntries with much higher mortality rates compared to high income countries and that an improvement in trauma care globally to that level of high income countries could save between 1.7 and 2 million lives annually. <!-- Feels like this should come before the statement about that trauma may require ICU admission --> <!-- (An Estimate of the Number of Lives that Could be Saved through Improvements in Trauma Care Globally, World jurnal of surgery 2012) -->
+Trauma, defiended as the clinical entity composed of both the injury and the body's associated response, is a global health problem and about 13% of all Disease Adjusted Life Years (DALY) lost worldwide, and about 8% of the deaths globally, or about 4.5 million, was caused by trauma in 2017. [@GBD2017DALY] <!-- https://www.thelancet.com/lancet/visualisations/gbd-compare --> In a paper publiced 2012 Charles mock et al calculated that in 2010 90% of all deaths due to trauma and injuries was in low and middle income cuntries with much higher mortality rates compared to high income countries and that an improvement in trauma care globally to that level of high income countries could save between 1.7 and 2 million lives annually. [@Mock2012] Trauma often require extensive medical treatment and sometimes admission to the Intensive care unit (ICU) which can be a problem in low reasorce settings.  
 
 <!--__What is SOFA and qSOFA:__--> 
-One of the complications of severe injuries is a state called sepsis and septic shock. The main causes for septis is infection and non communicable diseases but around four percent is caused by trauma. <!-- Global, regional, and national sepsis incidence and mortality, 1990–2017: analysis for the Global Burden of Disease Study, the lancet -->  According to the third consensus definition of sepsis and septic shock sepsis is the sequential organ failure assessment score (SOFA score) of 2 points or more and septic shock a subset of sepsis where the patient is in need of vasopressor treatment or have a serum lactate level over 2mmol/L after adequate fluid treatment. In settings where laboratory analysises can not be performed rapidly qSOFA has been developed constituting of three parts: respiratory rate of 22/min or greater, reduced GCS or systolic BP of 100 mmHg and less. A score of more than two indicates higher severity and lower expected survival.  <!--The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3), JAMA 2016 --> <!-- Developing a New Definition and Assessing New Clinical Criteria for Septic Shock, JAMA 2016 --> <!-- Assessment of Clinical Criteria for Sepsis, JAMA 2016 --> The, SOFA, qSOFA score has mainly been studied and evaluated before and after the Sepsis-3 consensus definition. 
+One of the possible complications of trauma is a state called sepsis and septic shock. The main causes for sepsis is infection and non communicable diseases but around four percent is caused by trauma. [@Rudd2020] According to the third consensus definition of sepsis and septic shock, sepsis is defined as the sequential organ failure assessment score (SOFA score) of 2 points or more and septic shock a subset of sepsis where the patient is in need of vasopressor treatment or have a serum lactate level over 2mmol/L after adequate fluid treatment. In settings where laboratory analysises can not be performed rapidly qSOFA has been developed constituting of three parts: respiratory rate of 22/min or greater, reduced Glascow coma scale (GCS) or systolic blood preassure of 100 mmHg or less. A score of more than two is coralated with higher severity of disease and a lower expected survival.  [@Sepsis3] [@Shankar2016] [@Seymour2016]The, SOFA, qSOFA score has been studied and evaluated before and after the Sepsis-3 consensus definition but mainly in the context of infectious and non communicable diseases and in high resource settings. But it has not yet been sufficiently studied if qSOFA is a good predictor of admission to the ICU in trauma patients admitted to hospitals in low resource settings. In that case qSOFA could be used to direct the resourses and care to the most critically ill patients and thus save lives in low income cuntries.
 
 <!-- Has it been studied as a predictor of ICU-admission in non-septic patients in other settings?:-->
 __I know what i want to say but not how to say it. That most of the studies, at least that i can find, on SOFA and qSOFA focus on the infectious part and are performed in high resource settings. I have been able to find some trauma oriented papers but then all beeing focused in high resource settings. But it seem nonsensical to refrence papers about things that i'm not interested about in this paper and i cant really refrence a lack of papers in a particular area either?__   
-
-
-<!-- But it has not yet been sufficiently studied if qSOFA is a good predictor of admission to the ICU of trauma patients in hospitals in low resource settings. In that case qSOFA could be used to direct the resourses and care to the most critically ill patients and thus save lifes in low income cuntries. Källor?? samma som ovan?--> 
 
 The aim of this paper is to asses the validity of qSOFA in predicting ICU admission in trauma patients admitted to hospitals in low sesource settings. <!-- End with the aim --> 
 
@@ -38,9 +34,9 @@ background should be 4-5 paragraphs long and each paragraph should be
 between 3-5 sentences. Strive to make the paragraphs about the same
 length.* -->
 
-<!--*bibliography.bib includes an example reference. Add additional
+*bibliography.bib includes an example reference. Add additional
 references in that file as bibtex entries and cite as
-[@Courvoisier2011].*-->
+[@Courvoisier2011].*
 
 <!--*bmcemerg.csl is a citation style language file that governs how 
 citations and the reference list will be formatted. Leave as it is.* -->
