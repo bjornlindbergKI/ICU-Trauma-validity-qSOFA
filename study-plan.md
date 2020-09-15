@@ -6,11 +6,9 @@ bibliography: bibliography.bib
 csl: bmcemerg.csl
 ---
 
-*The study plan should be 3-4 pages long and written in
+<!-- *The study plan should be 3-4 pages long and written in
 [markdown](https://rmarkdown.rstudio.com/) (like this
-document).*
-
-__Jag har lagt källor som kommentarer i md filen för nu, fixar korrekt citering senare.__
+document).* -->
 
 Introduction
 ============
@@ -36,12 +34,6 @@ background should be 4-5 paragraphs long and each paragraph should be
 between 3-5 sentences. Strive to make the paragraphs about the same
 length.* -->
 
-*bibliography.bib includes an example reference. Add additional
-references in that file as bibtex entries and cite as
-[@Courvoisier2011].*
-
-<!--*bmcemerg.csl is a citation style language file that governs how 
-citations and the reference list will be formatted. Leave as it is.* -->
 
 Methods
 =======
