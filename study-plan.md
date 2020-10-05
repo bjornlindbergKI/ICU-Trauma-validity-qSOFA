@@ -12,8 +12,8 @@ document).* -->
 
 Introduction 
 ============
-<!-- I realised that I started writing the introduction a bit too fast and had misunderstood some things and didnt quite have the full picture. So i'll scrap this and have started a second draft with a similar but revised disposition that should be more acurate hopefully, rigth now it's just a skeleton with refrences but i'll continue writing it and upload it this weekend. -->
 
+<!-- I realised that I started writing the introduction a bit too fast and had misunderstood some things and didnt quite have the full picture. So i'll scrap this and have started a second draft with a similar but revised disposition that should be more acurate hopefully, rigth now it's just a skeleton with refrences but i'll continue writing it and upload it this weekend. -->
 
 <!--__TRAUMA IS A GLOBAL PROBLEM AND MORE SO IN LOW INCOME REGION:__--> 
 Trauma, defined as the clinical entity composed of both physcial injury and the body's associated response, is a global health problem that caused 13% of all Disease Adjusted Life Years (DALY) lost and 8% of the deaths globally in 2017 [@GBD2017DALY]. <!-- https://www.thelancet.com/lancet/visualisations/gbd-compare --> Mock et al. calculated that 90% of all deaths due to trauma were in low and middle income cuntries with much higher mortality rates compared to high income countries and that an improvement in trauma care globally to that level of high income countries could save almost two million lives annually. [@Mock2012].
@@ -135,3 +135,26 @@ you are conducting an observational study, for example a cohort or
 case control study in which you assess associations between some
 exposure and an outcome then use
 [STROBE](https://www.equator-network.org/reporting-guidelines/strobe/).*-->
+
+Results
+========
+
+The TITCO cohort contained 16000 patients, from which 3373 where excluded for being under the age of 18 leaving 12627. Furthermore 5686 patients where excluded due to missing and non recorded data: `r x`
+admission to the ICU: 35
+Systolic BP: 2193
+RR: 5102
+GCS: 1542
+Leaving 6941 datapoints to be used in the analysis.
+
+|                  | Median(min-max) |   |
+|------------------|-----------------|---|
+| Sex ration f:m   | 1171:5770       |   |
+| Age              | 35(18-90+)      |   |
+| ICU admission(%) | 42.4            |   |
+| died(%)          | 22.3            |   |
+| SBP              | 120(0-254)      |   |
+| RR               | 18(0-48)        |   |
+| GCS              | 15(3-15)        |   |
+
+
+But I have no idea how to get that to auto-generate using code in markdown. does it even work on github or do you need to download it? And i dont wanna write to much explanatory text now having to redo it using the correct syntax. 
