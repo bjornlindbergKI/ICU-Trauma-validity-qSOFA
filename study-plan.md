@@ -16,7 +16,7 @@ Introduction
 <!-- I realised that I started writing the introduction a bit too fast and had misunderstood some things and didnt quite have the full picture. So i'll scrap this and have started a second draft with a similar but revised disposition that should be more acurate hopefully, rigth now it's just a skeleton with refrences but i'll continue writing it and upload it this weekend. -->
 
 <!--__TRAUMA IS A GLOBAL PROBLEM AND MORE SO IN LOW INCOME REGION:__--> 
-Trauma, defined as the clinical entity composed of both physcial injury and the body's associated response, is a global health problem that caused 13% of all Disease Adjusted Life Years (DALY) lost and 8% of the deaths globally in 2017 [@GBD2017DALY]. <!-- https://www.thelancet.com/lancet/visualisations/gbd-compare --> Mock et al. calculated that 90% of all deaths due to trauma were in low and middle income cuntries with much higher mortality rates compared to high income countries and that an improvement in trauma care globally to that level of high income countries could save almost two million lives annually. [@Mock2012]. `r pi * x^2`.
+Trauma, defined as the clinical entity composed of both physcial injury and the body's associated response, is a global health problem that caused 13% of all Disease Adjusted Life Years (DALY) lost and 8% of the deaths globally in 2017 [@GBD2017DALY]. <!-- https://www.thelancet.com/lancet/visualisations/gbd-compare --> Mock et al. calculated that 90% of all deaths due to trauma were in low and middle income cuntries with much higher mortality rates compared to high income countries and that an improvement in trauma care globally to that level of high income countries could save almost two million lives annually. [@Mock2012].
 
 <!--__What is SOFA and qSOFA:__-->
 
@@ -139,7 +139,7 @@ exposure and an outcome then use
 Results
 ========
 
-The TITCO cohort contained 16000 patients, from which 3373 where excluded for being under the age of 18 leaving 12627. Furthermore 5686 patients where excluded due to missing and non recorded data:
+The TITCO cohort contained 16000 patients, from which 3373 where excluded for being under the age of 18 leaving 12627. Furthermore 5686 patients where excluded due to missing and non recorded data: `r x`
 admission to the ICU: 35
 Systolic BP: 2193
 RR: 5102
