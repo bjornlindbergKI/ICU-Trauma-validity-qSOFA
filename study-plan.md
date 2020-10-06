@@ -4,6 +4,7 @@ subtitle: Add a Subtitle if Needed
 author: Björn Lindberg
 bibliography: bibliography.bib
 csl: bmcemerg.csl
+output: pdf_document
 ---
 
 <!-- *The study plan should be 3-4 pages long and written in
@@ -139,7 +140,7 @@ exposure and an outcome then use
 Results
 ========
 
-The TITCO cohort contained 16000 patients, from which 3373 where excluded for being under the age of 18 leaving 12627. Furthermore 5686 patients where excluded due to missing and non recorded data: `r x`
+The TITCO cohort included `r results$n.cohort` patients, from which `r results$n.younger.than.18` where excluded for being under the age of 18 leaving `r results$18.or.older`. Furthermore 5686 patients where excluded due to missing and non recorded data: 
 admission to the ICU: 35
 Systolic BP: 2193
 RR: 5102
