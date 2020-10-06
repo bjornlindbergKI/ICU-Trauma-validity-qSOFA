@@ -65,7 +65,7 @@ results$n.cohort <- nrow(tot_data)
 younger.than.18 <- part_data$age < 18
 results$n.younger.than.18 <- sum(younger.than.18)
 study.sample <- part_data[!younger.than.18, ]
-results$18.or.older <- nrow(study.sample)
+results$n.adults <- nrow(study.sample)
 
 ## Compile paper
-render("study-plan.md")
+render("study-plan.Rmd")

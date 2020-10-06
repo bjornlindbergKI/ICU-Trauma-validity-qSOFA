@@ -140,7 +140,7 @@ exposure and an outcome then use
 Results
 ========
 
-The TITCO cohort included `r results$n.cohort` patients, from which `r results$n.younger.than.18` where excluded for being under the age of 18 leaving `r results$18.or.older`. Furthermore 5686 patients where excluded due to missing and non recorded data: 
+The TITCO cohort included `r results$n.cohort` patients, from which `r results$n.younger.than.18` where excluded for being under the age of 18 leaving `r results$n.adults`. Furthermore 5686 patients where excluded due to missing and non recorded data: 
 admission to the ICU: 35
 Systolic BP: 2193
 RR: 5102
