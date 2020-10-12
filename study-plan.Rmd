@@ -7,40 +7,27 @@ csl: bmcemerg.csl
 output: pdf_document
 ---
 
-<!-- *The study plan should be 3-4 pages long and written in
-[markdown](https://rmarkdown.rstudio.com/) (like this
-document).* -->
 
 Introduction 
 ============
+Trauma is defined as the clinical entity composed of both physical injury and the body’s associated response. [MeSH] Trauma patients are ais a heterogenous group with wide range of different causes where some of the most prominent ones are traffic related injuries, falls, self-harm, interpersonal violence and burns. It is a global health problem and the total number of injuries is estimated to be at least 520 million cases per year. [@James2020] The effects of trauma on patients and their families can be divided into non-fatal and fatal trauma.
 
-<!-- I realised that I started writing the introduction a bit too fast and had misunderstood some things and didnt quite have the full picture. So i'll scrap this and have started a second draft with a similar but revised disposition that should be more acurate hopefully, rigth now it's just a skeleton with refrences but i'll continue writing it and upload it this weekend. -->
+The effects of non-fatal trauma can be subdivided into Disability Adjusted Life Years (DALY) lost and economical effects. DALY is a measurement using both the mortality in years lost between death and mean age and morbidity as in years lived with reduced function due to the disease. In 2017 trauma accounted for 13% of total DALY lost. [@GBD2017DALY] The economic effects in turn regards both the out of pocket expenses for treatments as well as reduced productivity due to reduced ability after the injury. A study in northern India from 2019 calculated that 22% of patients who presented with traumatic injuries afterward had 30% or more of their total expenditure on healthcare related costs and 12 % were pushed below the international poverty line as a consequence. [@Prinja2019]
 
-<!--__TRAUMA IS A GLOBAL PROBLEM AND MORE SO IN LOW INCOME REGION:__--> 
-Trauma, defined as the clinical entity composed of both physcial injury and the body's associated response, is a global health problem that caused 13% of all Disease Adjusted Life Years (DALY) lost and 8% of the deaths globally in 2017 [@GBD2017DALY]. <!-- https://www.thelancet.com/lancet/visualisations/gbd-compare --> Mock et al. calculated that 90% of all deaths due to trauma were in low and middle income cuntries with much higher mortality rates compared to high income countries and that an improvement in trauma care globally to that level of high income countries could save almost two million lives annually. [@Mock2012].
+Regarding the effect of traumatic injuries on mortality in 2017 trauma accounted for 8% of total global deaths. [@GBD2017DALY] According to calculations done by Mock et al. [@Mock2012] 90% of all deaths due to trauma were in low and middle income countries which also had a fatality rate 60-80% higher than that of high income countries and an improvement in trauma care globally to the level of that in high income countries could save about 1.7 lives annually, or about one third of the global deaths due to trauma.
 
-<!--__What is SOFA and qSOFA:__-->
+It is known that most fatalities in response to traumatic injuries occur shortly after the injury and in order to reduce the mortality in patients with severe trauma it requires early intervention, often surgical, as by “the golden hour” concept. This is often due to patients suffering from internal and external bleeding where surgery is an important part of the hemorrhage control. [@King2019] It is evident that in parts of the world with fewer hospitals, reduced access to healthcare and a less developed ambulance networks the time parameter is one of the contributing factors to the difference in increased mortality as mentioned. 
 
-One of the possible complications of trauma is sepsis and septic shock. The main causes for sepsis is infection <!-- Isn't sepsis by definition caused by an infection? --> and non communicable diseases but around four percent is caused by trauma. [@Rudd2020] Sepsis is defined as the sequential organ failure assessment score (SOFA score) of 2 points or more and septic shock a subset of sepsis where the patient is in need of vasopressor treatment or have a serum lactate level over 2mmol/L after adequate fluid treatment<!-- It also needs to be caused by "a dysregulated host response to infection"-->. In settings where laboratory analysises can not be performed rapidly qSOFA has been developed constituting of three parts: respiratory rate of 22/min or greater, reduced Glascow coma scale (GCS) or systolic blood preassure of 100 mmHg or less<!-- As far as I remember qSOFA was developed using data from high income settings-->. A score of more than two correlates with higher disease severity and lower survival. [@Sepsis3; @Shankar2016; @Seymour2016]
+For patients with severe infections the Sequential Organ Failure Assessment (SOFA) score was developed in 1994 to grade the level of organ dysfunction in critically ill patients. The SOFA score is based on the reduced function scored 0-4 for each of the respiratory, cardiovascular, neurological, hepatic, coagulation and renal systems. Initially the focus was mainly patients suffering from severe infections and sepsis, but it was early recognized to be applicable in a wide range of critical illnesses. [@Lambden2019] 
 
-The SOFA and qSOFA scores have been studied and evaluated before and after the Sepsis-3 consensus definition 2016 but mainly in the context of infectious and non communicable diseases and in high resource settings. 
+Alongside the last revision of the sepsis definition in 2016 the quick Sequential Organ Failure Assessment score (qSOFA score) was developed. The qSOFA score includes three parameters: Systolic blood pressure (SBP) below 100 mmHg, a respiratory rate (RR) above 22 min and an altered consciousness, measured with a Glasgow Coma Scale (GCS) score below 15. One point is awarded for each parameter yielding a total score of 0-3. Introduced as a screening tool, to be performed bedside to identify patients with high-risk of organ dysfunction due to infections. [@David2017] [@Shankar2016] It has lately also shown ability to predict mortality in patients with traumatic injuries when used both in prehospital care [@Miyamoto2019] as well as repeated evaluation during hospitalization [@Miyamoto2020].
 
-<!-- There is a big gap here that you need to bridge. Why would it be evaluated in the context of ICU admission in trauma patients? I would recommend that you state what outcomes it has been used to predict and in what populations. You may then go on to stating that the predictors included in qSOFA are the same as in the Revised Trauma Score, but with fewer cutoffs, why it may be an attractive option. -->
+Another tool to assess the severity of a patient’s condition due to trauma is the Revised Trauma Score (RTS) and the Triage Revised Trauma Score (T-RTS) composed of the same parameters as qSOFA, that is GCS, SBP and RR but with a score of 0-4 for each parameter instead of a single criteria. The scores can either be presented individually as used in RTS or added together to a total of 0-12 used in the T-RTS. The RTS thought of to be used in outcome evaluation and assessment of injury severity and the T-RTS for triage and finding patients a prehospital or initial setting in most need of specialized trauma care [@Champion1989] However there are some articles raising concerns about the sensitivity of the T-RTS depending on the type of injury. [@Giannakopoulos2011] [@Alvarez2016]
 
-But it has not yet been sufficiently studied if qSOFA is a good predictor of admission to the ICU in trauma patients admitted to hospitals in low resource settings. In that case qSOFA could be used to direct the resourses and care to the most critically ill patients and thus save lives in low income cuntries.
+It should be noted that the majority of the research done on the topic of trauma and trauma care has been performed in high income countries. It is thus not clear if the results are also applicable in low resource settings, which stand to benefit the most of a scoring system to be able to prioritize the limited resources at hand. Furthermore, most studies report the predictive power of different scoring systems on mortality and it has not yet been sufficiently studied whether an initial qSOFA score can be used to predict admissions to an intensive care unit.
 
-<!-- Has it been studied as a predictor of ICU-admission in non-septic patients in other settings?:-->
-__I know what i want to say but not how to say it. That most of the studies, at least that i can find, on SOFA and qSOFA focus on the infectious part and are performed in high resource settings. I have been able to find some trauma oriented papers but then all beeing focused in high resource settings. But it seem nonsensical to refrence papers about things that i'm not interested about in this paper and i cant really refrence a lack of papers in a particular area either?__   
-
-The aim of this paper is to asses the validity of qSOFA in predicting ICU admission in trauma patients admitted to hospitals in low sesource settings. <!-- End with the aim --> 
-
-<!--*The background/introduction should summarise the scope of the problem,
-what is known about the problem, what is not known, what specific
-knowledge gap the study is supposed to fill and why this is
-important. It should end be stating the aim of the study. The
-background should be 4-5 paragraphs long and each paragraph should be
-between 3-5 sentences. Strive to make the paragraphs about the same
-length.* -->
+##Aim
+The aim of this project is to assess the validity of qSOFA in predicting ICU admission in trauma patients admitted to hospitals in a low resource setting using data from the TITCO cohort [TITCO].
 
 
 Methods
@@ -139,23 +126,20 @@ exposure and an outcome then use
 
 Results
 ========
+The TITCO cohort included `r results$n.cohort` patients, from which `r results$n.younger.than.18` where excluded for being under the age of 18 leaving `r results$n.adults`. Next `r results$n.incl2 ` patients died between arrival and admission and where thus excluded from the sample leaving `r results$n.included` patients. Furthermore `r results$n.NA_TOT` patients where excluded due to missing and non recorded data in one of the following categories: 
+admission to the ICU: `r results$n.NA_ICU`
+Systolic BP: `r results$n.NA_SBP`
+RR: `r results$n.NA_RR`
+GCS: `r results$n.NA_GCS`
+Leaving `r results$n.complete` datapoints to be used in the analysis.
 
-The TITCO cohort included `r results$n.cohort` patients, from which `r results$n.younger.than.18` where excluded for being under the age of 18 leaving `r results$n.adults`. Furthermore 5686 patients where excluded due to missing and non recorded data: 
-admission to the ICU: 35
-Systolic BP: 2193
-RR: 5102
-GCS: 1542
-Leaving 6941 datapoints to be used in the analysis.
+```{r figure1, fig.align = 'center', out.width = "100%", fig.cap = "Flowchart of exclussion from the study"}
+knitr::include_graphics("figure1.png")
+```
 
-|                  | Median(min-max) |   |
-|------------------|-----------------|---|
-| Sex ration f:m   | 1171:5770       |   |
-| Age              | 35(18-90+)      |   |
-| ICU admission(%) | 42.4            |   |
-| died(%)          | 22.3            |   |
-| SBP              | 120(0-254)      |   |
-| RR               | 18(0-48)        |   |
-| GCS              | 15(3-15)        |   |
+Characterista of the data can be seen in table \@ref(tab:table1)
 
+```{r table1}
+ kableone(CreateTableOne(data =data.table1), caption="Characteristca of data", label = "table1")
+```
 
-But I have no idea how to get that to auto-generate using code in markdown. does it even work on github or do you need to download it? And i dont wanna write to much explanatory text now having to redo it using the correct syntax. 
