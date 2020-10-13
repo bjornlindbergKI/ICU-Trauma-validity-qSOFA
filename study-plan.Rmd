@@ -135,13 +135,13 @@ RR: `r results$n.NA_RR`
 GCS: `r results$n.NA_GCS`
 Leaving `r results$n.complete` datapoints to be used in the analysis.
 
-```{r figure1, fig.align = 'center', out.width = "100%", fig.cap = "Flowchart of exclussion from the study"}
-knitr::include_graphics("figure1.png")
+```{r figure1, fig.align = 'center', out.width = "100%", fig.cap = "Flowchart of exclussion from the study", echo = FALSE}
+knitr::include_graphics("figure1.svg")
 ```
 
-Characterista of the data can be seen in table \@ref(tab:table1)
+Data characteristics can be seen in table \@ref(tab:table1)
 
-```{r table1}
- kableone(CreateTableOne(data =data.table1), caption="Characteristca of data", label = "table1")
+```{r table1, echo = FALSE}
+ kableone(CreateTableOne(data = data.table1), caption = "Sample characteristics", label = "table1")
 ```
 
