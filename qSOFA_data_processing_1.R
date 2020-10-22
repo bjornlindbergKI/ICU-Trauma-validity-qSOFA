@@ -17,6 +17,7 @@ library(ROCR)
 
 ## Source functions
 source("R/qSOFAcalc.R")
+source("R/create_figure1.R")
 
 # Data extraction
 url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-limited-dataset-v1.csv"
