@@ -15,29 +15,8 @@ library(rsvg)
 library("bengaltiger")
 library(ROCR)
 
-##function evaluation qSOFA on input.
-qSOFAcalc <- function(raw, tot = TRUE, sbp_cut = 100, rr_cut = 22) {
-    ## Check arguments
-    assert_that(is.data.frame(raw))
-    #assert_that(ncol(raw) == 3)
-    assert_that(is.logical(tot))
-    assert_that(is.numeric(sbp_cut))
-    assert_that(is.numeric(rr_cut))
-
-    ## Calculate score
-    sc_sbp <- select(raw, starts_with("sbp_")) <= sbp_cut
-    sc_rr <- select(raw, starts_with("rr_")) >= rr_cut
-    sc_gcs <- select(raw, starts_with("gcs_")) < 15
-    score <- data.frame(sbp_score = sc_sbp, rr_score = sc_rr, gcs_score = sc_gcs) %>%
-        mutate(across(.fns = as.integer))
-    if (tot){
-      score <- data.frame(score, "qSOFA_score" = sc_sbp + sc_rr + sc_gcs)
-      names(score) <- c("sbp_score", "rr_score","gcs_score","qSOFA_score" )
-    }else{
-      names(score) <- c("sbp_score", "rr_score","gcs_score")
-    }
-    score
-}
+## Source functions
+source("R/qSOFAcalc.R")
 
 # Data extraction
 url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-limited-dataset-v1.csv"
@@ -110,56 +89,11 @@ RTI <- grepl('traffic', data.table1$`Mode of injury`)
 data.table1$`Mode of injury`[RTI] <- "Road traffic injury" 
 
 ## Figure 1 flowchart ####
-
-figure1 <- grViz("digraph flowchart {
-      # node definitions with substituted label text
-      node [fontname = Helvetica, shape = rectangle, width = 4]        
-      graph [rankdir = LR]
-      
-      tab1 [label = '@@1']
-      tab2 [label = '@@2']
-      tab3 [label = '@@3']
-      tab4 [label = '@@4']
-      tab5 [label = '@@5']
-      tab6 [label = '@@6']
-      tab7 [label = '@@7']
-      
-      node [shape = point, style = filled ,color = black, label = '', height = 0]
-      a,b,c,d,f
-      
-      subgraph {
-      rank = same;
-      tab1 -> a [arrowhead=none] 
-      a-> tab2 
-      tab2 -> b [arrowhead=none] 
-      b -> tab3 
-      tab3 -> c [arrowhead=none] 
-      c -> tab4
-      
-      }
-
-      # edge definitions with the node IDs
-      a -> tab5 
-      b -> tab6 
-      c -> tab7
-      }
-
-      [1]: paste0('Participants in the TITCO cohort: ', results$n.cohort )
-      [2]: paste0('Participants above age 18: ', results$n.adults)
-      [3]: paste0('Participants alive at admission: ', results$n.included)
-      [4]: paste0('Participants with complete data: ', results$n.complete)
-      [5]: paste0('Participants below age 18: ', results$n.younger.than.18)
-      [6]: paste0('Participants died before admission: ', results$n.incl2)
-      [7]: paste0('Participants with missing data: ', results$n.NA_TOT, '\\n', 'Missing ICU admission: ', results$n.NA_ICU, '\\n','Missing systolic blood preassure: ', results$n.NA_SBP, '\\n', 'Missing respiratory rate: ', results$n.NA_RR, '\\n', 'Missing Glascow coma scale: ', results$n.NA_GCS)
-
-      ")
-
-export_svg(figure1) %>% charToRaw %>% rsvg_svg("figure1.svg")
+figure1 <- create_figure1(results)
 
 ## Calculate qSOFA score and add to study.sample.complete ####
 qSOFA <- qSOFAcalc(study.sample.complete, tot = FALSE)
 study.sample.complete.sofa <- data.frame(study.sample.complete, qSOFA)
-
 
 ## Split sample in sample.split #### 
 proportion <- c(0.6,0.20,0.20)
