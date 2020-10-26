@@ -105,7 +105,7 @@ sample.split <- SplitDataset(study.sample.complete.sofa, events = NULL, event.va
                              temporal.split = NULL, remove.missing = FALSE, random.seed = NULL,
                              sample.names = split.names, return.data.frame = FALSE)
 
-## Training #### --------------------- NY
+## Training ####
 training.sample <- sample.split$training.sample
 fit <- glm(as.numeric(licu == "Yes") ~ sbp_score + rr_score + gcs_score, family = binomial, data = training.sample)
 
@@ -117,6 +117,33 @@ plot(prf)
 auc <- performance(pr, measure = "auc")
 auc <- auc@y.values[[1]]
 results$updated.auc <- auc
+
+# cutoff cutpointr #### 
+# wasnt sure "minimum 0/1 distance on the area under the receiver operating characteristic curve (AUROC)" could be generalized to the youden index in all cases
+# but thats what i used.
+library(cutpointr)
+
+# rr depends if we want it to be negative or positive... it's like U curved and to be honest quite a bad predictor...
+opt_cut.rr <- cutpointr(training.sample,rr_1,licu,direction = ">=", method = maximize_metric, metric = youden, pos_class = "No")
+#plot_metric(opt_cut.rr)
+#plot(opt_cut.rr)
+results$cut.rr <- opt_cut.rr$optimal_cutpoint
+
+
+# GCS 
+opt_cut.gcs <- cutpointr(training.sample,gcs_t_1,licu,direction = ">=", method = maximize_metric, metric = youden)
+#plot_metric(opt_cut.gcs)
+#plot(opt_cut.gcs)
+results$cut.gcs <- opt_cut.gcs$optimal_cutpoint
+
+#sbp
+
+opt_cut.sbp <- cutpointr(training.sample,sbp_1,licu,direction = ">=", method = maximize_metric, metric = youden)
+#plot_metric(opt_cut.sbp)
+#plot(opt_cut.sbp)
+results$cut.sbp <- opt_cut.sbp$optimal_cutpoint
+
+
 
 ## Compile paper ####
 render("study-plan.Rmd")
