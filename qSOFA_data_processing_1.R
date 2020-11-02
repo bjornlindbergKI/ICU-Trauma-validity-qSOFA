@@ -46,12 +46,7 @@ part_data$incl <- as.factor(part_data$incl)
 part_data$licu[part_data$licu > 0] <- "Yes"
 part_data$licu[part_data$licu == 0] <- "No"
 
-## Martins lista #####
-
-## Either create "global" objects that can be accessed directly from
-## your R mardkown file or store everything you want to include there
-## in a vector, list or other object
-
+## Create list to store results
 results <- list()
 results$n.cohort <- nrow(tot_data)
 
@@ -61,7 +56,7 @@ results$n.younger.than.18 <- sum(younger.than.18)
 study.sample <- part_data[!younger.than.18, ]
 results$n.adults <- nrow(study.sample)
 
-## exclude those who died before admission ie incl==2
+## Exclude those who died before admission ie incl==2
 results$n.incl2 <- sum(study.sample$incl == 2)
 study.sample <- study.sample[!study.sample$incl == 2,]
 results$n.included <- nrow(study.sample)
@@ -99,51 +94,49 @@ study.sample.complete.sofa <- data.frame(study.sample.complete, qSOFA)
 ## Split sample in sample.split #### 
 proportion <- c(0.6,0.20,0.20)
 split.names <- c("training.sample","validation.sample", "test.sample")
-
-sample.split <- SplitDataset(study.sample.complete.sofa, events = NULL, event.variable.name = NULL,
-                             event.level = NULL, split.proportions = proportion ,
-                             temporal.split = NULL, remove.missing = FALSE, random.seed = NULL,
-                             sample.names = split.names, return.data.frame = FALSE)
-
-## Training ####
-training.sample <- sample.split$training.sample
-fit <- glm(as.numeric(licu == "Yes") ~ sbp_score + rr_score + gcs_score, family = binomial, data = training.sample)
-
-## ROCR curve
-p <- predict(fit, newdata = training.sample, type="response")
-pr <- prediction(p, as.numeric(training.sample$licu == "Yes"))
-prf <- performance(pr, measure = "tpr", x.measure = "fpr")
-plot(prf)
-auc <- performance(pr, measure = "auc")
-auc <- auc@y.values[[1]]
-results$updated.auc <- auc
+sample.split <- SplitDataset(study.sample.complete.sofa, split.proportions = proportion,
+                             remove.missing = FALSE, sample.names = split.names,
+                             return.data.frame = FALSE)
 
 # cutoff cutpointr #### 
 # wasnt sure "minimum 0/1 distance on the area under the receiver operating characteristic curve (AUROC)" could be generalized to the youden index in all cases
 # but thats what i used.
 library(cutpointr)
 
-# rr depends if we want it to be negative or positive... it's like U curved and to be honest quite a bad predictor...
-opt_cut.rr <- cutpointr(training.sample,rr_1,licu,direction = ">=", method = maximize_metric, metric = youden, pos_class = "No")
+# rr depends if we want it to be negative or positive... it's like U
+# curved and to be honest quite a bad predictor
+opt_cut.rr <- cutpointr(training.sample, rr_1, licu, direction = ">=",
+                        method = maximize_metric, metric = youden,
+                        pos_class = "Yes")
 #plot_metric(opt_cut.rr)
 #plot(opt_cut.rr)
 results$cut.rr <- opt_cut.rr$optimal_cutpoint
 
-
 # GCS 
-opt_cut.gcs <- cutpointr(training.sample,gcs_t_1,licu,direction = ">=", method = maximize_metric, metric = youden)
+opt_cut.gcs <- cutpointr(training.sample, gcs_t_1, licu, direction = "<=",
+                         method = maximize_metric, metric = youden,
+                         pos_class = "Yes")
 #plot_metric(opt_cut.gcs)
 #plot(opt_cut.gcs)
 results$cut.gcs <- opt_cut.gcs$optimal_cutpoint
 
-#sbp
-
-opt_cut.sbp <- cutpointr(training.sample,sbp_1,licu,direction = ">=", method = maximize_metric, metric = youden)
+# SBP
+opt_cut.sbp <- cutpointr(training.sample, sbp_1, licu, direction = "<=",
+                         method = maximize_metric, metric = youden,
+                         pos_class = "Yes")
 #plot_metric(opt_cut.sbp)
 #plot(opt_cut.sbp)
 results$cut.sbp <- opt_cut.sbp$optimal_cutpoint
 
-
+## So the next step now is to create new "updated" variables in the
+## validtion and test samples and go on to estimate new coefficients
+## for these using the validation sample. Once you have done this you
+## go on to estimate the performance of your four models:
+## 1. Original qSOFA probability
+## 2. Original qSOFA score
+## 3. Updates qSOFA probability
+## 4. Updated qSOFA score
+## I suggest you compare the performance of 1 and 3 and 2 and 4.
 
 ## Compile paper ####
 render("study-plan.Rmd")
