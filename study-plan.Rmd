@@ -145,3 +145,59 @@ Data characteristics can be seen in table \@ref(tab:table1)
  kableone(CreateTableOne(data = data.table1), caption = "Sample characteristics", label = "table1")
 ```
 
+
+
+## Training
+
+Using the training sample the optimal cutoffs for the logistic regression was found maximizing the youden index. The optimal cutoffs where __99 (95%CI), 30(95%CI) and 14(95%CI)__ for SPB, RR and GCS respectively. and the corresponding confidence intervals can be seen in table 2
+
+
+
+## Validation
+
+Using the validation sample, new coefficients and odds ratios(OR) was calculated for the updated model using the cutoffs given in the training sample. The odds ratios can be seen in table 2. 
+
+Furthermore the new coefficent and the original coefficent were used to create odds ratios for the original and uppdated qSOFA scores using the distribution in the validation sample and yielded the results given in table 3 and 4 
+
+|           | Original OR | Uppdated OR(95%CI) |
+|-----------|-------------|--------------------|
+| Intercept | yy          | XX (xx-xx)         |
+| SBP       | yy          | xx (xx-xx)         |
+| RR        | yy          | xx (yy-yy)         |
+| GCS       | yy          | xx (zz-zz)         |
+Table: Table 2 Original and uppdated OR for the logistic regression model 
+
+| Uppdated score  | Estimated probability of ICU admission(95%CI) | Odds ratio(95% CI) |
+|-----------------|-----------------------------------------------|--------------------|
+| 0               | Prob0.new (xx-xx)                             | 1                  |
+| 1               | Prob1.new (xx-xx)                             | OR1(y-y)           |
+| 2               | Prob2.new (xx-xx)                             | OR2(y-y)           |
+| 3               | Prob3.new (xx-xx)                             | OR3(y-y)           |
+
+Table: Table 3 Estimated probabilities of ICU admission given a uppdated qSOFA score of 0-3 and corresponding OR.
+
+| Original score  | Estimated probability of ICU admission(95%CI) | Odds ratio(95% CI) |
+|-----------------|-----------------------------------------------|--------------------|
+| 0               | Prob0.org (xx-xx)                             | 1                  |
+| 1               | Prob1.org (xx-xx)                             | OR1(y-y)           |
+| 2               | Prob2.org (xx-xx)                             | OR2(y-y)           |
+| 3               | Prob3.org (xx-xx)                             | OR3(y-y)           |
+
+Table: Table 4 Estimated probabilities of ICU admission given a original qSOFA score of 0-3 and corresponding OR.
+
+
+## Test
+
+Using the test sample to calculate real probabilities of ICU admission and comparing to the estimated ones for the original and updated model. Figure 2? shows a comparison between the estimated and observed probabilities and table 5 compares the ICI original and updated model.
+
+Figure: __FIGURE with 4 figures showing the est prob vs the real prob for new vs org and sum vs individual. possibly with CIs inluded in the graph__
+
+
+|              | ICI(95% CI) | Diff(95% CI) |
+|--------------|-------------|--------------|
+| ORG separate | XX (xx-xx)  | -            |
+| NEW seperate | xx (xx-xx)  | yy (zz-zz)   |
+| ORG sum      | xx (yy-yy)  | -            |
+| New sum      | xx (zz-zz)  | yy (zz-zz)   |
+Table: caption
+
