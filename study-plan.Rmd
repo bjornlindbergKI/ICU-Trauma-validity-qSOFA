@@ -142,7 +142,7 @@ knitr::include_graphics("figure1.svg")
 Data characteristics can be seen in table \@ref(tab:table1)
 
 ```{r table1, echo = FALSE}
- kableone(CreateTableOne(data = data.table1), caption = "Sample characteristics", label = "table1")
+ kableone(CreateTableOne(data = results$data.table1), caption = "Sample characteristics", label = "table1")
 ```
 
 
@@ -159,12 +159,12 @@ Using the validation sample, new coefficients and odds ratios(OR) was calculated
 
 Furthermore the new coefficent and the original coefficent were used to create odds ratios for the original and uppdated qSOFA scores using the distribution in the validation sample and yielded the results given in table 3 and 4 
 
-|           | Original OR | Uppdated OR(95%CI) |
-|-----------|-------------|--------------------|
-| Intercept | yy          | XX (xx-xx)         |
-| SBP       | yy          | xx (xx-xx)         |
-| RR        | yy          | xx (yy-yy)         |
-| GCS       | yy          | xx (zz-zz)         |
+|           | Original OR | Uppdated OR(95%CI)         |
+|-----------|-------------|----------------------------|
+| Intercept | yy          | `r ors[["(Intercept)"]]`   |
+| SBP       | yy          | `r ors[["new.sbp_score"]]` |
+| RR        | yy          | `r ors[["new.rr_score"]]`  |
+| GCS       | yy          | `r ors[["new.gcs_score"]]` |
 Table: Table 2 Original and uppdated OR for the logistic regression model 
 
 | Uppdated score  | Estimated probability of ICU admission(95%CI) | Odds ratio(95% CI) |
