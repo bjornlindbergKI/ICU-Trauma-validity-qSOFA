@@ -26,10 +26,6 @@ source("R/bootstrap.R")
 #url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-limited-dataset-v1.csv"
 url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-full-dataset-v1.csv"
 tot_data <- rio::import(url)
-qSOFA_1raw <- tot_data[,c("sbp_1","rr_1","gcs_t_1")] ## Do you still need this line?
-qSOFA_2raw <- tot_data[,c("sbp_2","rr_2","gcs_t_2")] ## Do you still need this line?
-qSOFA_1 <- qSOFAcalc(qSOFA_1raw) ## Do you still need this line?
-qSOFA_2 <- qSOFAcalc(qSOFA_2raw) ## Do you still need this line?
 
 ## Part data and as factor
 part_data <- subset(tot_data, select = c(incl, age, sex, tran, moi, licu, died, sbp_1, rr_1, gcs_t_1))
@@ -47,6 +43,7 @@ part_data$incl <- as.factor(part_data$incl)
 ## ICU as binary
 part_data$licu[part_data$licu > 0] <- "Yes"
 part_data$licu[part_data$licu == 0] <- "No"
+
 
 ## Define function that runs study
 run_study <- function(original.data, rows, boot) {
@@ -107,56 +104,36 @@ run_study <- function(original.data, rows, boot) {
                                  remove.missing = FALSE, sample.names = split.names,
                                  return.data.frame = FALSE)
 
-    ## cutoff cutpointr
+    ## cutoff cutpointr Training sample ####
 
-    ## wasnt sure "minimum 0/1 distance on the area under the receiver
-    ## operating characteristic curve (AUROC)" could be generalized to
-    ## the youden index in all cases but thats what i used.
     training.sample <- sample.split$training.sample
-
-    ## rr depends if we want it to be negative or positive... it's
-    ## like U curved and to be honest quite a bad predictor
+    ## RR
     opt_cut.rr <- cutpointr(training.sample, rr_1, licu, direction = ">=",
-                            method = maximize_metric, metric = youden,
-                            pos_class = "Yes")
-    ## plot_metric(opt_cut.rr)
-    ## plot(opt_cut.rr)
+                            method = maximize_metric, metric = youden, pos_class = "Yes")
     results$cut.rr <- opt_cut.rr$optimal_cutpoint
+    boot.results$cut.rr <- results$cut.rr
 
     ## GCS 
     opt_cut.gcs <- cutpointr(training.sample, gcs_t_1, licu, direction = "<=",
                              method = maximize_metric, metric = youden,
                              pos_class = "Yes")
-
-    ## plot_metric(opt_cut.gcs)
-    ## plot(opt_cut.gcs)
     results$cut.gcs <- opt_cut.gcs$optimal_cutpoint
+    #boot.results$cut.gcs <- results$cut.gcs
 
     ## SBP
     opt_cut.sbp <- cutpointr(training.sample, sbp_1, licu, direction = "<=",
                              method = maximize_metric, metric = youden,
                              pos_class = "Yes")
-
-    ## plot_metric(opt_cut.sbp)
-    ## plot(opt_cut.sbp)
     results$cut.sbp <- opt_cut.sbp$optimal_cutpoint
+    boot.results$cut.sbp <- results$cut.sbp
 
-    ## So the next step now is to create new "updated" variables in the
-    ## validtion and test samples and go on to estimate new coefficients
-    ## for these using the validation sample. Once you have done this you
-    ## go on to estimate the performance of your four models:
-    ## 1. Original qSOFA probability
-    ## 2. Original qSOFA score
-    ## 3. Updates qSOFA probability
-    ## 4. Updated qSOFA score
-    ## I suggest you compare the performance of 1 and 3 and 2 and 4.
 
     ## Validation  ####
     validation.sample <- sample.split$validation.sample
     validation.qSOFA.original <- qSOFAcalc(raw = validation.sample,tot = TRUE)
     names(validation.qSOFA.original) <- c("org.sbp_score", "org.rr_score", "org.gcs_score", "org.qSOFA_score")
 
-    validation.qSOFA.new <- qSOFAcalc(raw = validation.sample, rr_cut = results$cut.rr, sbp_cut = results$cut.rr)
+    validation.qSOFA.new <- qSOFAcalc(raw = validation.sample, rr_cut = results$cut.rr, sbp_cut = results$cut.sbp)
     names(validation.qSOFA.new) <- c("new.sbp_score", "new.rr_score", "new.gcs_score", "new.qSOFA_score")
     validation.sample <- data.frame(validation.sample, validation.qSOFA.original, validation.qSOFA.new)
 
@@ -166,17 +143,17 @@ run_study <- function(original.data, rows, boot) {
     boot.results$updated.coefs <- coeff
     boot.results$updated.ors <- exp(coeff)
     
+    
     ## estimating probabilities of the sum of qSOFA new
+    
     val.new.prob.calc <- predict(fit, newdata = validation.sample, type = "response")
     val.est.prob.sum.new <- list()
     val.est.prob.sum.new$none <- mean(val.new.prob.calc[validation.sample$new.qSOFA_score==0 ])
     val.est.prob.sum.new$one <- mean(val.new.prob.calc[validation.sample$new.qSOFA_score==1 ])
     val.est.prob.sum.new$two <- mean(val.new.prob.calc[validation.sample$new.qSOFA_score==2 ])
-    ## since there were no cases with sum 3 and it can only go one way:
-
-    ## I'm not sure what you're trying to achieve here but remember that
-    ## things can look quite different in the full dataset. You should
-    ## therefore write things as generic as possible. 
+    ## since there can be cases where there are no datapoints with sum 3 and it can only go one way:
+    ## the probability is calculated using the general formula instead of predict().
+    ## but yields the same result as predict if there where one with sum 3.
     beta <- coeff[1] + coeff[2]*1 + coeff[3]*1 + coeff[4]*1
     val.est.prob.sum.new$three <-  as.numeric(exp(beta)/(1+exp(beta)))
 
@@ -191,7 +168,9 @@ run_study <- function(original.data, rows, boot) {
 
     ## You should be able to get it from eFigure 3, where they show the
     ## proportion of patients with in-hospital mortality across qSOFA
-    ## points.
+    ## points. 
+    
+    ## i just saw a figure and couldn't extract an exact value, how should i do?
 
     coeff <- c(-3.11227, log(2.61), log(3.18), log(4.31))
     beta <- coeff[1] + coeff[2]*validation.sample$org.sbp_score + coeff[3]*validation.sample$org.rr_score + coeff[4]*validation.sample$org.gcs_score
@@ -207,20 +186,17 @@ run_study <- function(original.data, rows, boot) {
 
     ## test sample and performance #### 
 
-    ## i'm sure there's a better way of doing this since copy+paste is
-    ## never a good answer but it works and i hope you can follow and
-    ## see if i have misunderstood anything.
     test.sample <- sample.split$test.sample
 
     test.qSOFA.original <- qSOFAcalc(raw = test.sample,tot = TRUE)
     names(test.qSOFA.original) <- c("org.sbp_score", "org.rr_score", "org.gcs_score", "org.qSOFA_score")
 
-    test.qSOFA.new <- qSOFAcalc(raw = test.sample,rr_cut = results$cut.rr, sbp_cut = results$cut.rr)
+    test.qSOFA.new <- qSOFAcalc(raw = test.sample,rr_cut = results$cut.rr, sbp_cut = results$cut.sbp)
     names(test.qSOFA.new) <- c("new.sbp_score", "new.rr_score", "new.gcs_score", "new.qSOFA_score")
 
 
     test.sample <- data.frame(test.sample,test.qSOFA.original,test.qSOFA.new )
-
+   
     ## estamating new probabilties 
     new.prob.calc <- predict(fit, newdata = test.sample, type = "response")
 
@@ -247,8 +223,9 @@ run_study <- function(original.data, rows, boot) {
     est.prob.new$sbp.rr.gcs <- mean(new.prob.calc[test.sample$new.rr_score==1 & test.sample$new.sbp_score==1 & test.sample$new.gcs_score==1])
 
     ## ish ICI plot
-    ## plot(est.prob.new, real.prob.new, xlim=c(0,1), ylim=c(0,1),main= "Individual qSOFA new")
-
+    #plot(est.prob.new, real.prob.new, xlim=c(0,1), ylim=c(0,1),main= "Individual qSOFA new")
+    #lines(c(0,1),c(0,1))
+    
     ## sum of qSOFA new
     real.prob.sum.new <- list()
     real.prob.sum.new$none <- mean(as.numeric(test.sample$licu[test.sample$new.qSOFA_score==0 ] =="Yes"))
@@ -263,8 +240,16 @@ run_study <- function(original.data, rows, boot) {
     est.prob.sum.new$two <- val.est.prob.sum.new$two
     est.prob.sum.new$three <-val.est.prob.sum.new$three
 
-    ## plot(est.prob.sum.new, real.prob.sum.new, xlim=c(0,1), ylim=c(0,1), main= "Sum of qSOFA new")
-
+    #plot(est.prob.sum.new, real.prob.sum.new, xlim=c(0,1), ylim=c(0,1), main= "Sum of qSOFA new")
+    #lines(c(0,1),c(0,1))
+    
+    ## i think i want these as well since they are averages depending on the sample distribution
+    ## and not just calculated from the coefficients.
+    
+    boot.results$real.prob.sum.new <- real.prob.sum.new
+    boot.results$est.prob.sum.new <- est.prob.sum.new
+    
+    
     ## ICI code new ####
     ## separate
     ICI <- data.frame(test.sample$licu, new.prob.calc)
@@ -272,6 +257,8 @@ run_study <- function(original.data, rows, boot) {
     p.calibrate <- predict(loess.calibrate, newdata = new.prob.calc)
     results$ICI.new <- mean(abs(p.calibrate - new.prob.calc))
     boot.results$ICI.new <- results$ICI.new
+    
+    
 
     ## as a sum
     ## could be anything just wanted it to be the same length as licu
@@ -285,10 +272,12 @@ run_study <- function(original.data, rows, boot) {
     loess.calibrate <- loess(as.numeric(test.sample$licu=="Yes")~ sum.new.prob.calc, ICI)
     p.calibrate <- predict(loess.calibrate, newdata = sum.new.prob.calc)
     results$ICI.sum.new <- mean(abs(p.calibrate - sum.new.prob.calc))
+    boot.results$ICI.sum.new <- results$ICI.sum.new
 
     ## AUC
     results$auc.new <- calculate_auc(new.prob.calc, as.numeric(test.sample$licu=="Yes"))
-
+    boot.results$auc.new <- results$auc.new
+    
     ## original model ####
     
     ## overall log(odds) for death in the whole sample was -3.11227 i
@@ -324,9 +313,10 @@ run_study <- function(original.data, rows, boot) {
     est.prob.org$sbp.rr.gcs <- mean(org.prob.calc[test.sample$org.rr_score==1 & test.sample$org.sbp_score==1 & test.sample$org.gcs_score==1])
 
     ## ish ICI plot
-    ## plot(est.prob.org,real.prob.org,xlim=c(0,1), ylim=c(0,1),main= "Individual qSOFA original")
-
-    ## sum of qSOFA new
+    #plot(est.prob.org,real.prob.org,xlim=c(0,1), ylim=c(0,1),main= "Individual qSOFA original")
+    #lines(c(0,1),c(0,1))
+    
+    ## sum of qSOFA org
     real.prob.sum.org <- list()
     real.prob.sum.org$none <- mean(as.numeric(test.sample$licu[test.sample$org.qSOFA_score==0 ] =="Yes"))
     real.prob.sum.org$one <- mean(as.numeric(test.sample$licu[test.sample$org.qSOFA_score==1 ] =="Yes"))
@@ -340,8 +330,9 @@ run_study <- function(original.data, rows, boot) {
     est.prob.sum.org$two <- val.est.prob.sum.org$two
     est.prob.sum.org$three <- val.est.prob.sum.org$three 
 
-    ## plot(est.prob.sum.org,real.prob.sum.org,xlim=c(0,1), ylim=c(0,1),main= "Sum of qSOFA original")
-
+    #plot(est.prob.sum.org,real.prob.sum.org,xlim=c(0,1), ylim=c(0,1),main= "Sum of qSOFA original")
+    #lines(c(0,1),c(0,1))
+    
     ## ICI original ####
     ## separate
     ICI <- data.frame(test.sample$licu,org.prob.calc)
@@ -350,7 +341,7 @@ run_study <- function(original.data, rows, boot) {
     results$ICI.org <- mean(abs(p.calibrate - org.prob.calc))
     boot.results$ICI.org <- results$ICI.org
 
-    ## as a sum
+    ## as a sum for ICI plot
     sum.org.prob.calc <- as.numeric(test.sample$licu== "Yes")
     sum.org.prob.calc[test.sample$new.qSOFA_score==0] <-  val.est.prob.sum.org$none
     sum.org.prob.calc[test.sample$new.qSOFA_score==1] <-  val.est.prob.sum.org$one
@@ -362,6 +353,7 @@ run_study <- function(original.data, rows, boot) {
     p.calibrate <- predict(loess.calibrate, newdata = sum.org.prob.calc)
     results$ICI.sum.org <- mean(abs(p.calibrate - sum.org.prob.calc))
     boot.results$ICI.sum.org <- results$ICI.sum.org
+    
     ## AUC
     results$auc.org <- calculate_auc(org.prob.calc, as.numeric(test.sample$licu=="Yes"))
     boot.results$auc.org <- results$auc.org
@@ -381,8 +373,9 @@ run_study <- function(original.data, rows, boot) {
     return (return.list)
 }
 
+
 ## Bootstrap
-n.bootstraps <- 5
+n.bootstraps <- 10
 bootstrap.results <- bootstrap(part_data, run_study, n.bootstraps)
 results <- bootstrap.results$arbitrary[[1]]
 boot.list <- bootstrap.results$boot.list
@@ -400,6 +393,29 @@ names(boot.cis) <- names(boot.list$t0)
 ors <- boot.cis[grep("updated.ors", names(boot.cis))]
 names(ors) <- sub("updated.ors.", "", names(ors))
 ors <- lapply(ors, function(or) paste0(or[1], " (", or[2], " - ", or[3], ")"))
+
+boot.cis$est.OR.sum.new.one   <-  round(as.numeric(boot.cis$est.prob.sum.new.one)/as.numeric(boot.cis$est.prob.sum.new.none[["pe"]]),digits = 3)
+boot.cis$est.OR.sum.new.two   <-  round(as.numeric(boot.cis$est.prob.sum.new.two)/as.numeric(boot.cis$est.prob.sum.new.none[["pe"]]),digits = 3)
+boot.cis$est.OR.sum.new.three <-  round(as.numeric(boot.cis$est.prob.sum.new.three)/as.numeric(boot.cis$est.prob.sum.new.none[["pe"]]),digits = 3)
+
+CIs <- boot.cis
+CIs <- lapply(CIs, function(or) paste0(or[1], " (", or[2], " - ", or[3], ")"))
+
+
+## plots ####
+
+# we are having troubles with the new score == 3 patients. the observed probability is returned as NA
+## There are 20 patients in total in the sample with new score == 3 so it shouldnt be a problem...
+## okey, i found the problem... it was a typo where we used the rr-cutoff for both rr and sbp...
+
+
+est.sum.new <- c(boot.cis$est.prob.sum.new.none[["pe"]], boot.cis$est.prob.sum.new.one[["pe"]] , boot.cis$est.prob.sum.new.two[["pe"]], boot.cis$est.prob.sum.new.three[["pe"]]) 
+est.sum.new <- as.numeric(est.sum.new)
+obs.sum.new <- c(boot.cis$real.prob.sum.new.none[["pe"]], boot.cis$real.prob.sum.new.one[["pe"]] , boot.cis$real.prob.sum.new.two[["pe"]],boot.cis$real.prob.sum.new.three[["pe"]]) 
+obs.sum.new <- as.numeric(obs.sum.new)
+plot(est.sum.new, obs.sum.new, xlim=c(0,1), ylim=c(0,1),main= "Sum of qSOFA new")
+lines(c(0,1),c(0,1))
+
 
 ## Compile paper ####
 render("study-plan.Rmd")
