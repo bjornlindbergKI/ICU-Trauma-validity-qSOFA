@@ -23,8 +23,8 @@ source("R/calculate_auc.R")
 source("R/bootstrap.R")
 
 # Data extraction
-#url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-limited-dataset-v1.csv"
-url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-full-dataset-v1.csv"
+url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-limited-dataset-v1.csv"
+#url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-full-dataset-v1.csv"
 tot_data <- rio::import(url)
 
 ## Part data and as factor
@@ -43,7 +43,6 @@ part_data$incl <- as.factor(part_data$incl)
 ## ICU as binary
 part_data$licu[part_data$licu > 0] <- "Yes"
 part_data$licu[part_data$licu == 0] <- "No"
-
 
 ## Define function that runs study
 run_study <- function(original.data, rows, boot) {
@@ -222,10 +221,6 @@ run_study <- function(original.data, rows, boot) {
     est.prob.new$sbp.gcs <- mean(new.prob.calc[test.sample$new.rr_score==0 & test.sample$new.sbp_score==1 & test.sample$new.gcs_score==1])
     est.prob.new$sbp.rr.gcs <- mean(new.prob.calc[test.sample$new.rr_score==1 & test.sample$new.sbp_score==1 & test.sample$new.gcs_score==1])
 
-    ## ish ICI plot
-    #plot(est.prob.new, real.prob.new, xlim=c(0,1), ylim=c(0,1),main= "Individual qSOFA new")
-    #lines(c(0,1),c(0,1))
-    
     ## sum of qSOFA new
     real.prob.sum.new <- list()
     real.prob.sum.new$none <- mean(as.numeric(test.sample$licu[test.sample$new.qSOFA_score==0 ] =="Yes"))
@@ -245,10 +240,8 @@ run_study <- function(original.data, rows, boot) {
     
     ## i think i want these as well since they are averages depending on the sample distribution
     ## and not just calculated from the coefficients.
-    
     boot.results$real.prob.sum.new <- real.prob.sum.new
     boot.results$est.prob.sum.new <- est.prob.sum.new
-    
     
     ## ICI code new ####
     ## separate
@@ -258,8 +251,6 @@ run_study <- function(original.data, rows, boot) {
     results$ICI.new <- mean(abs(p.calibrate - new.prob.calc))
     boot.results$ICI.new <- results$ICI.new
     
-    
-
     ## as a sum
     ## could be anything just wanted it to be the same length as licu
     sum.new.prob.calc <- as.numeric(test.sample$licu== "Yes")
@@ -312,10 +303,6 @@ run_study <- function(original.data, rows, boot) {
     est.prob.org$sbp.gcs <- mean(org.prob.calc[test.sample$org.rr_score==0 & test.sample$org.sbp_score==1 & test.sample$org.gcs_score==1])
     est.prob.org$sbp.rr.gcs <- mean(org.prob.calc[test.sample$org.rr_score==1 & test.sample$org.sbp_score==1 & test.sample$org.gcs_score==1])
 
-    ## ish ICI plot
-    #plot(est.prob.org,real.prob.org,xlim=c(0,1), ylim=c(0,1),main= "Individual qSOFA original")
-    #lines(c(0,1),c(0,1))
-    
     ## sum of qSOFA org
     real.prob.sum.org <- list()
     real.prob.sum.org$none <- mean(as.numeric(test.sample$licu[test.sample$org.qSOFA_score==0 ] =="Yes"))
@@ -330,9 +317,6 @@ run_study <- function(original.data, rows, boot) {
     est.prob.sum.org$two <- val.est.prob.sum.org$two
     est.prob.sum.org$three <- val.est.prob.sum.org$three 
 
-    #plot(est.prob.sum.org,real.prob.sum.org,xlim=c(0,1), ylim=c(0,1),main= "Sum of qSOFA original")
-    #lines(c(0,1),c(0,1))
-    
     ## ICI original ####
     ## separate
     ICI <- data.frame(test.sample$licu,org.prob.calc)
@@ -401,13 +385,11 @@ boot.cis$est.OR.sum.new.three <-  round(as.numeric(boot.cis$est.prob.sum.new.thr
 CIs <- boot.cis
 CIs <- lapply(CIs, function(or) paste0(or[1], " (", or[2], " - ", or[3], ")"))
 
-
 ## plots ####
 
 # we are having troubles with the new score == 3 patients. the observed probability is returned as NA
 ## There are 20 patients in total in the sample with new score == 3 so it shouldnt be a problem...
 ## okey, i found the problem... it was a typo where we used the rr-cutoff for both rr and sbp...
-
 
 est.sum.new <- c(boot.cis$est.prob.sum.new.none[["pe"]], boot.cis$est.prob.sum.new.one[["pe"]] , boot.cis$est.prob.sum.new.two[["pe"]], boot.cis$est.prob.sum.new.three[["pe"]]) 
 est.sum.new <- as.numeric(est.sum.new)
@@ -415,7 +397,6 @@ obs.sum.new <- c(boot.cis$real.prob.sum.new.none[["pe"]], boot.cis$real.prob.sum
 obs.sum.new <- as.numeric(obs.sum.new)
 plot(est.sum.new, obs.sum.new, xlim=c(0,1), ylim=c(0,1),main= "Sum of qSOFA new")
 lines(c(0,1),c(0,1))
-
 
 ## Compile paper ####
 render("study-plan.Rmd")

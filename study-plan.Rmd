@@ -128,19 +128,20 @@ exposure and an outcome then use
 
 Results
 ========
-The TITCO cohort included `r results$n.cohort` patients, from which `r results$n.younger.than.18` where excluded for being under the age of 18 leaving `r results$n.adults`. Next `r results$n.incl2 ` patients died between arrival and admission and where thus excluded from the sample leaving `r results$n.included` patients. Furthermore `r results$n.NA_TOT` patients where excluded due to missing and non recorded data in one of the following categories: 
+The TITCO cohort included `r results$n.cohort` patients, from which `r results$n.younger.than.18` where excluded for being under the age of 18 leaving `r results$n.adults` patients. Next `r results$n.incl2 ` patients died between arrival and admission and where thus excluded from the sample leaving `r results$n.included` patients. Furthermore `r results$n.NA_TOT` patients where excluded due to missing and non recorded data in one of the following categories: 
 admission to the ICU: `r results$n.NA_ICU`
 Systolic BP: `r results$n.NA_SBP`
 RR: `r results$n.NA_RR`
 GCS: `r results$n.NA_GCS`
-Leaving `r results$n.complete` datapoints to be used in the analysis.
+Leaving `r results$n.complete` datapoints to be used in the analysis. 
+
+Sample characteristics are shown in table \@ref(tab:table1). <!-- It's common to also summarize the data in the text, and state the age and gender distribution for example, the most common mechanism of injury, how many were transferred from other health facilities etc -->
+
+<!-- Try to write this last part of the paragraph as one coherent sentence instead of this list -->
 
 ```{r figure1, fig.align = 'center', out.width = "100%", fig.cap = "Flowchart of exclussion from the study", echo = FALSE}
 knitr::include_graphics("figure1.svg")
 ```
-
-Data characteristics can be seen in table \@ref(tab:table1)
-
 ```{r table1, echo = FALSE}
  kableone(CreateTableOne(data = results$data.table1), caption = "Sample characteristics", label = "table1")
 ```
@@ -149,15 +150,17 @@ Data characteristics can be seen in table \@ref(tab:table1)
 
 ## Training
 
-Using the training sample the optimal cutoffs for the logistic regression was found maximizing the youden index. The optimal cutoffs where `r boot.cis$cut.rr[["pe"]]`, `boot.cis$cut.rr[["pe"]]` and 14 for SPB, RR and GCS respectively. and the corresponding confidence intervals can be seen in table 2
+ <!-- Try to come up with subheadings that better describe what happened during each step, if you feel that you need subheadings at all. -->
+
+Using the training sample the optimal cutoffs for the logistic regression was found maximizing the youden index. The optimal cutoffs where `r boot.cis$cut.rr[["pe"]]`, `boot.cis$cut.rr[["pe"]]` and 14 for SPB, RR and GCS respectively. and the corresponding confidence intervals can be seen in table 2 <!-- This last part is not a complete sentence. Also make sure that you extract data on the cutoffs on all three variables, not only RR -->
 
 
 
 ## Validation
 
-Using the validation sample, new coefficients and odds ratios(OR) was calculated for the updated model using the cutoffs given in the training sample. The odds ratios can be seen in table 2. 
+Using the validation sample, new coefficients and odds ratios (OR) were estimated for the updated model using the cutoffs given in the training sample. The odds ratios can be seen in table 2. 
 
-Furthermore the new coefficent and the original coefficent were used to create odds ratios for the original and uppdated qSOFA scores using the distribution in the validation sample and yielded the results given in table 3 and 4 
+Furthermore the new coefficents and the original coefficents were used to create odds ratios for the original and uppdated qSOFA scores using the distribution in the validation sample and yielded the results given in table 3 and 4 
 
 |           | Original OR     | Uppdated OR(95%CI)         | Optimal cutoffs (95%CI) |
 |-----------|-----------------|----------------------------|-------------------------|
@@ -168,6 +171,8 @@ Furthermore the new coefficent and the original coefficent were used to create o
 Table: Table 2 Original and uppdated OR for the logistic regression model 
 
 <!-- Okey, im a bit lost about this with the optimal cutoffs... as is now its calculated every time you run the study and the new one is used and i thought that you then need to present the spread but isnt it better to first do this and then do the following parts with the same cutoff otherwise the coefficents and ORs could be for different cutoffs and that seems nonsencical? -->
+
+<!-- Well, I suggest that you present the cutoffs with uncertainty (i.e. 95% CI derived from the bootstrap samples), that way you indicate that they differ across bootstraps -->
 
 <!-- Also, should we include the youden index? or some kind of AUC plot for the cutoffs somehow? Or is it enough to say that we maximized it and show the results? -->
 
@@ -195,12 +200,12 @@ Figure: __FIGURE with 2 figures showing the AUC plots for new vs org__
 <!-- These are the figures i think would give clarity about the data and the new model, is there a good way to do it? I added a part in the end of the main code-document generating one of the plots in question but im not sure if thats the best way or if we could add CIs in some way in the plot.  -->
 
 
-|              | ICI(95% CI)        | Diff(95% CI)                | AUC (95%CI)    |
-|--------------|--------------------|-----------------------------|----------------|
-| ORG separate | `r CIs$ICI.org`    | -                           |`r CIs$auc.org` |
-| NEW seperate | `r CIs$ICI.new`    | `r CIs$diff.ici.qsofa`      |`r CIs$auc.new` |
-| ORG sum      | `r CIs$ICI.sum.org`| -                           | -              |
-| New sum      | `r CIs$ICI.sum.new`| `r CIs$diff.ici.qsofa.sum`  | -              |
+|              | ICI(95% CI)         | Diff ICI (95% CI)          | AUC (95%CI)     | Diff AUC |
+|--------------|---------------------|----------------------------|-----------------|----------|
+| ORG separate | `r CIs$ICI.org`     | -                          | `r CIs$auc.org` |          |
+| NEW seperate | `r CIs$ICI.new`     | `r CIs$diff.ici.qsofa`     | `r CIs$auc.new` |          |
+| ORG sum      | `r CIs$ICI.sum.org` | -                          | -               |          |
+| New sum      | `r CIs$ICI.sum.new` | `r CIs$diff.ici.qsofa.sum` | -               |          |
 Table: Table 4. Comparission of performence,ICI and AUC, between the new and original model as well as the ICI for the combined score for the original and updated.
 
 Discussion
