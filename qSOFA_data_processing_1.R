@@ -117,7 +117,7 @@ run_study <- function(original.data, rows, boot) {
                              method = maximize_metric, metric = youden,
                              pos_class = "Yes")
     results$cut.gcs <- opt_cut.gcs$optimal_cutpoint
-    #boot.results$cut.gcs <- results$cut.gcs
+    boot.results$cut.gcs <- results$cut.gcs
 
     ## SBP
     opt_cut.sbp <- cutpointr(training.sample, sbp_1, licu, direction = "<=",
@@ -170,7 +170,6 @@ run_study <- function(original.data, rows, boot) {
     ## points. 
     
     ## i just saw a figure and couldn't extract an exact value, how should i do?
-
     coeff <- c(-3.11227, log(2.61), log(3.18), log(4.31))
     beta <- coeff[1] + coeff[2]*validation.sample$org.sbp_score + coeff[3]*validation.sample$org.rr_score + coeff[4]*validation.sample$org.gcs_score
     val.org.prob.calc <- exp(beta)/(1+exp(beta))
@@ -238,10 +237,11 @@ run_study <- function(original.data, rows, boot) {
     #plot(est.prob.sum.new, real.prob.sum.new, xlim=c(0,1), ylim=c(0,1), main= "Sum of qSOFA new")
     #lines(c(0,1),c(0,1))
     
-    ## i think i want these as well since they are averages depending on the sample distribution
-    ## and not just calculated from the coefficients.
+    ## return values in results for plots
     boot.results$real.prob.sum.new <- real.prob.sum.new
     boot.results$est.prob.sum.new <- est.prob.sum.new
+    boot.results$real.prob.new <- real.prob.new
+    boot.results$est.prob.new <- est.prob.new
     
     ## ICI code new ####
     ## separate
@@ -264,6 +264,8 @@ run_study <- function(original.data, rows, boot) {
     p.calibrate <- predict(loess.calibrate, newdata = sum.new.prob.calc)
     results$ICI.sum.new <- mean(abs(p.calibrate - sum.new.prob.calc))
     boot.results$ICI.sum.new <- results$ICI.sum.new
+    
+    
 
     ## AUC
     results$auc.new <- calculate_auc(new.prob.calc, as.numeric(test.sample$licu=="Yes"))
@@ -316,6 +318,12 @@ run_study <- function(original.data, rows, boot) {
     est.prob.sum.org$one <- val.est.prob.sum.org$one
     est.prob.sum.org$two <- val.est.prob.sum.org$two
     est.prob.sum.org$three <- val.est.prob.sum.org$three 
+    
+    ## return values in reuslt for plots
+    boot.results$real.prob.sum.org <- real.prob.sum.org
+    boot.results$est.prob.sum.org <- est.prob.sum.org
+    boot.results$real.prob.org <- real.prob.org
+    boot.results$est.prob.org <- est.prob.org
 
     ## ICI original ####
     ## separate
@@ -365,13 +373,20 @@ results <- bootstrap.results$arbitrary[[1]]
 boot.list <- bootstrap.results$boot.list
 boot.cis <- lapply(seq_len(length(boot.list$t0)), function(i) {
     ci <- boot.ci(boot.list, type = "norm", index = i)
-    pe <- ci$t0
-    ci <- ci$normal[, c(2, 3)]
-    formatted.ci <- sprintf("%.3f", c(pe, ci[1], ci[2]))
-    names(formatted.ci) <- c("pe", "lb", "ub")
+    if(!is.null(ci)){
+        pe <- ci$t0
+        ci <- ci$normal[, c(2, 3)]
+        formatted.ci <- sprintf("%.3f", c(pe, ci[1], ci[2]))
+        names(formatted.ci) <- c("pe", "lb", "ub")
+    }else{
+        formatted.ci <- round(boot.list$t[1,i],digits = 3)
+        names(formatted.ci) <- c("pe") 
+    }
+    
     formatted.ci
 })
 names(boot.cis) <- names(boot.list$t0)
+
 
 ## Create objects to facilitate reporting
 ors <- boot.cis[grep("updated.ors", names(boot.cis))]
@@ -383,20 +398,34 @@ boot.cis$est.OR.sum.new.two   <-  round(as.numeric(boot.cis$est.prob.sum.new.two
 boot.cis$est.OR.sum.new.three <-  round(as.numeric(boot.cis$est.prob.sum.new.three)/as.numeric(boot.cis$est.prob.sum.new.none[["pe"]]),digits = 3)
 
 CIs <- boot.cis
-CIs <- lapply(CIs, function(or) paste0(or[1], " (", or[2], " - ", or[3], ")"))
+CIs <- lapply(CIs, function(or){
+    if(!is.na(or[2])){
+        paste0(or[1], " (", or[2], " - ", or[3], ")")
+    }else{
+        paste0(or[1], " (", or[1], " - ", or[1], ")")
+    }
+}) 
 
 ## plots ####
 
-# we are having troubles with the new score == 3 patients. the observed probability is returned as NA
-## There are 20 patients in total in the sample with new score == 3 so it shouldnt be a problem...
-## okey, i found the problem... it was a typo where we used the rr-cutoff for both rr and sbp...
-
+# ICI sum new ----
 est.sum.new <- c(boot.cis$est.prob.sum.new.none[["pe"]], boot.cis$est.prob.sum.new.one[["pe"]] , boot.cis$est.prob.sum.new.two[["pe"]], boot.cis$est.prob.sum.new.three[["pe"]]) 
 est.sum.new <- as.numeric(est.sum.new)
 obs.sum.new <- c(boot.cis$real.prob.sum.new.none[["pe"]], boot.cis$real.prob.sum.new.one[["pe"]] , boot.cis$real.prob.sum.new.two[["pe"]],boot.cis$real.prob.sum.new.three[["pe"]]) 
 obs.sum.new <- as.numeric(obs.sum.new)
 plot(est.sum.new, obs.sum.new, xlim=c(0,1), ylim=c(0,1),main= "Sum of qSOFA new")
 lines(c(0,1),c(0,1))
+ # ICI sum org -------
+est.sum.org <- c(boot.cis$est.prob.sum.org.none[["pe"]], boot.cis$est.prob.sum.org.one[["pe"]] , boot.cis$est.prob.sum.org.two[["pe"]], boot.cis$est.prob.sum.org.three[["pe"]]) 
+est.sum.org <- as.numeric(est.sum.org)
+obs.sum.org <- c(boot.cis$real.prob.sum.org.none[["pe"]], boot.cis$real.prob.sum.org.one[["pe"]] , boot.cis$real.prob.sum.org.two[["pe"]],boot.cis$real.prob.sum.org.three[["pe"]]) 
+obs.sum.org <- as.numeric(obs.sum.org)
+plot(est.sum.org, obs.sum.org, xlim=c(0,1), ylim=c(0,1),main= "Sum of qSOFA org")
+lines(c(0,1),c(0,1))
+
+## table one ---- 
+
+tabOne <- CreateTableOne(data=results$data.table1)
 
 ## Compile paper ####
 render("study-plan.Rmd")
