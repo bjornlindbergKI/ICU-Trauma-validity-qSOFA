@@ -211,10 +211,15 @@ Furthermore out of the `r results$n.adults` patients above the age of 18 only `r
 From coordinator:
 
 * Why are hospitals without trauma wards included?(in the TITCO cohort)
-	
+
+Most hospitals in India, like in Sweden, don't have trauma specific wards. They still treat large volumes of trauma patients.
+
 * Some more consideration of risks would be good [in ethical consideration] -- especially the potential to stigmatize vulnerable participants [i.e. low socioeconomic status]. How will this be avoided?
+
+Not sure about this. Can you reason about what stigma that might be?
 
 Mine: 
 * Baseline risk and coefficient corresponding to that. Is it really best to take it directly from the original paper as a fair comparison or should it be adjusted for our data to get a better perspective for discussion? And I only found a figure in the supplementary material and no numbers, should i estimate what can be read from the figure or is there a better way, it was however really small just a few percent?
 
+I would estimate it from the figure. The idea would be to see if the original score works, and therefore no adjustments are necessary, or if one needs to use an updated score, like the one you're developing. Only updating the baseline risk is somewhere in between these two options, which is also possible, but would add a third model.
 
