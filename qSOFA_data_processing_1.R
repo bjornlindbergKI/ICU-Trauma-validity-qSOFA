@@ -443,7 +443,26 @@ lines(c(0,1),c(0,1))
 
 ## table one ---- 
 
+## I suggest that you stratify this table based on whether patients
+## were admitted to the ICU or not
 tabOne <- CreateTableOne(data=results$data.table1)
+common <- function(variable, index, data = globalenv()$results$data.table1) {
+    tab <- table(data[, variable])
+    tab <- sort(tab, decreasing = TRUE)
+    most.common <- names(tab[index])
+    most.common
+}
+most_common <- function(variable, index = 1) common(variable, index)
+second_most_common <- function(variable, index = 2) common(variable, index)
+third_most_common <- function(variable, index = 3) common(variable, index)
+most.common.sex <- most_common("Sex")
+sex.table <- tabOne$CatTable$Overall$Sex
+p.sex <- round(sex.table[sex.table$level == most.common.sex, "percent"])
+most.common.mechanism <- most_common("Mode of injury")
+second.most.common.mechanism <- second_most_common("Mode of injury")
+third.most.common.mechanism <- third_most_common("Mode of injury")
+mechanism.table <- tabOne$CatTable$Overall$`Mode of injury`
+p.mechanism <- round(mechanism.table[mechanism.table$level == most.common.mechanism, "percent"])
 
 ## Compile paper ####
 render("study-plan.Rmd")

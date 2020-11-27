@@ -29,7 +29,7 @@ Because of the inherent urgency and complexity in trauma care it is vital to hav
 It should also be noted that the majority of the research done on the topic of trauma and trauma care has been performed in high income countries. It is thus not clear if the results are also applicable in low resource settings, which arguably stand to benefit the most of a scoring system to be able to prioritize the limited resources at hand. Furthermore, most studies report the predictive power of different scoring systems on mortality and it has not yet been sufficiently studied whether an initial qSOFA score can be used to predict admissions to an intensive care unit and thus aid in the direct clinical treatment of trauma patients.
 
 <!-- just for the KI paper ---> 
-##Healthcare in India 
+## Healthcare in India 
 
 The Indian healthcare is of now severely underfunded, the national healthcare expenditure is about 3.5% of national GDP, or about 70 USD per person in 2017, compared to a national healthcare expenditure of 5900 USD in Sweden for the same year. Out of these 70 USD per person 27 % is government expenditure and 72% is private expenditure, mostly out of pocket expenditures. (https://data.worldbank.org/) This makes the unregulated private healthcare sector almost 3 times as large as the public sector providing 80% of outpatient care and 60% of inpatient care in India. India also lacks healthcare personal and in many cases subspecialized medical training, especially regarding trauma care. (Nobhojit Roy)(Martin Gerdin)
 
@@ -136,9 +136,10 @@ exposure and an outcome then use
 
 Results
 ========
-The TITCO cohort included `r results$n.cohort` patients, from which `r results$n.younger.than.18` where excluded for being under the age of 18 leaving `r results$n.adults` patients. Next `r results$n.incl2 ` patients died between arrival and admission and where thus excluded from the sample leaving `r results$n.included` patients. Furthermore `r results$n.NA_TOT` patients where excluded due to missing and non recorded data in either admission to the ICU (`r results$n.NA_ICU`), Systolic blood pressure  (`r results$n.NA_SBP`), Respiratory rate (`r results$n.NA_RR`), GCS: (`r results$n.NA_GCS`). Excluding data points with missing data leaves `r results$n.complete` data points to be included in the final study sample. 
+The TITCO cohort included `r results$n.cohort` patients (Figure 1). We excluded `r results$n.younger.than.18` patients because they were under the age of 18  and `r  results$n.incl2 ` patients because they died between arrival and admission. We further excluded  `r results$n.NA_TOT` patients due to missing data in either admission to the ICU (`r results$n.NA_ICU`), systolic blood pressure  (`r results$n.NA_SBP`), respiratory rate (`r results$n.NA_RR`), or GCS (`r results$n.NA_GCS`). The final sample included `r results$n.complete` patients. 
 
-The median age of the final study sample was `r tabOne$ContTable$Overall["Age","mean"]` with predominantly male participants, `r tabOne$CatTable$Overall$Sex["2","percent"]`%. The most common type of injury was road traffic injuries with ```r tabOne$CatTable$Overall$`Mode of injury`["6","percent"]```% followed by fall injuries and assaults accouting for ```r tabOne$CatTable$Overall$`Mode of injury`["3","percent"] ```% and  ```r tabOne$CatTable$Overall$`Mode of injury`["1","percent"] ```% respectively. Furthermore `r  tabOne$CatTable$Overall$Transported["2","percent"]`% of patients were transported to a participating hospital from another health care facility. Overall in the study population ```r tabOne$CatTable$Overall$`Admitted to the ICU`["2","percent"] ```% of patients had to be treated for some time in the ICU. The data is presented in \@ref(tab:table1) with corresponding standard deviations. 
+<!-- Revise the rest of this paragraph based on my first couple of examples -->
+The median age was `r tabOne$ContTable$Overall["Age","mean"]` with predominantly `r tolower(most.common.sex)` participants (`r p.sex`%). The most common type of injury was `r tolower(most.common.mechanism)`s with `r p.mechanism`% followed by `r tolower(second.most.common.mechanism)`s and `r tolower(third.most.common.mechanism)` accouting for ```r tabOne$CatTable$Overall$`Mode of injury`["3","percent"] ```% and  ```r tabOne$CatTable$Overall$`Mode of injury`["1","percent"] ```% respectively. Furthermore `r  tabOne$CatTable$Overall$Transported["2","percent"]`% of patients were transported to a participating hospital from another health care facility. Overall in the study population ```r tabOne$CatTable$Overall$`Admitted to the ICU`["2","percent"] ```% of patients had to be treated for some time in the ICU. The data is presented in \@ref(tab:table1) with corresponding standard deviations. 
 
 ```{r figure1, fig.align = 'center', out.width = "100%", fig.cap = "Flowchart of exclussion from the study", echo = FALSE}
 knitr::include_graphics("figure1.svg")
@@ -148,8 +149,9 @@ knitr::include_graphics("figure1.svg")
 ```
 
 
-Using the training sample the optimal cutoffs of the logistic regressions for each parameter was found maximizing the youden index. The optimal cutoffs where calculated to be `r boot.cis$cut.sbp[["pe"]]`, `r boot.cis$cut.rr[["pe"]]` and `r boot.cis$cut.gcs[["pe"]]` for SPB, RR and GCS respectively and the corresponding confidence intervals can be seen in table 2.
+Using the training sample the optimal cutoffs of the logistic regressions for each parameter was found maximizing the youden index. The optimal cutoffs where calculated to be `r boot.cis$cut.sbp[["pe"]]`, `r boot.cis$cut.rr[["pe"]]` and `r boot.cis$cut.gcs[["pe"]]` for SPB, RR and GCS respectively and the corresponding confidence intervals can be seen in table 2. <!-- This paragraph is unnecessarily long. The first sentence can be removed. The second can be revised to start with: We identified the following revised optimal cutoffs:... or something similar --> 
 
+<!-- Okay, so you're repeating quite a bit of the methods in the results. I don't think that's necessary. Instead I suggest you focus on presenting the results (i.e. the numbers that you find) and introducing/summarizing tables and figures -->
 Then using the validation sample, new coefficients and odds ratios (OR) were estimated for the updated model using the cutoffs given in the training sample from each bootstrap. The odds ratios can be seen in table 2. 
 
 Furthermore the new coefficents and the original coefficents were used to create odds ratios for the original and uppdated qSOFA scores using the distribution in the validation sample and yielded the results given in table 3 and 4 
@@ -167,7 +169,7 @@ Table: Table 2 Original and uppdated OR for the logistic regression model
 | 0               | `r CIs$est.prob.sum.new.none `                | 1                           |
 | 1               | `r CIs$est.prob.sum.new.one `                 |`r CIs$est.OR.sum.new.one `  |
 | 2               | `r CIs$est.prob.sum.new.two `                 |`r CIs$est.OR.sum.new.two `  |
-| 3               | `r CIs$est.prob.sum.new.three `               |`r CIs$est.OR.sum.new.three `|
+| 3               | `r CIs$est.prob.sum.new.three `               |`r CIs$est.OR.sum.new.three ` |
 
 Table: Table 3 Estimated probabilities of ICU admission given a uppdated qSOFA score of 0-3 and corresponding OR.
 
@@ -181,32 +183,32 @@ Figure: __FIGURE with 2 figures showing the AUC plots for new vs org__
 <!-- These are the figures i think would give clarity about the data and the new model, is there a good way to do it? I added a part in the end of the main code-document generating one of the plots in question but im not sure if thats the best way or if we could add CIs in some way in the plot.  -->
 
 
+Table: Table 4. Comparision of performance, ICI and AUC, between the new and original model as well as the ICI for the combined score for the original and updated.
 |              | ICI(95% CI)         | Diff ICI (95% CI)          | AUC (95%CI)     | Diff AUC              |
 |--------------|---------------------|----------------------------|-----------------|-----------------------|
 | ORG separate | `r CIs$ICI.org`     | -                          | `r CIs$auc.org` |                       |
 | NEW seperate | `r CIs$ICI.new`     | `r CIs$diff.ici.qsofa`     | `r CIs$auc.new` |`r CIs$diff.auc.qsofa` |
 | ORG sum      | `r CIs$ICI.sum.org` | -                          | -               |                       |
-| New sum      | `r CIs$ICI.sum.new` | `r CIs$diff.ici.qsofa.sum` | -               |                       |
-Table: Table 4. Comparission of performence,ICI and AUC, between the new and original model as well as the ICI for the combined score for the original and updated.
-
+| New sum      | `r CIs$ICI.sum.new` | `r CIs$diff.ici.qsofa.sum` | -               | |
+Abbreviations: AUC Area under the curve, ICI Integrated calibration index
 Discussion
 ========
 
 <!-- aim and how it went, --->
-The aim of this study was to asses the validity of the qSOFA score in predicting ICU admissions in trauma patients. In the context of urban Indian hospitals the original qSOFA score with its original cutoffs and coefficients did not accurately predict the rate of ICU admissions. The model underestimated the rate for scores of 0-2 and overestimated the rate for patients with a score of 3 as can be seen in _FIGURE showing ICI plots_. When updating the model adjusting the cutoffs and coefficients the new model performs significantly better and as well as to be expected using a single database. 
+The aim of this study was to asses the validity of the qSOFA score in predicting ICU admissions in trauma patients. In the context of urban Indian hospitals the original qSOFA score with its original cutoffs and coefficients did not accurately predict ICU admission. The model underestimated the rate<!-- Why do you focus on the rate here? The rate is not included in the aim or methods, so I suggest that you stick to just "ICU admission" or "probability of ICU admission" -->for scores of 0-2 and overestimated the rate for patients with a score of 3 as can be seen in _FIGURE showing ICI plots_. When updating the model adjusting the cutoffs and coefficients the new model performs significantly better and as well as to be expected using a single database<!-- The meaning of this last part of the sentence (start with "as well as to") is unlclear to me. I suggest you remove or revise to clarify-->. 
 
 <!-- usage and implication -->
-The estimated probabilities ranges from `r boot.cis$est.prob.sum.new.none[["pe"]]` to `r boot.cis$est.prob.sum.new.three[["pe"]]`. 
-Where the highest value can be said to be a clear overestimation not accounting for a large portion of patient. A more realistic span is that off 0-2 points, or a probability of `r boot.cis$est.prob.sum.new.none[["pe"]]` to `r boot.cis$est.prob.sum.new.two[["pe"]]`. Because of this narrow span and high baseline risk the model would not be of clinical use as a stand alone metric deciding or predicting ICU admissions but rather as a tool indicating which patients are slightly more or less likely to need it.  
+The estimated probabilities <!-- Note that you use probability here rather than rate-->ranges from `r boot.cis$est.prob.sum.new.none[["pe"]]` to `r boot.cis$est.prob.sum.new.three[["pe"]]`. 
+Where the highest value can be said to be a clear overestimation not accounting for a large portion of patients<!-- Clarify what model you are referring to here-->. A more realistic span is that off 0-2 points, or a probability of `r boot.cis$est.prob.sum.new.none[["pe"]]` to `r boot.cis$est.prob.sum.new.two[["pe"]]`. Because of this narrow span and high baseline risk the model would not be of clinical use as a stand alone metric deciding or predicting ICU admissions but rather as a tool indicating which patients are slightly more or less likely to need it<!-- This last sentence is a bit long. Try to divide into two or three to clarify what you mean-->.
 
-It can also be noted that neither the Odds Ratios for SBP nor RR is a significant result correlated to a higher risk of ICU admisson and the only significant parameter in this case is that of GCS. However this can be partially explained by the fact that a new cutoff where calculated for each bootstrap resulting in different cutoffs used and therefore resulting in an increased uncertainty. The data seem to suggest a correlation between ICU admission and RR and SBP and therefore use it in a scoring model, although this study could not give a statistically significant result the those regards. It could also be that the different parameters interacted with each other either enhancing or decreasing the effect and risk of ICU admission when present at the same time wich was not taken into consideration in this model where the different parameters where presumed to be independent of each other.   
+It can also be noted that neither SBP nor RR is significantly associated with a higher risk of ICU admisson. Only GCS is significantly associated with ICU admission. This can be partially explained by the fact that a new cutoff where calculated for each bootstrap resulting in different cutoffs used and therefore resulting in an increased uncertainty. The data seem to suggest a correlation between ICU admission and RR and SBP and therefore use it in a scoring model, although this study could not give a statistically significant result the those regards. It could also be that the different parameters interacted with each other either enhancing or decreasing the effect and risk of ICU admission when present at the same time wich was not taken into consideration in this model where the different parameters where presumed to be independent of each other.<!-- You tend to write quite long sentences with several key points. Try to look at each sentence and make sure you only have one key point per sentence. Also, try to cut away extra words. "The fact that" can almost always be replace by just "that" and "seems to <verb>" can be just <verb>-->
 
 <!--limitations --->
-Because of the composition of the TITCO database the results are likely to be generalizable to other urban hospitals of similar economic and resource setting. It is not clear whether the results can be used in rural settings or setting with higher or lower resource settings. It should also be noted that _percent Transported ish 60_ of the patients where for an unspecified time first treated at another hospital and then later transferred to one of the participating hospitals. Because of this the parameters used in this study only shows the first ones taken at arrival to the participating hospital and not always the first ones taken after the injury and does not take into account any interventions performed before arrival.
+Because of the composition of the TITCO database the results are likely to be generalizable to other urban hospitals of similar economic and resource setting<!-- Why do you think that?-->. It is not clear whether the results can be used in rural settings or setting with higher or lower resource settings. It should also be noted that _percent Transported ish 60_ of the patients where for an unspecified time first treated at another hospital and then later transferred to one of the participating hospitals. Because of this the parameters used in this study only shows the first ones taken at arrival to the participating hospital and not always the first ones taken after the injury and does not take into account any interventions performed before arrival<!-- Or between arrival and admission to the ICU-->.
 
-Furthermore out of the `r results$n.adults` patients above the age of 18 only `r results$n.complete` had complete data, or `r results$n.complete/results$n.adults`%. With this amount of missing data it is unclear if the data can be said to be missing completely at random or if there are any underlying factors contributing to the missing of data that could skew the results leading to a higher uncertainty regardless of bootstraping.
+Furthermore out of the `r results$n.adults` patients above the age of 18 only `r results$n.complete` had complete data, or `r results$n.complete/results$n.adults`%. With this amount of missing data it is unclear if the data can be said to be missing completely at random or if there are any underlying factors contributing to the missing of data that could skew the results leading to a higher uncertainty regardless of bootstraping<!-- Does the amount of missing data really say anything about the pattern of missing data?-->.
 
-##Questions:
+## Questions:
 
 From coordinator:
 
