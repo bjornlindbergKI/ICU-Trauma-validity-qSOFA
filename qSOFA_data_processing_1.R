@@ -7,6 +7,7 @@ library(tableone)
 library(tinytex)
 library(DiagrammeR)
 library(DiagrammeRsvg)
+## Might need to run sudo apt install libv8-dev libnode-dev
 library(networkD3)
 library(webshot)
 library(knitr)
@@ -371,6 +372,24 @@ n.bootstraps <- 10
 bootstrap.results <- bootstrap(part_data, run_study, n.bootstraps)
 results <- bootstrap.results$arbitrary[[1]]
 boot.list <- bootstrap.results$boot.list
+## The code to estimate confidence intervals does not work if there
+## are NAs in any of the bootstrap replications. Therefore NAs are now
+## replaced with the value that deviates the most from the mean of
+## bootstrap values. The rationale for choosing the value that
+## deviates the most is to avoid the reduction in uncertainty that
+## would result from replacing missing with for example the mean or
+## median value.
+t.colnames <- colnames(boot.list$t)
+boot.list$t <- apply(boot.list$t, 2, function(values) {
+    mean.value <- mean(values, na.rm = TRUE)
+    differences <- abs(mean.value - values)
+    max.difference <- max(differences, na.rm = TRUE)
+    new.value <- unique(values[differences == max.difference & !is.na(differences)])
+    values[is.na(values)] <- new.value
+    values
+})
+colnames(boot.list$t) <- t.colnames
+## Estimate confidence intervals
 boot.cis <- lapply(seq_len(length(boot.list$t0)), function(i) {
     ci <- boot.ci(boot.list, type = "norm", index = i)
     if(!is.null(ci)){
@@ -378,11 +397,10 @@ boot.cis <- lapply(seq_len(length(boot.list$t0)), function(i) {
         ci <- ci$normal[, c(2, 3)]
         formatted.ci <- sprintf("%.3f", c(pe, ci[1], ci[2]))
         names(formatted.ci) <- c("pe", "lb", "ub")
-    }else{
-        formatted.ci <- round(boot.list$t[1,i],digits = 3)
+    } else {
+        formatted.ci <- round(boot.list$t[1,i], digits = 3)
         names(formatted.ci) <- c("pe") 
     }
-    
     formatted.ci
 })
 names(boot.cis) <- names(boot.list$t0)
@@ -425,7 +443,26 @@ lines(c(0,1),c(0,1))
 
 ## table one ---- 
 
+## I suggest that you stratify this table based on whether patients
+## were admitted to the ICU or not
 tabOne <- CreateTableOne(data=results$data.table1)
+common <- function(variable, index, data = globalenv()$results$data.table1) {
+    tab <- table(data[, variable])
+    tab <- sort(tab, decreasing = TRUE)
+    most.common <- names(tab[index])
+    most.common
+}
+most_common <- function(variable, index = 1) common(variable, index)
+second_most_common <- function(variable, index = 2) common(variable, index)
+third_most_common <- function(variable, index = 3) common(variable, index)
+most.common.sex <- most_common("Sex")
+sex.table <- tabOne$CatTable$Overall$Sex
+p.sex <- round(sex.table[sex.table$level == most.common.sex, "percent"])
+most.common.mechanism <- most_common("Mode of injury")
+second.most.common.mechanism <- second_most_common("Mode of injury")
+third.most.common.mechanism <- third_most_common("Mode of injury")
+mechanism.table <- tabOne$CatTable$Overall$`Mode of injury`
+p.mechanism <- round(mechanism.table[mechanism.table$level == most.common.mechanism, "percent"])
 
 ## Compile paper ####
 render("study-plan.Rmd")
