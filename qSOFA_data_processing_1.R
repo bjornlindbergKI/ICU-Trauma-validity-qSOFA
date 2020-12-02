@@ -157,7 +157,12 @@ run_study <- function(original.data, rows, boot) {
     beta <- coeff[1] + coeff[2]*1 + coeff[3]*1 + coeff[4]*1
     val.est.prob.sum.new$three <-  as.numeric(exp(beta)/(1+exp(beta)))
 
-
+    ## OR
+    boot.results$est.OR.sum.new.one <- (val.est.prob.sum.new$one/(1-val.est.prob.sum.new$one))/(val.est.prob.sum.new$none/(1-val.est.prob.sum.new$none))
+    boot.results$est.OR.sum.new.two  <- (val.est.prob.sum.new$two/(1-val.est.prob.sum.new$two))/(val.est.prob.sum.new$none/(1-val.est.prob.sum.new$none))
+    boot.results$est.OR.sum.new.three <- (val.est.prob.sum.new$three/(1-val.est.prob.sum.new$three))/(val.est.prob.sum.new$none/(1-val.est.prob.sum.new$none))
+    
+    
     ## estamating probabilities of the sum of qSOFA old
 
     ## overall log(odds) for death in the whole sample was -3.11227 i
@@ -410,10 +415,6 @@ names(boot.cis) <- names(boot.list$t0)
 ors <- boot.cis[grep("updated.ors", names(boot.cis))]
 names(ors) <- sub("updated.ors.", "", names(ors))
 ors <- lapply(ors, function(or) paste0(or[1], " (", or[2], " - ", or[3], ")"))
-
-boot.cis$est.OR.sum.new.one   <-  round(as.numeric(boot.cis$est.prob.sum.new.one)/as.numeric(boot.cis$est.prob.sum.new.none[["pe"]]),digits = 3)
-boot.cis$est.OR.sum.new.two   <-  round(as.numeric(boot.cis$est.prob.sum.new.two)/as.numeric(boot.cis$est.prob.sum.new.none[["pe"]]),digits = 3)
-boot.cis$est.OR.sum.new.three <-  round(as.numeric(boot.cis$est.prob.sum.new.three)/as.numeric(boot.cis$est.prob.sum.new.none[["pe"]]),digits = 3)
 
 CIs <- boot.cis
 CIs <- lapply(CIs, function(or){
