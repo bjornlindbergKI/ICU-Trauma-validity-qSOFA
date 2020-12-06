@@ -67,7 +67,7 @@ general population) including number and location of centres. [D;V]
 Patients included in the TITCO cohort were those presenting to one of the participating centres with traumatic injury following a transport accident, fall, assault, self‐harm or burn, and who were alive on arrival and admitted to the hospital for treatment. Patients with an isolated limb injury were excluded from the database as such patients are treated by orthopaedic surgeons and not within trauma care pathway, which comprises a first survey done by a surgical resident with an on‐call consultant surgeon and subsequent observation or surgery. Patients from the TITCO cohort who were aged 15 years or older and underwent surgical intervention within 24 h of arrival were included in this study.
 -->
 
-The TITCO cohort include patients with a history of trauma who either got admitted to one of the participating hospitals or who died between arrival and admission. Patients with isolated injurys to limbs and that therefore were treated by orthopaedics and not within the general trauma care were excluded from the database alwell as patients who were dead on arrival.  __Do i have any further exclussion criteria? age? type of injury?__ <!-- Look at the qSOFA publication to see if there are any age criteria there. If there were then I suggest we use the same. -- The Sepsis-3 taskforce used criteria of adults, 19 years and older in their meta-analysis, but in most surgical situations adult is from 15 and i would say trauma is mostly surgical?  -->
+The TITCO cohort include patients with a history of trauma who either got admitted to one of the participating hospitals or who died between arrival and admission. Patients with isolated injurys to limbs and that therefore were treated by orthopaedics and not within the general trauma care were excluded from the database alwell as patients who were dead on arrival.
 
 
 ## Outcome
@@ -102,6 +102,7 @@ We included all eligible patients in the TITCO cohort. <!-- Should this be justi
 9) Describe how missing data were handled (e.g., complete-case analysis, single
 imputation, multiple imputation) with details of any imputation method. [D;V]
 -->
+We will use complete-case analysis. 
 
 <!--
 To adress missing data multiple imputation was used. __How specific should this description be? should there be an explanation on how many regressions where used and the size of the random samples yielding the regressions? programs used? Are there any protocols thats usualy used that i can refer to? i know roughly what multiple imputation is but no idea how to implement it...__ 
@@ -138,24 +139,19 @@ Results
 ========
 The TITCO cohort included `r results$n.cohort` patients (Figure 1). We excluded `r results$n.younger.than.18` patients because they were under the age of 18  and `r  results$n.incl2 ` patients because they died between arrival and admission. We further excluded  `r results$n.NA_TOT` patients due to missing data in either admission to the ICU (`r results$n.NA_ICU`), systolic blood pressure  (`r results$n.NA_SBP`), respiratory rate (`r results$n.NA_RR`), or GCS (`r results$n.NA_GCS`). The final sample included `r results$n.complete` patients. 
 
-<!-- Revise the rest of this paragraph based on my first couple of examples --> <!-- i did not understand this syntax so I'm gonna have to take this another day... -->
-The median age was `r tabOne$ContTable$Overall["Age","mean"]` with predominantly `r tolower(most.common.sex)` participants (`r p.sex`%). The most common type of injury was `r tolower(most.common.mechanism)`s with `r p.mechanism`% followed by `r tolower(second.most.common.mechanism)`s and `r tolower(third.most.common.mechanism)` accouting for ```r tabOne$CatTable$Overall$`Mode of injury`["3","percent"] ```% and  ```r tabOne$CatTable$Overall$`Mode of injury`["1","percent"] ```% respectively. Furthermore `r  tabOne$CatTable$Overall$Transported["2","percent"]`% of patients were transported to a participating hospital from another health care facility. Overall in the study population ```r tabOne$CatTable$Overall$`Admitted to the ICU`["2","percent"] ```% of patients had to be treated for some time in the ICU. The data is presented in \@ref(tab:table1) with corresponding standard deviations. 
+The median age was `r tabOne$ContTable$Overall["Age","mean"]` with predominantly `r tolower(most.common.sex)` participants (`r p.sex`%). The most common type of injury was `r tolower(most.common.mechanism)`s with `r p.mechanism`% followed by `r tolower(second.most.common.mechanism)`s and `r tolower(third.most.common.mechanism)` accounting for
+`r p.mechanism.second` and `r p.mechanism.third` respectively. Furthermore `r  p.transported`% of patients were transported to a participating hospital from another health care facility. Overall in the study population `r p.ICU`% of patients had to be treated for some time in the ICU. The data is presented in \@ref(tab:table1) with corresponding standard deviations. 
 
 ```{r figure1, fig.align = 'center', out.width = "100%", fig.cap = "Flowchart of exclussion from the study", echo = FALSE}
 knitr::include_graphics("figure1.svg")
 ```
 ```{r table1, echo = FALSE}
- kableone(CreateTableOne(data = results$data.table1), caption = "Sample characteristics", label = "table1")
+ kableone(CreateTableOne(data = results$data.table1, strata = "Admitted to the ICU", addOverall = TRUE),caption = "Sample characteristics", label = "table1")
 ```
 
 
-We identified the following revised optimal cutoffs: `r boot.cis$cut.sbp[["pe"]]` for SBP, `r boot.cis$cut.rr[["pe"]]` for RR and `r boot.cis$cut.gcs[["pe"]]` for GCS and the corresponding confidence intervals can be seen in table 2.
+We identified the following revised optimal cutoffs: `r boot.cis$cut.sbp[["pe"]]` for SBP, `r boot.cis$cut.rr[["pe"]]` for RR and `r boot.cis$cut.gcs[["pe"]]` for GCS. The corresponding confidence intervals and updated odds ratios can be seen in table 2 together with the original OR.
 
-<!-- Okay, so you're repeating quite a bit of the methods in the results. I don't think that's necessary. Instead I suggest you focus on presenting the results (i.e. the numbers that you find) and introducing/summarizing tables and figures --> <!-- Well yes i can see that havnt had the time to rewrite it this week but ill fix it. -->
-
-The updated odds ratios can  can be seen in table 2. 
-
-Furthermore the new coefficents and the original coefficents were used to create odds ratios for the original and uppdated qSOFA scores using the distribution in the validation sample and yielded the results given in table 3 and 4 
 
 |           | Original OR     | Uppdated OR(95%CI)         | Optimal cutoffs (95%CI) |
 |-----------|-----------------|----------------------------|-------------------------|
@@ -165,6 +161,29 @@ Furthermore the new coefficents and the original coefficents were used to create
 | GCS       | 4.31(9.96-4.69) | `r ors[["new.gcs_score"]]` |`r CIs$cut.gcs`          |
 Table: Table 2 Original and uppdated OR for the logistic regression model 
 
+<!-- there is something wrong with the code... after running 1000 bootstraps i got this result.
+ors[["new.rr_score"]]
+[1] "0.783 (-830742.207 - 760171.166)"
+$updated.coefs.new.rr_score
+[1] "-0.244 (-4.269 - 1.981)" 
+
+
+and when going to the raw data from the result of updated.coefs.new.rr_score the mean(0.6555935) & median(0.4695019) and max(15.83363)/min(-1.120455). and for ors.new.rr_score: mean(35287.09) & median(1.599198) and max(7524136)/min(-0.3261313)
+
+
+this makes me think that we get some few outliers that skew the results massivley probably when the cut.rr is so high that only one patient qualify making the coefficient high, in 11 cases the coeff was over 10 with a cut.rr [34 32 34 36 40 34 36 34 34 34 36] and only 11 cases where the OR was over 20 and then it was like 10^6... i dont realy understand how the boot.ci() works but somehow the CIs are absolutely out of control when we have these kind of outliers... 
+
+also regarding the ors for sbp_score:
+ors[["new.sbp_score"]]
+[1] "1.269 (-0.715 - 1.833)"
+
+somehow the CIs gives a negative value which shouldnt be possible and when i look at the raw results from the bootstrap only one out of 1000 have a OR < 1. mean(1.979518),median(1.88884), max(4.191026), min(0.9627057). why is this the case that the calculated CIs are so different.
+
+
+-->
+
+The estimated probability of ICU admission and corresponding OR given the OR from table 2 and the distribution of the individual parameters in the study are presented in table 3 and 4.  
+
 | Updated score   | Estimated probability of ICU admission(95%CI) | Odds ratio(95% CI)          |
 |-----------------|-----------------------------------------------|-----------------------------|
 | 0               | `r CIs$est.prob.sum.new.none `                | 1                           |
@@ -172,10 +191,19 @@ Table: Table 2 Original and uppdated OR for the logistic regression model
 | 2               | `r CIs$est.prob.sum.new.two `                 |`r CIs$est.OR.sum.new.two `  |
 | 3               | `r CIs$est.prob.sum.new.three `               |`r CIs$est.OR.sum.new.three ` |
 
-Table: Table 3 Estimated probabilities of ICU admission given a uppdated qSOFA score of 0-3 and corresponding OR.
+Table: Table 3 Estimated probabilities of ICU admission given an updated qSOFA score of 0-3 and corresponding OR.
+
+| Original score | Estimated probability of ICU admission(95%CI) | Odds ratio(95% CI)          |
+|-----------------|-----------------------------------------------|-----------------------------|
+| 0               | `r CIs$est.prob.sum.org.none `                | 1                           |
+| 1               | `r CIs$est.prob.sum.org.one `                 |`r CIs$est.OR.sum.org.one `  |
+| 2               | `r CIs$est.prob.sum.org.two `                 |`r CIs$est.OR.sum.org.two `  |
+| 3               | `r CIs$est.prob.sum.org.three `               |`r CIs$est.OR.sum.org.three ` |
+
+Table: Table 4 Estimated probabilities of ICU admission given an original qSOFA score of 0-3 and corresponding OR.
 
 
-The test sample was used to calculate real probabilities of ICU admission and comparing to the estimated probabilities from the original and updated model. Figure 2? shows a comparison between the estimated and observed probabilities and table 4 compares the ICI original and updated model.
+Figure 2? shows a comparison between the estimated and observed probabilities for the new and updated model and table 5 compares the perforamce for the original and updated model.
 
 Figure: __FIGURE with 4 figures showing the ICI plots for new vs org and sum vs individual. possibly with CIs inluded in the graph__
 
@@ -184,14 +212,16 @@ Figure: __FIGURE with 2 figures showing the AUC plots for new vs org__
 <!-- These are the figures i think would give clarity about the data and the new model, is there a good way to do it? I added a part in the end of the main code-document generating one of the plots in question but im not sure if thats the best way or if we could add CIs in some way in the plot.  -->
 
 
-Table: Table 4. Comparision of performance, ICI and AUC, between the new and original model as well as the ICI for the combined score for the original and updated.
+Table: Table 5. Comparison of performance, ICI and AUC, between the new and original model as well as the ICI for the combined score for the original and updated.
 |              | ICI(95% CI)         | Diff ICI (95% CI)          | AUC (95%CI)     | Diff AUC              |
 |--------------|---------------------|----------------------------|-----------------|-----------------------|
 | ORG separate | `r CIs$ICI.org`     | -                          | `r CIs$auc.org` |                       |
 | NEW seperate | `r CIs$ICI.new`     | `r CIs$diff.ici.qsofa`     | `r CIs$auc.new` |`r CIs$diff.auc.qsofa` |
 | ORG sum      | `r CIs$ICI.sum.org` | -                          | -               |                       |
-| New sum      | `r CIs$ICI.sum.new` | `r CIs$diff.ici.qsofa.sum` | -               | |
+| New sum      | `r CIs$ICI.sum.new` | `r CIs$diff.ici.qsofa.sum` | -               |                       |
 Abbreviations: AUC Area under the curve, ICI Integrated calibration index
+
+
 Discussion
 ========
 
@@ -208,13 +238,13 @@ The estimated probabilities for the new model ranges from `r boot.cis$est.prob.s
 
 Because of the composition and context of the TITCO database the results are likely to be generalizable in similar settings, that is to other urban hospitals of similar economic and resource setting<!-- Why do you think that?-->. It is not clear whether the results can be used in rural settings or setting with higher or lower resource settings. It should also be noted that _percent Transported ish 60_ of the patients where for an unspecified time first treated at another hospital and then later transferred to one of the participating hospitals. Because of this the parameters used in this study only shows the first ones taken at arrival to the participating hospital and not always the first ones taken after the injury and does not take into account any interventions performed before arrival or between arrival and admission to the ICU.
 
-Furthermore out of the `r results$n.adults` patients above the age of 18 only `r results$n.complete` had complete data, or `r results$n.complete/results$n.adults`%. With this amount of missing data it is unclear if the data can be said to be missing completely at random or if there are any underlying factors contributing to the missing of data that could skew the results leading to a higher uncertainty regardless of bootstraping<!-- Does the amount of missing data really say anything about the pattern of missing data?--> <!-- No.... but i still want to add something about the ammount of missing data but not sure how... --> .
+Furthermore out of the `r results$n.adults` patients above the age of 18 only `r results$n.complete` had complete data, or `r results$n.complete/results$n.adults`%. With this amount of missing data it is unclear if the data can be said to be missing completely at random or if there are any underlying factors contributing to the missing of data that could skew the results leading to a higher uncertainty regardless of bootstraping<!-- Does the amount of missing data really say anything about the pattern of missing data?--> <!-- No and thas what i want to caspulate that we can not now... so I still want to add something about the ammount of missing data but not sure how... --> .
 
 [@Miyamoto2020] Comparing this to the results by Miyamoto on trauma patients in Japan where they looked at the qSOFA scores predictive power on mortality they showed that in their sample an elevated qSOFA score of 2-3 upon arrival to the hospital had an odds ratio compared with that of a score of 0 of 2.92-4.84 depending on the prehospital score. They also calculated that in their sample qSOFA had an AUC of 0.69-0.76.
 
-In its original context the qSOFA model had an AUC for mortality of 0.66 for patients treated at the ICU and 0.81 for patients without ICU encounters. The original OR for the parameters can be seen in table 2. (orginalkällan)
+In its original context the qSOFA model had an AUC for mortality of 0.66 for patients treated at the ICU and 0.81 for patients without ICU encounters. The original OR for the parameters can be seen in table 2. (orginalkällan) 
 
-Although these studies looked at mortality and not ICU admission one can see that both the mentioned studies had a comparable but slightly higher AUC and a higher OR than can be shown in this study. This is to be somewhat expected since it can be argued that although there is a connection between ICU admission and mortality through severity of that patients condition there were patients who died without being treated in the ICU. The reason for this is not certain but one can argue that this is because the patients condition was such that the patients either died before they could be admitted to the ICU or the doctors decided that intensive care would not be of benefit for the patient, or due to a lack or ICU beds such that patients had to be prioritized for intensive care and not all patients who would have benefited from it got admitted to the ICU. The number of ICU beds per 100 000 people is 2.3 in India compared with for example 7.3 in Japan. (Källa)
+Although these studies looked at mortality and not ICU admission one can see that both the mentioned studies had a comparable but slightly higher AUC and a higher OR than can be shown in this study. This is to be somewhat expected since it can be argued that although there is a connection between ICU admission and mortality through severity of that patients condition there were patients who died without being treated in the ICU. The reason for this is not certain but one can argue that this is because the patients condition was such that the patients either died before they could be admitted to the ICU, the doctors decided that intensive care would not be of benefit for the patient, or due to a lack or ICU beds such that patients had to be prioritized for intensive care and not all patients who would benefit from it got admitted to the ICU. The number of ICU beds per 100 000 people is 2.3 in India compared with for example 7.3 in Japan. (Källa 19)
 
 
 

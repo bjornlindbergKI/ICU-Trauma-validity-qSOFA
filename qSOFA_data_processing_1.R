@@ -25,7 +25,8 @@ source("R/bootstrap.R")
 
 # Data extraction
 url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-limited-dataset-v1.csv"
-#url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-full-dataset-v1.csv"
+#url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-limited-dataset-v1.csv"
+url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-full-dataset-v1.csv"
 tot_data <- rio::import(url)
 
 ## Part data and as factor
@@ -78,6 +79,7 @@ run_study <- function(original.data, rows, boot) {
     ## delete all patients containing missing data in SBP, GCS or ICU
     study.sample.complete <- study.sample[!is.na(study.sample$rr_1)& !is.na(study.sample$sbp_1)& !is.na(study.sample$gcs_t_1)& !is.na(study.sample$licu),]
     results$n.complete <- nrow(study.sample.complete)
+    boot.results$n.complete <- nrow(study.sample.complete)
 
     ## Table 1 ####
     data.table1 <- study.sample.complete
@@ -187,6 +189,12 @@ run_study <- function(original.data, rows, boot) {
     ## since there were no cases with sum 3 and it can only go one way:
     beta <- coeff[1] + coeff[2]*1 + coeff[3]*1 + coeff[4]*1
     val.est.prob.sum.org$three <-  as.numeric(exp(beta)/(1+exp(beta)))
+    
+    ## OR
+    boot.results$est.OR.sum.org.one <- (val.est.prob.sum.org$one/(1-val.est.prob.sum.org$one))/(val.est.prob.sum.org$none/(1-val.est.prob.sum.org$none))
+    boot.results$est.OR.sum.org.two  <- (val.est.prob.sum.org$two/(1-val.est.prob.sum.org$two))/(val.est.prob.sum.org$none/(1-val.est.prob.sum.org$none))
+    boot.results$est.OR.sum.org.three <- (val.est.prob.sum.org$three/(1-val.est.prob.sum.org$three))/(val.est.prob.sum.org$none/(1-val.est.prob.sum.org$none))
+    
 
     ## test sample and performance #### 
 
@@ -373,7 +381,7 @@ run_study <- function(original.data, rows, boot) {
 
 
 ## Bootstrap
-n.bootstraps <- 10
+n.bootstraps <- 1000
 bootstrap.results <- bootstrap(part_data, run_study, n.bootstraps)
 results <- bootstrap.results$arbitrary[[1]]
 boot.list <- bootstrap.results$boot.list
@@ -412,7 +420,7 @@ names(boot.cis) <- names(boot.list$t0)
 
 
 ## Create objects to facilitate reporting
-ors <- boot.cis[grep("updated.ors", names(boot.cis))]
+ors <- boot.cis[grep("updated.ors.", names(boot.cis))]
 names(ors) <- sub("updated.ors.", "", names(ors))
 ors <- lapply(ors, function(or) paste0(or[1], " (", or[2], " - ", or[3], ")"))
 
@@ -447,6 +455,7 @@ lines(c(0,1),c(0,1))
 ## I suggest that you stratify this table based on whether patients
 ## were admitted to the ICU or not
 tabOne <- CreateTableOne(data=results$data.table1)
+
 common <- function(variable, index, data = globalenv()$results$data.table1) {
     tab <- table(data[, variable])
     tab <- sort(tab, decreasing = TRUE)
@@ -464,6 +473,13 @@ second.most.common.mechanism <- second_most_common("Mode of injury")
 third.most.common.mechanism <- third_most_common("Mode of injury")
 mechanism.table <- tabOne$CatTable$Overall$`Mode of injury`
 p.mechanism <- round(mechanism.table[mechanism.table$level == most.common.mechanism, "percent"])
+p.mechanism.second <- round(mechanism.table[mechanism.table$level == second.most.common.mechanism, "percent"])
+p.mechanism.third <- round(mechanism.table[mechanism.table$level == third.most.common.mechanism, "percent"])
+transport.table <- tabOne$CatTable$Overall$Transported
+p.transported <- round(transport.table[transport.table$level =="Yes","percent"])
+ICU.table <- tabOne$CatTable$Overall$`Admitted to the ICU`
+p.ICU <- round(ICU.table[ICU.table$level =="Yes","percent"])
 
 ## Compile paper ####
 render("study-plan.Rmd")
+
