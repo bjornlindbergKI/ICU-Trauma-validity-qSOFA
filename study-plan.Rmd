@@ -150,16 +150,16 @@ knitr::include_graphics("figure1.svg")
 ```
 
 
-We identified the following revised optimal cutoffs: `r boot.cis$cut.sbp[["pe"]]` for SBP, `r boot.cis$cut.rr[["pe"]]` for RR and `r boot.cis$cut.gcs[["pe"]]` for GCS. The corresponding confidence intervals and updated odds ratios can be seen in table 2 together with the original OR.
+We identified the following revised optimal cutoffs: `r boot.cis$cut.sbp[["pe"]]` for SBP, `r boot.cis$cut.rr[["pe"]]` for RR and `r boot.cis$cut.gcs[["pe"]]` for GCS. The corresponding confidence intervals and updated odds ratios can be seen in table 2 together with the original OR from Seymour et al. [källa].
 
 
-|           | Original OR     | Uppdated OR(95%CI)         | Optimal cutoffs (95%CI) |
+|           | Original OR     | Updated OR(95%CI)         | Optimal cutoffs (95%CI) |
 |-----------|-----------------|----------------------------|-------------------------|
 | Intercept | yy              | `r ors[["(Intercept)"]]`   |  -                      |
 | SBP       | 2.61(2.40-2.85) | `r ors[["new.sbp_score"]]` |`r CIs$cut.sbp`          |
 | RR        | 3.18(2.89-3.50) | `r ors[["new.rr_score"]]`  |`r CIs$cut.rr`           |
 | GCS       | 4.31(9.96-4.69) | `r ors[["new.gcs_score"]]` |`r CIs$cut.gcs`          |
-Table: Table 2 Original and uppdated OR for the logistic regression model 
+Table: Table 2 Original and updated OR for the logistic regression model 
 
 <!-- there is something wrong with the code... after running 1000 bootstraps i got this result.
 ors[["new.rr_score"]]
@@ -182,7 +182,7 @@ somehow the CIs gives a negative value which shouldnt be possible and when i loo
 
 -->
 
-The estimated probability of ICU admission and corresponding OR given the OR from table 2 and the distribution of the individual parameters in the study are presented in table 3 and 4.  
+The estimated probability of ICU admission and corresponding OR given the OR from table 2 and the distribution of the individual parameters in the study sample are presented in table 3 and 4.  
 
 | Updated score   | Estimated probability of ICU admission(95%CI) | Odds ratio(95% CI)          |
 |-----------------|-----------------------------------------------|-----------------------------|
@@ -203,7 +203,7 @@ Table: Table 3 Estimated probabilities of ICU admission given an updated qSOFA s
 Table: Table 4 Estimated probabilities of ICU admission given an original qSOFA score of 0-3 and corresponding OR.
 
 
-Figure 2? shows a comparison between the estimated and observed probabilities for the new and updated model and table 5 compares the perforamce for the original and updated model.
+Figure 2? shows a comparison between the estimated and observed probabilities for the new and updated model and table 5 compares the performance in terms of Integrated calibration index (ICI) and Area under the curve (AUC) for the receiver operating characteristics for the original and updated model.
 
 Figure: __FIGURE with 4 figures showing the ICI plots for new vs org and sum vs individual. possibly with CIs inluded in the graph__
 
@@ -226,27 +226,31 @@ Discussion
 ========
 
 <!-- aim and how it went, --->
-The aim of this study was to asses the validity of the qSOFA score in predicting ICU admissions in trauma patients. In the context of urban Indian hospitals the original qSOFA score with its original cutoffs and coefficients did not accurately predict ICU admission. The model underestimated the probability of ICU admission for scores of 0-2 and overestimated the probability for patients with a score of 3 as can be seen in _FIGURE showing ICI plots_. When updating the model adjusting the cutoffs and coefficients the new model performs significantly better.
+The aim of this study was to asses the validity of the qSOFA score in predicting ICU admissions in trauma patients. In the context of urban Indian hospitals the original qSOFA score with its original cutoffs and coefficients did not accurately predict ICU admission. The original model underestimated the probability of ICU admission as can be seen in _FIGURE showing ICI plots_. When updating the model adjusting the cutoffs and coefficients the new model performs significantly better both regarding the ICI and AUC.
 
 
 <!-- usage and implication -->
-The estimated probabilities for the new model ranges from `r boot.cis$est.prob.sum.new.none[["pe"]]` to `r boot.cis$est.prob.sum.new.three[["pe"]]` where the highest value, corresponding to a score of three, can be said to be a clear overestimation and not accounting for a large portion of patients. A more realistic span is that off 0-2 points, or a probability of `r boot.cis$est.prob.sum.new.none[["pe"]]` to `r boot.cis$est.prob.sum.new.two[["pe"]]`. The updated model can not in itself be used to exclude patients with a low score from the need for intensive care nor can it with certainty predict that patients with a high score will be admitted to the ICU. Contrast this to the original use of the qSOFA score where a score of 0 correspond to a mortality of 2-3  <!-- approx taken from figure --> percent and a score of 2-3 correspond to a mortality of 7-20%<!-- taken from figure ish-->. This makes the original qSOFA in the context of screening for severe infections a good tool to sort patients with a low score to also be of a low risk of dying. 
+The estimated probabilities for the new model ranges from `r boot.cis$est.prob.sum.new.none[["pe"]]` to `r boot.cis$est.prob.sum.new.three[["pe"]]`. Where the highest value, corresponding to a score of three, can be said to be a clear overestimation and not accounting for a large portion of patients. A more realistic span is that off 0-2 points, or a probability of `r boot.cis$est.prob.sum.new.none[["pe"]]` to `r boot.cis$est.prob.sum.new.two[["pe"]]` percent. Because of this relatively high base probability of `r boot.cis$est.prob.sum.new.none[["pe"]]`% the updated model can not in itself be used to exclude patients with a low score from the future need of intensive care. Nor can it with certainty predict that patients with a high score will be admitted to the ICU although there exists a significantly higher risk that they will.  
+
+Contrast this to the original use of the qSOFA score where a score of 0 correspond to a mortality of 1  <!-- approx taken from figure --> percent and a score of 2-3 correspond to a much higher mortality of 7-20 %<!-- taken from figure ish-->. This makes the original qSOFA in the context of screening for risk of dying due to severe infections a good tool to sort patients with a low score to also be of a low risk of dying.
 
 <!-- It can also be noted that out of the three parameters used in the updated model only GCS was significantly associated with a higher risk of ICU admission. This can be partially explained by that new cutoffs where calculated for each bootstrap resulting in different cutoffs being evaluated resulting in an increased uncertainty. It could also be that RR and SBP does not have a significant correlation to ICU admission. Although the data suggest that there is a correlation and therefore a possibility of using it in the formation of a predictive model the result is not significant. --> <!-- körde om bootstrapen igen och då fick jag ett annat resultat så stryker denna för nu... -->
 
 <!--limitations --->
 
-Because of the composition and context of the TITCO database the results are likely to be generalizable in similar settings, that is to other urban hospitals of similar economic and resource setting<!-- Why do you think that?-->. It is not clear whether the results can be used in rural settings or setting with higher or lower resource settings. It should also be noted that _percent Transported ish 60_ of the patients where for an unspecified time first treated at another hospital and then later transferred to one of the participating hospitals. Because of this the parameters used in this study only shows the first ones taken at arrival to the participating hospital and not always the first ones taken after the injury and does not take into account any interventions performed before arrival or between arrival and admission to the ICU.
+Because of the composition and context of the TITCO database the results are likely to be generalizable to similar settings, that is to other urban hospitals of similar economic and resource level. <!-- Why do you think that?,,, similar settings should result in similar results? or should i formulate it in another way?-->. It is not clear whether the results can be used in rural settings or setting with higher or lower resource levels. 
 
-Furthermore out of the `r results$n.adults` patients above the age of 18 only `r results$n.complete` had complete data, or `r results$n.complete/results$n.adults`%. With this amount of missing data it is unclear if the data can be said to be missing completely at random or if there are any underlying factors contributing to the missing of data that could skew the results leading to a higher uncertainty regardless of bootstraping<!-- Does the amount of missing data really say anything about the pattern of missing data?--> <!-- No and thas what i want to caspulate that we can not now... so I still want to add something about the ammount of missing data but not sure how... --> .
+It should also be noted that `r  p.transported` of the patients where for an unspecified time first treated at another hospital and then later transferred to one of the participating hospitals. Because of this the parameters used in this study only shows the first ones taken at arrival to the participating hospital and not always the first ones taken after the injury and does not take into account any interventions performed before arrival or between arrival and admission to the ICU.
+
+Furthermore out of the `r results$n.adults` patients above the age of 18 only `r results$n.complete` had complete data, or `r results$n.complete/results$n.adults`%. With this amount of missing data it is unclear if the data can be said to be missing completely at random or if there are any underlying factors contributing to the missing of data that could skew the results leading to a higher uncertainty regardless of bootstraping<!-- Does the amount of missing data really say anything about the pattern of missing data?--> <!-- No and thas what i want to caspulate that we can not now... so I still want to add something about the amount of missing data but not sure how... --> .
 
 [@Miyamoto2020] Comparing this to the results by Miyamoto on trauma patients in Japan where they looked at the qSOFA scores predictive power on mortality they showed that in their sample an elevated qSOFA score of 2-3 upon arrival to the hospital had an odds ratio compared with that of a score of 0 of 2.92-4.84 depending on the prehospital score. They also calculated that in their sample qSOFA had an AUC of 0.69-0.76.
 
-In its original context the qSOFA model had an AUC for mortality of 0.66 for patients treated at the ICU and 0.81 for patients without ICU encounters. The original OR for the parameters can be seen in table 2. (orginalkällan) 
+Another comparrison can be made to that of the development In its original context the qSOFA model had an AUC for mortality of 0.66 for patients treated at the ICU and 0.81 for patients without ICU encounters. The original OR for the parameters can be seen in table 2. (orginalkällan) 
 
-Although these studies looked at mortality and not ICU admission one can see that both the mentioned studies had a comparable but slightly higher AUC and a higher OR than can be shown in this study. This is to be somewhat expected since it can be argued that although there is a connection between ICU admission and mortality through severity of that patients condition there were patients who died without being treated in the ICU. The reason for this is not certain but one can argue that this is because the patients condition was such that the patients either died before they could be admitted to the ICU, the doctors decided that intensive care would not be of benefit for the patient, or due to a lack or ICU beds such that patients had to be prioritized for intensive care and not all patients who would benefit from it got admitted to the ICU. The number of ICU beds per 100 000 people is 2.3 in India compared with for example 7.3 in Japan. (Källa 19)
+Although these studies looked at mortality and not ICU admission one can see that both the mentioned studies had a comparable but slightly higher AUC and a higher OR than can be shown in this study. This is to be somewhat expected since it can be argued that although there is a connection between ICU admission and mortality through severity of that patients condition there were patients who died without being treated in the ICU. The reason for this is not certain but one can argue that this is because the patients condition was such that the patients either died before they could be admitted to the ICU, the doctors decided that intensive care would not be of benefit for the patient, or due to a lack of resources or ICU beds such that patients had to be prioritized for intensive care and not all patients who would benefit from it got admitted to the ICU. For context the number of ICU beds per 100 000 people is 2.3 in India compared with for example 7.3 in Japan. (Källa 19)
 
-
+<!--It's a bit all over the place right now lacking a common thread but i wanted to add all the parts first and then adjust and rearange depending on your feedback --> 
 
 
 ## Questions:

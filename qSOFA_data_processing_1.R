@@ -23,8 +23,9 @@ source("R/create_figure1.R")
 source("R/calculate_auc.R")
 source("R/bootstrap.R")
 
+set.seed(719)
+
 # Data extraction
-url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-limited-dataset-v1.csv"
 #url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-limited-dataset-v1.csv"
 url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-full-dataset-v1.csv"
 tot_data <- rio::import(url)
@@ -167,18 +168,10 @@ run_study <- function(original.data, rows, boot) {
     
     ## estamating probabilities of the sum of qSOFA old
 
-    ## overall log(odds) for death in the whole sample was -3.11227 i
-    ## just guessed that was how i was supposed to get that number of
-    ## the firs coefficent. i didnt find anything about a base odds
-    ## for patients without any points on the qSOFA but maybe there
-    ## was and that would be better.
-
-    ## You should be able to get it from eFigure 3, where they show the
-    ## proportion of patients with in-hospital mortality across qSOFA
-    ## points. 
+    ## eFigure 3 gives 1 % ie log(odds) ~ -4.6
     
     ## i just saw a figure and couldn't extract an exact value, how should i do?
-    coeff <- c(-3.11227, log(2.61), log(3.18), log(4.31))
+    coeff <- c(-4.6, log(2.61), log(3.18), log(4.31))
     beta <- coeff[1] + coeff[2]*validation.sample$org.sbp_score + coeff[3]*validation.sample$org.rr_score + coeff[4]*validation.sample$org.gcs_score
     val.org.prob.calc <- exp(beta)/(1+exp(beta))
 
@@ -287,13 +280,10 @@ run_study <- function(original.data, rows, boot) {
     
     ## original model ####
     
-    ## overall log(odds) for death in the whole sample was -3.11227 i
-    ## just guessed that was how i was supposed to get that number of
-    ## the firs coefficent. i didnt find anything about a base odds
-    ## for patients without any points on the qSOFA but maybe there
-    ## was and that would be better.
+    ## From eFigure 3 the mortality for score=0 was approx 1 %
+    ## this gives a log(odds) of -4.595 or aprox -4.6
 
-    coeff <- c(-3.11227, log(2.61), log(3.18),log(4.31))
+    coeff <- c(-4.6, log(2.61), log(3.18),log(4.31))
     beta <- coeff[1] + coeff[2]*test.sample$org.sbp_score + coeff[3]*test.sample$org.rr_score + coeff[4]*test.sample$org.gcs_score
     org.prob.calc <- exp(beta)/(1+exp(beta))
 
@@ -429,7 +419,7 @@ CIs <- lapply(CIs, function(or){
     if(!is.na(or[2])){
         paste0(or[1], " (", or[2], " - ", or[3], ")")
     }else{
-        paste0(or[1], " (", or[1], " - ", or[1], ")")
+        paste0(or[1])
     }
 }) 
 
