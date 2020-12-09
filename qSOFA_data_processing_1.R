@@ -12,7 +12,7 @@ library(networkD3)
 library(webshot)
 library(knitr)
 library(rsvg)
-library("bengaltiger")
+library(bengaltiger)
 library(ROCR)
 library(cutpointr)
 library(boot)
@@ -31,7 +31,9 @@ url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-full-data
 tot_data <- rio::import(url)
 
 ## Part data and as factor
-part_data <- subset(tot_data, select = c(incl, age, sex, tran, moi, licu, died, sbp_1, rr_1, gcs_t_1))
+part_data <- subset(tot_data, select = c(incl, age, sex, tran, moi, licu, 
+                                         died, sbp_1, rr_1, gcs_t_1, intub_1,
+                                         saw_1))
 
 ## age as number,  > 89 was changed with 90 instead of NA
 part_data$age[part_data$age == ">89"] <- 90
@@ -69,6 +71,12 @@ run_study <- function(original.data, rows, boot) {
     results$n.incl2 <- sum(study.sample$incl == 2)
     study.sample <- study.sample[!study.sample$incl == 2,]
     results$n.included <- nrow(study.sample)
+    
+    ## Exclude patients who were intubated or 
+    ## had a surgical airway before arrival
+    intub.or.saw <- study.sample$intub_1 == "Before arrival" | study.sample$saw_1 == "Before arrival"
+    results$n.intub.or.saw.before.arrival <- sum(intub.or.saw)
+    study.sample <- study.sample[!intub.or.saw, ]
 
     ## exclude NA's
     results$n.NA_TOT <- sum(is.na(study.sample$rr_1)|is.na(study.sample$sbp_1)|is.na(study.sample$gcs_t_1)|is.na(study.sample$licu))
@@ -144,7 +152,7 @@ run_study <- function(original.data, rows, boot) {
     fit <- glm(as.numeric(licu == "Yes") ~ new.sbp_score + new.rr_score + new.gcs_score, family = binomial, data = validation.sample)
     coeff <- fit$coefficients
     boot.results$updated.coefs <- coeff
-    boot.results$updated.ors <- exp(coeff)
+    ## boot.results$updated.ors <- exp(coeff)
     
     
     ## estimating probabilities of the sum of qSOFA new
@@ -169,8 +177,6 @@ run_study <- function(original.data, rows, boot) {
     ## estamating probabilities of the sum of qSOFA old
 
     ## eFigure 3 gives 1 % ie log(odds) ~ -4.6
-    
-    ## i just saw a figure and couldn't extract an exact value, how should i do?
     coeff <- c(-4.6, log(2.61), log(3.18), log(4.31))
     beta <- coeff[1] + coeff[2]*validation.sample$org.sbp_score + coeff[3]*validation.sample$org.rr_score + coeff[4]*validation.sample$org.gcs_score
     val.org.prob.calc <- exp(beta)/(1+exp(beta))
@@ -271,8 +277,6 @@ run_study <- function(original.data, rows, boot) {
     p.calibrate <- predict(loess.calibrate, newdata = sum.new.prob.calc)
     results$ICI.sum.new <- mean(abs(p.calibrate - sum.new.prob.calc))
     boot.results$ICI.sum.new <- results$ICI.sum.new
-    
-    
 
     ## AUC
     results$auc.new <- calculate_auc(new.prob.calc, as.numeric(test.sample$licu=="Yes"))
@@ -371,7 +375,7 @@ run_study <- function(original.data, rows, boot) {
 
 
 ## Bootstrap
-n.bootstraps <- 1000
+n.bootstraps <- 10
 bootstrap.results <- bootstrap(part_data, run_study, n.bootstraps)
 results <- bootstrap.results$arbitrary[[1]]
 boot.list <- bootstrap.results$boot.list
@@ -398,7 +402,7 @@ boot.cis <- lapply(seq_len(length(boot.list$t0)), function(i) {
     if(!is.null(ci)){
         pe <- ci$t0
         ci <- ci$normal[, c(2, 3)]
-        formatted.ci <- sprintf("%.3f", c(pe, ci[1], ci[2]))
+        formatted.ci <- round(c(pe, ci[1], ci[2]), 3)
         names(formatted.ci) <- c("pe", "lb", "ub")
     } else {
         formatted.ci <- round(boot.list$t[1,i], digits = 3)
@@ -408,9 +412,9 @@ boot.cis <- lapply(seq_len(length(boot.list$t0)), function(i) {
 })
 names(boot.cis) <- names(boot.list$t0)
 
-
 ## Create objects to facilitate reporting
-ors <- boot.cis[grep("updated.ors.", names(boot.cis))]
+coefs <- boot.cis[grep("updated.coef.", names(boot.cis))]
+ors <- lapply(coefs, function(x) sprintf("%.3f", exp(x)))
 names(ors) <- sub("updated.ors.", "", names(ors))
 ors <- lapply(ors, function(or) paste0(or[1], " (", or[2], " - ", or[3], ")"))
 
