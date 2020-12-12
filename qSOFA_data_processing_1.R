@@ -23,8 +23,6 @@ source("R/create_figure1.R")
 source("R/calculate_auc.R")
 source("R/bootstrap.R")
 
-set.seed(719)
-
 # Data extraction
 #url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-limited-dataset-v1.csv"
 url <- "https://raw.githubusercontent.com/titco/titco-I/master/titco-I-full-dataset-v1.csv"
@@ -49,6 +47,7 @@ part_data$incl <- as.factor(part_data$incl)
 part_data$licu[part_data$licu > 0] <- "Yes"
 part_data$licu[part_data$licu == 0] <- "No"
 
+sample.data <- part_data
 ## Define function that runs study
 run_study <- function(original.data, rows, boot) {
     sample.data <- original.data[rows, ]
@@ -375,7 +374,8 @@ run_study <- function(original.data, rows, boot) {
 
 
 ## Bootstrap
-n.bootstraps <- 10
+set.seed(5)
+n.bootstraps <- 1000
 bootstrap.results <- bootstrap(part_data, run_study, n.bootstraps)
 results <- bootstrap.results$arbitrary[[1]]
 boot.list <- bootstrap.results$boot.list
@@ -397,6 +397,8 @@ boot.list$t <- apply(boot.list$t, 2, function(values) {
 })
 colnames(boot.list$t) <- t.colnames
 ## Estimate confidence intervals
+## here we use type ="norm" doesnt this mean that we assume the distribution can be
+## approximated with a normal distribution?
 boot.cis <- lapply(seq_len(length(boot.list$t0)), function(i) {
     ci <- boot.ci(boot.list, type = "norm", index = i)
     if(!is.null(ci)){
@@ -415,8 +417,9 @@ names(boot.cis) <- names(boot.list$t0)
 ## Create objects to facilitate reporting
 coefs <- boot.cis[grep("updated.coef.", names(boot.cis))]
 ors <- lapply(coefs, function(x) sprintf("%.3f", exp(x)))
-names(ors) <- sub("updated.ors.", "", names(ors))
+names(ors) <- sub("updated.coefs.", "", names(ors))
 ors <- lapply(ors, function(or) paste0(or[1], " (", or[2], " - ", or[3], ")"))
+
 
 CIs <- boot.cis
 CIs <- lapply(CIs, function(or){
