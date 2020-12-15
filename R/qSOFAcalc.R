@@ -1,4 +1,4 @@
-qSOFAcalc <- function(raw, tot = TRUE, sbp_cut = 100, rr_cut = 22) {
+qSOFAcalc <- function(raw, tot = TRUE, sbp_cut = 100, rr_cut = 22, gcs_cut = 14) {
     ## Check arguments
     assert_that(is.data.frame(raw))
     #assert_that(ncol(raw) == 3)
@@ -9,7 +9,7 @@ qSOFAcalc <- function(raw, tot = TRUE, sbp_cut = 100, rr_cut = 22) {
     ## Calculate score
     sc_sbp <- select(raw, starts_with("sbp_")) <= sbp_cut
     sc_rr <- select(raw, starts_with("rr_")) >= rr_cut
-    sc_gcs <- select(raw, starts_with("gcs_")) < 15
+    sc_gcs <- select(raw, starts_with("gcs_")) <= gcs_cut
     score <- data.frame(sbp_score = sc_sbp, rr_score = sc_rr, gcs_score = sc_gcs) %>%
         mutate(across(.fns = as.integer))
     if (tot){

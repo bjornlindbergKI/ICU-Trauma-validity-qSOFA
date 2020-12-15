@@ -143,7 +143,7 @@ run_study <- function(original.data, rows, boot) {
     validation.qSOFA.original <- qSOFAcalc(raw = validation.sample,tot = TRUE)
     names(validation.qSOFA.original) <- c("org.sbp_score", "org.rr_score", "org.gcs_score", "org.qSOFA_score")
 
-    validation.qSOFA.new <- qSOFAcalc(raw = validation.sample, rr_cut = results$cut.rr, sbp_cut = results$cut.sbp)
+    validation.qSOFA.new <- qSOFAcalc(raw = validation.sample, rr_cut = results$cut.rr, sbp_cut = results$cut.sbp, gcs_cut = results$cut.gcs)
     names(validation.qSOFA.new) <- c("new.sbp_score", "new.rr_score", "new.gcs_score", "new.qSOFA_score")
     validation.sample <- data.frame(validation.sample, validation.qSOFA.original, validation.qSOFA.new)
 
@@ -201,7 +201,7 @@ run_study <- function(original.data, rows, boot) {
     test.qSOFA.original <- qSOFAcalc(raw = test.sample,tot = TRUE)
     names(test.qSOFA.original) <- c("org.sbp_score", "org.rr_score", "org.gcs_score", "org.qSOFA_score")
 
-    test.qSOFA.new <- qSOFAcalc(raw = test.sample,rr_cut = results$cut.rr, sbp_cut = results$cut.sbp)
+    test.qSOFA.new <- qSOFAcalc(raw = test.sample,rr_cut = results$cut.rr, sbp_cut = results$cut.sbp, gcs_cut = results$cut.gcs)
     names(test.qSOFA.new) <- c("new.sbp_score", "new.rr_score", "new.gcs_score", "new.qSOFA_score")
 
 
@@ -399,11 +399,26 @@ colnames(boot.list$t) <- t.colnames
 ## Estimate confidence intervals
 ## here we use type ="norm" doesnt this mean that we assume the distribution can be
 ## approximated with a normal distribution?
+##boot.cis.norm <- lapply(seq_len(length(boot.list$t0)), function(i) {
+   # ci <- boot.ci(boot.list, type = "norm", index = i)
+    #if(!is.null(ci)){
+     #   pe <- ci$t0
+     #   ci <- ci$normal[, c(2, 3)]
+     #   formatted.ci <- round(c(pe, ci[1], ci[2]), 3)
+     #   names(formatted.ci) <- c("pe", "lb", "ub")
+    #} else {
+    #    formatted.ci <- round(boot.list$t[1,i], digits = 3)
+    #    names(formatted.ci) <- c("pe") 
+    #}
+    #formatted.ci
+#})
+##names(boot.cis.norm) <- names(boot.list$t0)
+
 boot.cis <- lapply(seq_len(length(boot.list$t0)), function(i) {
-    ci <- boot.ci(boot.list, type = "norm", index = i)
+    ci <- boot.ci(boot.list, type = "perc", index = i)
     if(!is.null(ci)){
         pe <- ci$t0
-        ci <- ci$normal[, c(2, 3)]
+        ci <- ci$percent[, c(4, 5)]
         formatted.ci <- round(c(pe, ci[1], ci[2]), 3)
         names(formatted.ci) <- c("pe", "lb", "ub")
     } else {
@@ -413,6 +428,7 @@ boot.cis <- lapply(seq_len(length(boot.list$t0)), function(i) {
     formatted.ci
 })
 names(boot.cis) <- names(boot.list$t0)
+
 
 ## Create objects to facilitate reporting
 coefs <- boot.cis[grep("updated.coef.", names(boot.cis))]
