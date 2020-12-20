@@ -11,6 +11,8 @@ create_figure1 <- function(results) {
       tab5 [label = '@@5']
       tab6 [label = '@@6']
       tab7 [label = '@@7']
+      tab8 [label = '@@8']
+      tab9 [label = '@@9']
       
       node [shape = point, style = filled ,color = black, label = '', height = 0]
       a,b,c,d,f
@@ -22,23 +24,30 @@ create_figure1 <- function(results) {
       tab2 -> b [arrowhead=none] 
       b -> tab3 
       tab3 -> c [arrowhead=none] 
-      c -> tab4
+      c -> tab8
+      tab8 -> d [arrowhead=none]
+      d -> tab4
       
       }
 
       # edge definitions with the node IDs
       a -> tab5 
-      b -> tab6 
-      c -> tab7
+      b -> tab6
+      c -> tab9
+      d -> tab7
       }
 
       [1]: paste0('Participants in the TITCO cohort: ', results$n.cohort )
       [2]: paste0('Participants above age 18: ', results$n.adults)
-      [3]: paste0('Participants alive at admission: ', results$n.included)
+      [3]: paste0('Participants alive at admission: ', results$n.alive)
       [4]: paste0('Participants with complete data: ', results$n.complete)
       [5]: paste0('Participants below age 18: ', results$n.younger.than.18)
       [6]: paste0('Participants died before admission: ', results$n.incl2)
       [7]: paste0('Participants with missing data: ', results$n.NA_TOT, '\\n', 'Missing ICU admission: ', results$n.NA_ICU, '\\n','Missing systolic blood preassure: ', results$n.NA_SBP, '\\n', 'Missing respiratory rate: ', results$n.NA_RR, '\\n', 'Missing Glascow coma scale: ', results$n.NA_GCS)
+      [8]: paste0('Participants with self control of breathing: ', results$n.included)
+      [9]: paste0('Participant with externally controlled breathing*: ', results$n.intub.or.saw.before.arrival)
+
+
 
       ")
     export_svg(figure1) %>% charToRaw %>% rsvg_svg("figure1.svg")

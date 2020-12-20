@@ -131,16 +131,15 @@ exposure and an outcome then use
 
 Results
 ========
-The TITCO cohort included `r results$n.cohort` patients (Figure 1). We excluded `r results$n.younger.than.18` patients because they were under the age of 18  and `r  results$n.incl2 ` patients because they died between arrival and admission. We further excluded  `r results$n.NA_TOT` patients due to missing data in either admission to the ICU (`r results$n.NA_ICU`), systolic blood pressure  (`r results$n.NA_SBP`), respiratory rate (`r results$n.NA_RR`), or GCS (`r results$n.NA_GCS`). The final sample included `r results$n.complete` patients. 
+The TITCO cohort included `r results$n.cohort` patients (Figure 1). We excluded `r results$n.younger.than.18` patients because they were under the age of 18  and `r  results$n.incl2 ` patients because they died between arrival and admission. Patients with on arrival externally controlled breathing, such as intubation or surgical airway, were also excluded accounting for `r esults$n.intub.or.saw.before.arrival` patients. We further excluded  `r results$n.NA_TOT` patients due to missing data in either admission to the ICU (`r results$n.NA_ICU`), systolic blood pressure  (`r results$n.NA_SBP`), respiratory rate (`r results$n.NA_RR`), or GCS (`r results$n.NA_GCS`). The final sample included `r results$n.complete` patients. 
 
-The median age was `r tabOne$ContTable$Overall["Age","mean"]` with predominantly `r tolower(most.common.sex)` participants (`r p.sex`%). The most common type of injury was `r tolower(most.common.mechanism)`s with `r p.mechanism`% followed by `r tolower(second.most.common.mechanism)`s and `r tolower(third.most.common.mechanism)` accounting for
-`r p.mechanism.second` and `r p.mechanism.third` respectively. Furthermore `r  p.transported`% of patients were transported to a participating hospital from another health care facility. Overall in the study population `r p.ICU`% of patients had to be treated for some time in the ICU. The data is presented in \@ref(tab:table1) with corresponding standard deviations. 
+The mean age was `r round(tabOne$ContTable$Overall["Age","mean"],2)` with predominantly `r tolower(most.common.sex)` participants (`r p.sex`%). The most common type of injury was `r tolower(most.common.mechanism)`s with `r p.mechanism`% followed by `r tolower(second.most.common.mechanism)`s and `r tolower(third.most.common.mechanism)` accounting for `r p.mechanism.second` % and `r p.mechanism.third` % respectively. Furthermore `r  p.transported`% of patients were transported to a participating hospital from another health care facility. Overall in the study population `r p.ICU`% of patients had to be treated for some time in the ICU. The data is presented in \@ref(tab:table1) with corresponding standard deviations. 
 
 ```{r figure1, fig.align = 'center', out.width = "100%", fig.cap = "Flowchart of exclussion from the study", echo = FALSE}
 knitr::include_graphics("figure1.svg")
 ```
 ```{r table1, echo = FALSE}
- kableone(CreateTableOne(data = results$data.table1, strata = "Admitted to the ICU", addOverall = TRUE),caption = "Sample characteristics", label = "table1")
+ kableone(tabOne,caption = "Sample characteristics stratified by ICU admission", label = "table1")
 ```
 
 
@@ -164,7 +163,6 @@ The estimated probability of ICU admission and corresponding OR given the OR fro
 | 1               | `r CIs$est.prob.sum.new.one `                 |`r CIs$est.OR.sum.new.one `  |
 | 2               | `r CIs$est.prob.sum.new.two `                 |`r CIs$est.OR.sum.new.two `  |
 | 3               | `r CIs$est.prob.sum.new.three `               |`r CIs$est.OR.sum.new.three ` |
-
 Table: Table 3 Estimated probabilities of ICU admission given an updated qSOFA score of 0-3 and corresponding OR.
 
 | Original score | Estimated probability of ICU admission(95%CI) | Odds ratio(95% CI)          |
@@ -173,7 +171,6 @@ Table: Table 3 Estimated probabilities of ICU admission given an updated qSOFA s
 | 1               | `r CIs$est.prob.sum.org.one `                 |`r CIs$est.OR.sum.org.one `  |
 | 2               | `r CIs$est.prob.sum.org.two `                 |`r CIs$est.OR.sum.org.two `  |
 | 3               | `r CIs$est.prob.sum.org.three `               |`r CIs$est.OR.sum.org.three ` |
-
 Table: Table 4 Estimated probabilities of ICU admission given an original qSOFA score of 0-3 and corresponding OR.
 
 

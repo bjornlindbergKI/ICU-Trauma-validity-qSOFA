@@ -69,13 +69,14 @@ run_study <- function(original.data, rows, boot) {
     ## Exclude those who died before admission ie incl==2
     results$n.incl2 <- sum(study.sample$incl == 2)
     study.sample <- study.sample[!study.sample$incl == 2,]
-    results$n.included <- nrow(study.sample)
+    results$n.alive <- nrow(study.sample)
     
     ## Exclude patients who were intubated or 
     ## had a surgical airway before arrival
     intub.or.saw <- study.sample$intub_1 == "Before arrival" | study.sample$saw_1 == "Before arrival"
     results$n.intub.or.saw.before.arrival <- sum(intub.or.saw)
     study.sample <- study.sample[!intub.or.saw, ]
+    results$n.included <- nrow(study.sample)
 
     ## exclude NA's
     results$n.NA_TOT <- sum(is.na(study.sample$rr_1)|is.na(study.sample$sbp_1)|is.na(study.sample$gcs_t_1)|is.na(study.sample$licu))
@@ -104,7 +105,7 @@ run_study <- function(original.data, rows, boot) {
 
     ## Figure 1 flowchart ####
     if (!boot) {
-        ##    figure1 <- create_figure1(results)        
+            figure1 <- create_figure1(results)        
     }
 
     ## Split sample in sample.split #### 
@@ -374,7 +375,7 @@ run_study <- function(original.data, rows, boot) {
 
 
 ## Bootstrap
-set.seed(5)
+set.seed(71)
 n.bootstraps <- 1000
 bootstrap.results <- bootstrap(part_data, run_study, n.bootstraps)
 results <- bootstrap.results$arbitrary[[1]]
@@ -453,21 +454,39 @@ est.sum.new <- c(boot.cis$est.prob.sum.new.none[["pe"]], boot.cis$est.prob.sum.n
 est.sum.new <- as.numeric(est.sum.new)
 obs.sum.new <- c(boot.cis$real.prob.sum.new.none[["pe"]], boot.cis$real.prob.sum.new.one[["pe"]] , boot.cis$real.prob.sum.new.two[["pe"]],boot.cis$real.prob.sum.new.three[["pe"]]) 
 obs.sum.new <- as.numeric(obs.sum.new)
-plot(est.sum.new, obs.sum.new, xlim=c(0,1), ylim=c(0,1),main= "Sum of qSOFA new")
+plot(est.sum.new, obs.sum.new, xlim=c(0,1), ylim=c(0,1),main= "Updated qSOFA model", 
+        xlab= "Predicted probability", ylab="Observed probability")
 lines(c(0,1),c(0,1))
  # ICI sum org -------
 est.sum.org <- c(boot.cis$est.prob.sum.org.none[["pe"]], boot.cis$est.prob.sum.org.one[["pe"]] , boot.cis$est.prob.sum.org.two[["pe"]], boot.cis$est.prob.sum.org.three[["pe"]]) 
 est.sum.org <- as.numeric(est.sum.org)
 obs.sum.org <- c(boot.cis$real.prob.sum.org.none[["pe"]], boot.cis$real.prob.sum.org.one[["pe"]] , boot.cis$real.prob.sum.org.two[["pe"]],boot.cis$real.prob.sum.org.three[["pe"]]) 
 obs.sum.org <- as.numeric(obs.sum.org)
-plot(est.sum.org, obs.sum.org, xlim=c(0,1), ylim=c(0,1),main= "Sum of qSOFA org")
+plot(est.sum.org, obs.sum.org, xlim=c(0,1), ylim=c(0,1),main= "Original qSOFA model",
+        xlab= "Predicted probability", ylab="Observed probability" )
 lines(c(0,1),c(0,1))
 
+multiplot(plotlist = c(newnew,org), cols = 1, layout = NULL)
+# ICI separate new
+est.new <- c(boot.cis$est.prob.new.none[["pe"]], boot.cis$est.prob.new.sbp[["pe"]], boot.cis$est.prob.new.rr[["pe"]], boot.cis$est.prob.new.gcs[["pe"]], boot.cis$est.prob.new.sbp.gcs[["pe"]], boot.cis$est.prob.new.sbp.rr[["pe"]], boot.cis$est.prob.new.rr.gcs[["pe"]], boot.cis$est.prob.new.sbp.rr.gcs[["pe"]])
+est.new <- as.numeric(est.new)
+obs.new <- c(boot.cis$real.prob.new.none[["pe"]], boot.cis$real.prob.new.sbp[["pe"]], boot.cis$real.prob.new.rr[["pe"]], boot.cis$real.prob.new.gcs[["pe"]], boot.cis$real.prob.new.sbp.gcs[["pe"]], boot.cis$real.prob.new.sbp.rr[["pe"]], boot.cis$real.prob.new.rr.gcs[["pe"]], boot.cis$real.prob.new.sbp.rr.gcs[["pe"]])
+obs.new <- as.numeric(obs.new)
+plot(est.new, obs.new, xlim=c(0,1), ylim=c(0,1),main= "qSOFA original")
+lines(c(0,1),c(0,1))
+# ICI separate org
+est.org <- c(boot.cis$est.prob.org.none[["pe"]], boot.cis$est.prob.org.sbp[["pe"]], boot.cis$est.prob.org.rr[["pe"]], boot.cis$est.prob.org.gcs[["pe"]], boot.cis$est.prob.org.sbp.gcs[["pe"]], boot.cis$est.prob.org.sbp.rr[["pe"]], boot.cis$est.prob.org.rr.gcs[["pe"]], boot.cis$est.prob.org.sbp.rr.gcs[["pe"]])
+est.org <- as.numeric(est.org)
+obs.org <- c(boot.cis$real.prob.org.none[["pe"]], boot.cis$real.prob.org.sbp[["pe"]], boot.cis$real.prob.org.rr[["pe"]], boot.cis$real.prob.org.gcs[["pe"]], boot.cis$real.prob.org.sbp.gcs[["pe"]], boot.cis$real.prob.org.sbp.rr[["pe"]], boot.cis$real.prob.org.rr.gcs[["pe"]], boot.cis$real.prob.org.sbp.rr.gcs[["pe"]])
+obs.org <- as.numeric(obs.org)
+plot(est.org, obs.org, xlim=c(0,1), ylim=c(0,1),main= "qSOFA original")
+lines(c(0,1),c(0,1))
 ## table one ---- 
 
 ## I suggest that you stratify this table based on whether patients
 ## were admitted to the ICU or not
-tabOne <- CreateTableOne(data=results$data.table1)
+variables <- c("Age","Sex", "Transported", "Mode of injury","Admitted to the ICU", "Died after admission", "SBP", "RR", "GCS")
+tabOne <- CreateTableOne(data=results$data.table1, vars = variables , strata ="Admitted to the ICU", addOverall=TRUE, test=FALSE)
 
 common <- function(variable, index, data = globalenv()$results$data.table1) {
     tab <- table(data[, variable])
