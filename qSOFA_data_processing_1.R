@@ -282,6 +282,10 @@ run_study <- function(original.data, rows, boot) {
     results$auc.new <- calculate_auc(new.prob.calc, as.numeric(test.sample$licu=="Yes"))
     boot.results$auc.new <- results$auc.new
     
+    ## AUC sum
+    #results$auc.new.sum <- calculate_auc(sum.new.prob.calc, as.numeric(test.sample$licu=="Yes"))
+    #boot.results$auc.new.sum <- results$auc.new.sum
+    
     ## original model ####
     
     ## From eFigure 3 the mortality for score=0 was approx 1 %
@@ -354,17 +358,25 @@ run_study <- function(original.data, rows, boot) {
     results$ICI.sum.org <- mean(abs(p.calibrate - sum.org.prob.calc))
     boot.results$ICI.sum.org <- results$ICI.sum.org
     
-    ## AUC
+    ## AUC seperate
     results$auc.org <- calculate_auc(org.prob.calc, as.numeric(test.sample$licu=="Yes"))
     boot.results$auc.org <- results$auc.org
+    
+    ## AUC sum
+    #results$auc.org.sum <- calculate_auc(sum.org.prob.calc, as.numeric(test.sample$licu=="Yes"))
+    #boot.results$auc.org.sum <- results$auc.org.sum
+    
     
     ## Calculate differences
     results$diff.ici.qsofa <- results$ICI.new - results$ICI.org
     results$diff.ici.qsofa.sum <- results$ICI.sum.new - results$ICI.sum.org
     results$diff.auc.qsofa <-results$auc.new - results$auc.org
+    #results$diff.auc.qsofa.sum <- results$auc.new.sum - results$auc.org.sum
+    
     boot.results$diff.ici.qsofa <- results$diff.ici.qsofa
     boot.results$diff.ici.qsofa.sum <- results$diff.ici.qsofa.sum
     boot.results$diff.auc.qsofa <- results$diff.auc.qsofa
+    #boot.results$diff.auc.qsofa.sum <- results$diff.auc.qsofa.sum
 
     ## Return results
     return.list <- list(boot.results = unlist(boot.results))
