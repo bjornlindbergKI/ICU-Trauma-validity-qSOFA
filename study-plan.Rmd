@@ -10,7 +10,7 @@ output: pdf_document
 
 Introduction 
 ============
-Trauma is defined as the clinical entity composed of both physical injury and the body’s associated response. [MeSH] Trauma patients are a heterogeneous group with a wide range of different causes the most prominent ones are traffic related injuries, falls, self-harm, interpersonal violence and burns. Trauma is a global health problem and the total number of patients with injuries is estimated to be at least 520 million per year. [@James2020] 
+Trauma is defined as the clinical entity composed of both physical injury and the body’s associated response. Trauma patients are a heterogeneous group with a wide range of different causes the most prominent ones are traffic related injuries, falls, self-harm, interpersonal violence and burns. Trauma is a global health problem and the total number of patients with injuries is estimated to be at least 520 million per year. [@James2020] 
 
 The effects of trauma on patients and their families can be divided into non-fatal and fatal trauma. The effects of non-fatal trauma can be subdivided into Disability Adjusted Life Years (DALY) lost and economical effects. DALY is a measurement using both the mortality in years lost between mean age and death and morbidity as in years lived with reduced function due to the disease. In 2017 trauma accounted for 13% of total DALY lost globally. [@GBD2017DALY] The economic effects are both out of pocket expenses for treatment as well as reduced ability to work after injury. A study in northern India from 2019 calculated that 22% of patients who presented with traumatic injuries afterward had 30% or more of their total expenditure on healthcare related costs and 12 % were pushed below the international poverty line as a consequence. [@Prinja2019]
 
@@ -27,13 +27,6 @@ Another tool to assess the severity of a patient’s condition due to trauma is 
 Because of the inherent urgency and complexity in trauma care it is vital to have an initial scoring system that is both simple to perform and that does not need laboratory nor other advanced measuring equipment. For this reason, the SOFA score can be said to use too advanced techniques and the T-RTS with its many categories to be too complicated. The choice of using qSOFA is thus because of its promising signs in other studies and because of the possible clinical advantage in its simplicity.  
 
 It should also be noted that the majority of the research done on the topic of trauma and trauma care has been performed in high income countries. It is thus not clear if the results are also applicable in low resource settings, which arguably stand to benefit the most of a scoring system to be able to prioritize the limited resources at hand. Furthermore, most studies report the predictive power of different scoring systems on mortality and it has not yet been sufficiently studied whether an initial qSOFA score can be used to predict admissions to an intensive care unit and thus aid in the direct clinical treatment of trauma patients.
-
-<!-- just for the KI paper ---> 
-## Healthcare in India 
-
-The Indian healthcare is of now severely underfunded, the national healthcare expenditure is about 3.5% of national GDP, or about 70 USD per person in 2017, compared to a national healthcare expenditure of 5900 USD in Sweden for the same year. Out of these 70 USD per person 27 % is government expenditure and 72% is private expenditure, mostly out of pocket expenditures. (https://data.worldbank.org/) This makes the unregulated private healthcare sector almost 3 times as large as the public sector providing 80% of outpatient care and 60% of inpatient care in India. India also lacks healthcare personal and in many cases subspecialized medical training, especially regarding trauma care. (Nobhojit Roy)(Martin Gerdin)
-
-Besides the deficient monetary aspects of Indias healthcare system it can also be said that there is a lack of sufficiently enforced safety policies and regulations, for example road traffic and workplace safety. Although it should be noted that in the new national health policy from 2017 one of the primary focuses are preventing rail and road traffic accidents. The national health policy also aims at expanding the number of hospital beds dedicated to trauma care across the country reducing the time between injury and care as guided by the golden hour concept discussed above. (Nobhojit Roy)(Martin Gerdin) 
 
 
 ## Aim  
@@ -67,7 +60,10 @@ general population) including number and location of centres. [D;V]
 Patients included in the TITCO cohort were those presenting to one of the participating centres with traumatic injury following a transport accident, fall, assault, self‐harm or burn, and who were alive on arrival and admitted to the hospital for treatment. Patients with an isolated limb injury were excluded from the database as such patients are treated by orthopaedic surgeons and not within trauma care pathway, which comprises a first survey done by a surgical resident with an on‐call consultant surgeon and subsequent observation or surgery. Patients from the TITCO cohort who were aged 15 years or older and underwent surgical intervention within 24 h of arrival were included in this study.
 -->
 
-The TITCO cohort include patients with a history of trauma who either got admitted to one of the participating hospitals or who died between arrival and admission. Patients with isolated injurys to limbs and that therefore were treated by orthopaedics and not within the general trauma care were excluded from the database aswell as patients who were dead on arrival. 
+The TITCO cohort include patients with a history of trauma who either got admitted to one of the participating hospitals or who died between arrival and admission. Patients were excluded from the database if they presented with isolated injuries to limbs without associated vascular damage as well as patients who were dead upon arrival.
+
+The additional exclusion criteria for this study where patients below the age of 18, patients who died before admission to a participating hospital, patients who arrived with a surgical airway as well as patients who were intubated before arriving to a participating hospital. 
+. 
 
 
 ## Outcome
@@ -76,7 +72,7 @@ The TITCO cohort include patients with a history of trauma who either got admitt
 and when assessed. [D;V]
 6b) Report any actions to blind assessment of the outcome to be predicted. [D;V]
 -->
-The primary outcome of interest was admission to the ICU during hospitalization. __Any secondary outcomes?__
+The primary outcome of interest was admission to the ICU during hospitalization as recorded in the TITCO database. This was represented as hours in intensive care in the TITCO database and was for this study converted into a binary variable representing the presence or absence of ICU admission.
 
 <!-- Regarding blinding, data on the outcome was collected after data on predictors, i.e. the outcome was not known (in the majority of cases at least, when the predictor data was collected. So in that way the data collectors were "blinded" to the outcome during data collection. So no deliberate action was taken or needed to be taken to avoid bias and therefore nothing should be written about it? -->
 
@@ -88,21 +84,22 @@ prediction model, including how and when they were measured. [D;V]
 7b) Report any actions to blind assessment of predictors for the outcome and other
 predictors. [D;V]
 -->
-For each patient included in the study the qSOFA score was calculated using data recorded on arrival to the hospital. The calculation of the qSOFA score includes a respiratory rate above 22, GCS below 15 and a systolic blood pressure below 100 where one point is awarded for meeting each of the specified criterias and thus yields a score of 0 to 3. 
+For each patient included in the study, the qSOFA score was calculated using data recorded on arrival to the hospital by medical personal, as found in the TITCO database. The values used in the calculations were respiratory rate, Glasgow coma scale and systolic blood pressure. These variables were reported as continuous variables.  
 
 ## Sample size
 <!--
 8) Explain how the study size was arrived at [D;V]
 -->
 
-We included all patients in the TITCO cohort above the age of 18 who was alive at admission to the hospital except patients with externally controlled breathing upon arrival, either through intubation or a surgical airway. <!-- Is this the correct place to add exclussion critera or should it be up on participants instead??-->
+All eligible patients from the TITCO database where included.
+
 
 ## Missing data
 <!--
 9) Describe how missing data were handled (e.g., complete-case analysis, single
 imputation, multiple imputation) with details of any imputation method. [D;V]
 -->
-We will use complete-case analysis. 
+A complete case analysis was conducted. 
 
 
 ## Statistical analysis methods
@@ -115,27 +112,13 @@ compare multiple models [D;V]
 
 We used R for all statistical analysis [RStudio]. We describe the sample characteristics using counts and percentages for qualitative variables and medians and interquartile ranges (IQR) for quantitative variables. The study sample was randomly split into training, validation, and test samples with 60%, 20%, and 20% of the observations in each sample respectively. We used the training sample to update qSOFA by reestimating the coefficients of the original predictors using logistic regression. We used the validation sample to identify optimal cutoffs - those who maximised the Youden index - for the original and updated qSOFA. We used the test sample to assess and compare the performance of the two models. Bootstrapping was used to estimate 95% confidence intervals associated with point estimates. 
 
-<!-- Read other prediction model papers as well as methodological guides to see what domains of predictive performance that we want to look at -->
-
-Från PPF "This will be a retrospective analysis of a cohort of trauma patients admitted to four public university hospitals in urban India between 2013 and 2015. The complete cohort includes 16 000 patients. The primary outcome will be ICU admission. The predictors included in qSOFA are respiratory rate, Glasgow coma scale, and systolic blood pressure. Validity will be assessed in terms of predictive performance, which in turn will be measures as discrimination and calibration. Calibration will further be visualised using calibration plots. An optimal cutoff will be identified using the Youden index and sensitivity, specificity, precision, recall, positive and negative predictive values will assessed at this cutoff. The original model will finally be compared to a updated model, using the same predictive performance measures. Updating will be performed using logistic regression. Missing data will be handled using multiple imputation. "
-
-
-<!--*Refer to the appropriate reporting guideline for details. If you are
-developing, updating or validating a clinical prediction model then
-use
-[TRIPOD](https://www.equator-network.org/reporting-guidelines/tripod-statement/). If
-you are conducting an observational study, for example a cohort or
-case control study in which you assess associations between some
-exposure and an outcome then use
-[STROBE](https://www.equator-network.org/reporting-guidelines/strobe/).*-->
-
 Results
 ========
 The TITCO cohort included `r results$n.cohort` patients (Figure 1). We excluded `r results$n.younger.than.18` patients because they were under the age of 18  and `r  results$n.incl2 ` patients because they died between arrival and admission. Patients with on arrival externally controlled breathing, such as intubation or surgical airway, were also excluded accounting for `r esults$n.intub.or.saw.before.arrival` patients. We further excluded  `r results$n.NA_TOT` patients due to missing data in either admission to the ICU (`r results$n.NA_ICU`), systolic blood pressure  (`r results$n.NA_SBP`), respiratory rate (`r results$n.NA_RR`), or GCS (`r results$n.NA_GCS`). The final sample included `r results$n.complete` patients. 
 
 The mean age was `r round(tabOne$ContTable$Overall["Age","mean"],2)` with predominantly `r tolower(most.common.sex)` participants (`r p.sex`%). The most common type of injury was `r tolower(most.common.mechanism)`s with `r p.mechanism`% followed by `r tolower(second.most.common.mechanism)`s and `r tolower(third.most.common.mechanism)` accounting for `r p.mechanism.second` % and `r p.mechanism.third` % respectively. Furthermore `r  p.transported`% of patients were transported to a participating hospital from another health care facility. Overall in the study population `r p.ICU`% of patients had to be treated for some time in the ICU. The data is presented in \@ref(tab:table1) with corresponding standard deviations. 
 
-```{r figure1, fig.align = 'center', out.width = "100%", fig.cap = "Flowchart of exclussion from the study", echo = FALSE}
+```{r figure1, fig.align = 'center', out.width = "100%", fig.cap = "Flowchart showing the exclussion criteria andthe number of study participants. /n *Externally controlled breathing includes intubation orsurgical airway before arrival to a participating hospital", echo = FALSE}
 knitr::include_graphics("figure1.svg")
 ```
 ```{r table1, echo = FALSE}
@@ -148,22 +131,14 @@ We identified the following revised optimal cutoffs: `r boot.cis$cut.sbp[["pe"]]
 
 |           | Original OR     | Updated OR(95%CI)         | Optimal cutoffs (95%CI) |
 |-----------|-----------------|----------------------------|-------------------------|
-| Intercept | yy              | `r ors[["(Intercept)"]]`   |  -                      |
+| Intercept | 0.01*              | `r ors[["(Intercept)"]]`   |  -                      |
 | SBP       | 2.61(2.40-2.85) | `r ors[["new.sbp_score"]]` |`r CIs$cut.sbp`          |
 | RR        | 3.18(2.89-3.50) | `r ors[["new.rr_score"]]`  |`r CIs$cut.rr`           |
 | GCS       | 4.31(9.96-4.69) | `r ors[["new.gcs_score"]]` |`r CIs$cut.gcs`          |
-Table: Table 2 Original and updated OR for the logistic regression model 
+Table: Table 2 Original and updated OR for the logistic regression model *estimated from figures
 
 
 The estimated probability of ICU admission and corresponding OR given the OR from table 2 and the distribution of the individual parameters in the study sample are presented in table 3 and 4.  
-
-| Updated score   | Estimated probability of ICU admission(95%CI) | Odds ratio(95% CI)          |
-|-----------------|-----------------------------------------------|-----------------------------|
-| 0               | `r CIs$est.prob.sum.new.none `                | 1                           |
-| 1               | `r CIs$est.prob.sum.new.one `                 |`r CIs$est.OR.sum.new.one `  |
-| 2               | `r CIs$est.prob.sum.new.two `                 |`r CIs$est.OR.sum.new.two `  |
-| 3               | `r CIs$est.prob.sum.new.three `               |`r CIs$est.OR.sum.new.three ` |
-Table: Table 3 Estimated probabilities of ICU admission given an updated qSOFA score of 0-3 and corresponding OR.
 
 | Original score | Estimated probability of ICU admission(95%CI) | Odds ratio(95% CI)          |
 |-----------------|-----------------------------------------------|-----------------------------|
@@ -171,25 +146,27 @@ Table: Table 3 Estimated probabilities of ICU admission given an updated qSOFA s
 | 1               | `r CIs$est.prob.sum.org.one `                 |`r CIs$est.OR.sum.org.one `  |
 | 2               | `r CIs$est.prob.sum.org.two `                 |`r CIs$est.OR.sum.org.two `  |
 | 3               | `r CIs$est.prob.sum.org.three `               |`r CIs$est.OR.sum.org.three ` |
-Table: Table 4 Estimated probabilities of ICU admission given an original qSOFA score of 0-3 and corresponding OR.
+Table: Predicted probabilities of intensive care unit (ICU) admission given an original qSOFA score of 0-3 and corresponding odds ratios using 0 as reference.
 
+| Updated score   | Predicted probability of ICU admission(95%CI) | Odds ratio(95% CI)          |
+|-----------------|-----------------------------------------------|-----------------------------|
+| 0               | `r CIs$est.prob.sum.new.none `                | 1                           |
+| 1               | `r CIs$est.prob.sum.new.one `                 |`r CIs$est.OR.sum.new.one `  |
+| 2               | `r CIs$est.prob.sum.new.two `                 |`r CIs$est.OR.sum.new.two `  |
+| 3               | `r CIs$est.prob.sum.new.three `               |`r CIs$est.OR.sum.new.three ` |
+Table: Predicted probabilities of intensive care unit (ICU) admission given an updated qSOFA score of 0-3 and corresponding odds ratios using 0 as reference.
 
 Figure 2? shows a comparison between the estimated and observed probabilities for the new and updated model and table 5 compares the performance in terms of Integrated calibration index (ICI) and Area under the curve (AUC) for the receiver operating characteristics for the original and updated model.
 
-Figure: __FIGURE with 4 figures showing the ICI plots for new vs org and sum vs individual. possibly with CIs inluded in the graph__
-
-Figure: __FIGURE with 2 figures showing the AUC plots for new vs org__
-
-<!-- These are the figures i think would give clarity about the data and the new model, is there a good way to do it? I added a part in the end of the main code-document generating one of the plots in question but im not sure if thats the best way or if we could add CIs in some way in the plot.  -->
-
+Figures: __FIGURE showing the ICI plots for new vs org score__
 
 Table: Table 5. Comparison of performance, ICI and AUC, between the new and original model as well as the ICI for the combined score for the original and updated.
 |              | ICI(95% CI)         | Diff ICI (95% CI)          | AUC (95%CI)     | Diff AUC              |
 |--------------|---------------------|----------------------------|-----------------|-----------------------|
-| ORG separate | `r CIs$ICI.org`     | -                          | `r CIs$auc.org` |                       |
-| NEW seperate | `r CIs$ICI.new`     | `r CIs$diff.ici.qsofa`     | `r CIs$auc.new` |`r CIs$diff.auc.qsofa` |
-| ORG sum      | `r CIs$ICI.sum.org` | -                          | -               |                       |
-| New sum      | `r CIs$ICI.sum.new` | `r CIs$diff.ici.qsofa.sum` | -               |                       |
+| Original qSOFA model | `r CIs$ICI.org`     | -                          | `r CIs$auc.org` |                       |
+| Updated qSOFA model  | `r CIs$ICI.new`     | `r CIs$diff.ici.qsofa`     | `r CIs$auc.new` |`r CIs$diff.auc.qsofa` |
+| Original qSOFA score | `r CIs$ICI.sum.org` | -                          | -               |                       |
+| updated qSOFA score  | `r CIs$ICI.sum.new` | `r CIs$diff.ici.qsofa.sum` | -               |                       |
 Abbreviations: AUC Area under the curve, ICI Integrated calibration index
 
 
@@ -200,12 +177,7 @@ Discussion
 <!-- aim and how it went, --->
 The aim of this study was to asses the validity of the qSOFA score in predicting ICU admissions in trauma patients. We found that in the context of urban Indian hospitals the original qSOFA score with its original cutoffs and coefficients did not accurately predict ICU admission. The original model underestimated the probability of ICU admission as can be seen in _FIGURE showing ICI plots_. When updating the model adjusting the cutoffs and coefficients the new model performs significantly better in terms of ICI and slightly better in terms of AUC. 
 
-
-<!-- Strenghts -->
-  
-
 <!-- usage and limitation -->
-
 
 While developing the original qSOFA score as a screening tool for patients with an increased risk of dying from severe infection it was shown that a low score of 0-1 corresponded to a mortality of approximately 1-2 percent and that a high score of 2-3 corresponded to a significantly higher mortality of 7-20 %. When using the predetermined cutoff value of 2 points this result made the original qSOFA a useful tool to be able to sort patients with a low score to also be of a low risk of dying. On the other hand the results also allowed for that patients with a higher score could be more closely monitored and get access to treatment before more severe symptoms developed. 
 
@@ -213,19 +185,32 @@ In contrast, with our updated qSOFA for predicting ICU admission in trauma patie
 
 The results also showed that out of the parameters included in the qSOFA respiratory rate was not significantly associated with a higher risk of ICU admission, OR of `r ors[["new.rr_score"]]`. This can be partially explained by that a new cutoff was calculated for each bootstrap resulting in different cutoffs being used while evaluating the model in turn leading to an increased uncertainty. Further research is needed before the original or an updated qSOFA score as presented in this study can be used in clinical decision making.   
 
-Although no other studies have been done correlating qSOFA to ICU admission studies have explored the conection between qSOFA and mortality both regarding patients with risk for sepsis [Orgianlkälla] and trauma patients.[@Miyamoto2020] Both these studies show that there is a clear association between the qSOFA score and mortality and that the ORs as well as the AUCs is higher when looking at mortality in both studies compared to the results for this study. Although the AUCs only differ slightly<!-- Try to connect this sentence with the earlier part of this paragraph-->. It can be argued that both ICU admission and mortality results from a more severe patient condition and thus should be correlated. However it should be noted that there exists patients who died without being admitted to the ICU reducing this correlation. This could be partly because these patient were so severely injured that they either died before being able to be transferred to the ICU or it was decided that intensive care would not be of use for the patients. But it could also be due to a lack of ICU beds in the participating hospitals such that patients had to be prioritized for intensive care and not all patients who would benefit from it got admitted to the ICU. For context the number of ICU beds per 100 000 people is 2.3 in India compared with for example 7.3 in Japan. (Källa 19) To be able to explore this question more thoroughly further research is needed. 
+Although no other studies have been done correlating qSOFA to ICU admission studies have explored the conection between qSOFA and mortality both regarding patients with risk for sepsis [Orgianlkälla] and trauma patients.[@Miyamoto2020] Both these studies show that there is a clear association between the qSOFA score and mortality and that the ORs as well as the AUCs is higher when looking at mortality in both studies compared to the results for this study. Although the AUCs only differ slightly<!-- Try to connect this sentence with the earlier part of this paragraph-->. It can be argued that both ICU admission and mortality results from a more severe patient condition and thus should be correlated. However it should be noted that there exists patients who died without being admitted to the ICU reducing this correlation. This could be partly because these patient were so severely injured that they either died before being able to be transferred to the ICU or it was decided that intensive care would not be of use for the patients. But it could also be due to a lack of ICU beds in the participating hospitals such that patients had to be prioritized for intensive care and not all patients who would benefit from it got admitted to the ICU. For context the number of ICU beds per 100 000 people is 2.3 in India compared with for example 7.3 in Japan. (Källa 21) To be able to explore this question more thoroughly further research is needed. 
+
+<!-- Strengths and limitations-->
+
+The strengths of this study were the large number of patients in the TITCO database and that no previous studies have been done with a similar aim looking at ICU admission. Furthermore, the statistical analysis using bootstrap was rigorous and sound yielding trustworthy results for this context.
 
 The study had several limitations. First the data collected for the TITCO database came from a homogeneous group of participating hospitals all in urban settings in India. Because of this it is not clear that the results presented here are generalizable to for example hospitals with a rural location or a different economic level. 
 
-Second it should be noted that `r  p.transported` percent of the patients where for an unspecified time first treated at another hospital and then later transferred to one of the participating hospitals. Because of this the parameters used in this study only shows the first ones taken at arrival to the participating hospital and not always the first ones taken after the injury. furthermore the results in this study does not take into account any interventions performed before arrival or between arrival and admission to the ICU.
+Secondly it should be noted that 61 percent of the patients where for an unspecified time first treated at another hospital or health care facility and then later transferred to one of the participating hospitals. Because of this the parameters used in this study only show the first ones taken at arrival to the participating hospital and not always the first ones taken after the injury. Furthermore, the results in this study do not take into account any interventions performed before arrival or between arrival and admission to the ICU.
+
+Lastly the TITCO database contained a significant amount of missing data, about 45% of the 12 thousand participants fulfilling the inclusion criteria were excluded due to missing data. Since we do not know the distribution, the cause of this missing data nor whether it can be assumed to have any particular distribution this further increases the uncertainty. The largest contributor of missing data was respiratory rate and since this was manually calculated by hospital staff it is possible that it was not prioritized for patients with the most severe injuries where other interventions where of greater importance and thus excluding them from this study. It is unknown if this had any effect on this study and for more certain result more research is needed.
+
+
+<!-- Clinical applications -->
+The results from this study are not significant enough to merit direct clinical use of the original nor the updated model in the context of predicting ICU admission as discussed above. This project should rather be considered as a basis for future research aimed to construct a more exact model to predict ICU admission in trauma patients, see future studies below.
 
 
 <!-- future research -->
-A way for future research to investigate the usage of qSOFA in ICU admission would be to look at ICU admission, qSOFA score and mortality and investigate whether patients depending on their qSOFA score who where admitted to the ICU had a lower morality compared to patients with the same qSOFA score not admitted to the ICU. The aim of this would be to decide which patients would be the most helped by intensive care to better allocate the resources on hand. 
+A way for future research to investigate the usage of qSOFA in ICU admission would be to look at ICU admission, qSOFA score and mortality combined. This in order to investigate whether patients, depending on their qSOFA score, who were admitted to the ICU had a lower morality compared to patients with the same qSOFA score not admitted to the ICU. The aim of this would be to decide which patients would be the most helped by intensive care to better allocate the resources on hand. 
+However, if the goal is to have a model to predict ICU admission the author would suggest developing an entirely new model using more predictors than used in this paper. The one-time values of our parameters are thought of to be too simplistic when assessing the need for intensive care. For future studies, a more diverse set of parameters as well as information about their dynamics in time should be considered for constructing a more precise model. 
+Furthermore, more research needs to be performed where trauma patients arrive at a wider range of healthcare facilities. Both in terms of urbanization as well as not only including specialized tertiary care trauma hospitals. This in order to better be able to follow the patients care, not only from the time they are transferred to a specialized trauma hospital, and also to be able to draw conclusions that apply in a wider range of circumstances. A study like this will be difficult to design but would yield the most information regarding the care of trauma patients in low resource settings. 
+ 
 
 
 ##Conclusion
-An updated qSOFA score can be used to estimate the overall risk for ICU admission in trauma patients in urban India hospitals but more research is needed before it can be implemented and used in clinical decision making.
+An updated qSOFA score can be used to estimate the overall risk for ICU admission in trauma patients in urban Indian hospitals but more research is needed before it can be implemented and used in clinical decision making.
 
 
 
