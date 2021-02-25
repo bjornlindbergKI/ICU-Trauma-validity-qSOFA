@@ -182,9 +182,9 @@ run_study <- function(original.data, rows, boot) {
     val.org.prob.calc <- exp(beta)/(1+exp(beta))
 
     val.est.prob.sum.org <- list()
-    val.est.prob.sum.org$none <- mean(val.org.prob.calc[validation.sample$new.qSOFA_score==0 ])
-    val.est.prob.sum.org$one <- mean(val.org.prob.calc[validation.sample$new.qSOFA_score==1 ])
-    val.est.prob.sum.org$two <- mean(val.org.prob.calc[validation.sample$new.qSOFA_score==2 ])
+    val.est.prob.sum.org$none <- mean(val.org.prob.calc[validation.sample$org.qSOFA_score==0 ])
+    val.est.prob.sum.org$one <- mean(val.org.prob.calc[validation.sample$org.qSOFA_score==1 ])
+    val.est.prob.sum.org$two <- mean(val.org.prob.calc[validation.sample$org.qSOFA_score==2 ])
     ## since there were no cases with sum 3 and it can only go one way:
     beta <- coeff[1] + coeff[2]*1 + coeff[3]*1 + coeff[4]*1
     val.est.prob.sum.org$three <-  as.numeric(exp(beta)/(1+exp(beta)))
@@ -283,8 +283,8 @@ run_study <- function(original.data, rows, boot) {
     boot.results$auc.new <- results$auc.new
     
     ## AUC sum
-    #results$auc.new.sum <- calculate_auc(sum.new.prob.calc, as.numeric(test.sample$licu=="Yes"))
-    #boot.results$auc.new.sum <- results$auc.new.sum
+    results$auc.new.sum <- calculate_auc(sum.new.prob.calc, as.numeric(test.sample$licu=="Yes"))
+    boot.results$auc.new.sum <- results$auc.new.sum
     
     ## original model ####
     
@@ -363,20 +363,20 @@ run_study <- function(original.data, rows, boot) {
     boot.results$auc.org <- results$auc.org
     
     ## AUC sum
-    #results$auc.org.sum <- calculate_auc(sum.org.prob.calc, as.numeric(test.sample$licu=="Yes"))
-    #boot.results$auc.org.sum <- results$auc.org.sum
+    results$auc.org.sum <- calculate_auc(sum.org.prob.calc, as.numeric(test.sample$licu=="Yes"))
+    boot.results$auc.org.sum <- results$auc.org.sum
     
     
     ## Calculate differences
     results$diff.ici.qsofa <- results$ICI.new - results$ICI.org
     results$diff.ici.qsofa.sum <- results$ICI.sum.new - results$ICI.sum.org
     results$diff.auc.qsofa <-results$auc.new - results$auc.org
-    #results$diff.auc.qsofa.sum <- results$auc.new.sum - results$auc.org.sum
+    results$diff.auc.qsofa.sum <- results$auc.new.sum - results$auc.org.sum
     
     boot.results$diff.ici.qsofa <- results$diff.ici.qsofa
     boot.results$diff.ici.qsofa.sum <- results$diff.ici.qsofa.sum
     boot.results$diff.auc.qsofa <- results$diff.auc.qsofa
-    #boot.results$diff.auc.qsofa.sum <- results$diff.auc.qsofa.sum
+    boot.results$diff.auc.qsofa.sum <- results$diff.auc.qsofa.sum
 
     ## Return results
     return.list <- list(boot.results = unlist(boot.results))
@@ -388,7 +388,7 @@ run_study <- function(original.data, rows, boot) {
 
 ## Bootstrap
 set.seed(71)
-n.bootstraps <- 10
+n.bootstraps <- 1000
 bootstrap.results <- bootstrap(part_data, run_study, n.bootstraps)
 results <- bootstrap.results$arbitrary[[1]]
 boot.list <- bootstrap.results$boot.list
@@ -466,7 +466,7 @@ est.sum.new <- c(boot.cis$est.prob.sum.new.none[["pe"]], boot.cis$est.prob.sum.n
 est.sum.new <- as.numeric(est.sum.new)
 obs.sum.new <- c(boot.cis$real.prob.sum.new.none[["pe"]], boot.cis$real.prob.sum.new.one[["pe"]] , boot.cis$real.prob.sum.new.two[["pe"]],boot.cis$real.prob.sum.new.three[["pe"]]) 
 obs.sum.new <- as.numeric(obs.sum.new)
-plot(est.sum.new, obs.sum.new, xlim=c(0,1), ylim=c(0,1),main= "Updated qSOFA model", 
+plot(est.sum.new, obs.sum.new, xlim=c(0,1), ylim=c(0,1),main= "Updated qSOFA score", 
         xlab= "Predicted probability", ylab="Observed probability")
 lines(c(0,1),c(0,1))
  # ICI sum org -------
@@ -474,7 +474,7 @@ est.sum.org <- c(boot.cis$est.prob.sum.org.none[["pe"]], boot.cis$est.prob.sum.o
 est.sum.org <- as.numeric(est.sum.org)
 obs.sum.org <- c(boot.cis$real.prob.sum.org.none[["pe"]], boot.cis$real.prob.sum.org.one[["pe"]] , boot.cis$real.prob.sum.org.two[["pe"]],boot.cis$real.prob.sum.org.three[["pe"]]) 
 obs.sum.org <- as.numeric(obs.sum.org)
-plot(est.sum.org, obs.sum.org, xlim=c(0,1), ylim=c(0,1),main= "Original qSOFA model",
+plot(est.sum.org, obs.sum.org, xlim=c(0,1), ylim=c(0,1),main= "Original qSOFA score",
         xlab= "Predicted probability", ylab="Observed probability" )
 lines(c(0,1),c(0,1))
 

@@ -161,14 +161,13 @@ Figure 2? shows a comparison between the estimated and observed probabilities fo
 Figures: __FIGURE showing the ICI plots for new vs org score__
 
 Table: Table 5. Comparison of performance, ICI and AUC, between the new and original model as well as the ICI for the combined score for the original and updated.
-|              | ICI(95% CI)         | Diff ICI (95% CI)          | AUC (95%CI)     | Diff AUC              |
-|--------------|---------------------|----------------------------|-----------------|-----------------------|
-| Original qSOFA model | `r CIs$ICI.org`     | -                          | `r CIs$auc.org` |                       |
-| Updated qSOFA model  | `r CIs$ICI.new`     | `r CIs$diff.ici.qsofa`     | `r CIs$auc.new` |`r CIs$diff.auc.qsofa` |
-| Original qSOFA score | `r CIs$ICI.sum.org` | -                          | -               |                       |
-| updated qSOFA score  | `r CIs$ICI.sum.new` | `r CIs$diff.ici.qsofa.sum` | -               |                       |
+|              | ICI(95% CI)         | Diff ICI (95% CI)                  | AUC (95%CI)        | Diff AUC                  |
+|--------------|---------------------|------------------------------------|--------------------|---------------------------|
+| Original qSOFA model | `r CIs$ICI.org`     | -                          | `r CIs$auc.org`    |  -                        |
+| Updated qSOFA model  | `r CIs$ICI.new`     | `r CIs$diff.ici.qsofa`     | `r CIs$auc.new`    |`r CIs$diff.auc.qsofa`     |
+| Original qSOFA score | `r CIs$ICI.sum.org` | -                          | `r CIs$auc.org.sum`|  -                        |
+| updated qSOFA score  | `r CIs$ICI.sum.new` | `r CIs$diff.ici.qsofa.sum` | `r CIs$auc.new.sum`|`r CIs$diff.auc.qsofa.sum` |
 Abbreviations: AUC Area under the curve, ICI Integrated calibration index
-
 
 Discussion
 ========
