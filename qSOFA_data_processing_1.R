@@ -159,9 +159,9 @@ run_study <- function(original.data, rows, boot) {
     
     val.new.prob.calc <- predict(fit, newdata = validation.sample, type = "response")
     val.est.prob.sum.new <- list()
-    val.est.prob.sum.new$none <- mean(val.new.prob.calc[validation.sample$new.qSOFA_score==0 ])
-    val.est.prob.sum.new$one <- mean(val.new.prob.calc[validation.sample$new.qSOFA_score==1 ])
-    val.est.prob.sum.new$two <- mean(val.new.prob.calc[validation.sample$new.qSOFA_score==2 ])
+    val.est.prob.sum.new$none <- mean(val.new.prob.calc[validation.sample$new.qSOFA_score==0])
+    val.est.prob.sum.new$one <- mean(val.new.prob.calc[validation.sample$new.qSOFA_score==1])
+    val.est.prob.sum.new$two <- mean(val.new.prob.calc[validation.sample$new.qSOFA_score==2])
     ## since there can be cases where there are no datapoints with sum 3 and it can only go one way:
     ## the probability is calculated using the general formula instead of predict().
     ## but yields the same result as predict if there where one with sum 3.
@@ -182,9 +182,9 @@ run_study <- function(original.data, rows, boot) {
     val.org.prob.calc <- exp(beta)/(1+exp(beta))
 
     val.est.prob.sum.org <- list()
-    val.est.prob.sum.org$none <- mean(val.org.prob.calc[validation.sample$org.qSOFA_score==0 ])
-    val.est.prob.sum.org$one <- mean(val.org.prob.calc[validation.sample$org.qSOFA_score==1 ])
-    val.est.prob.sum.org$two <- mean(val.org.prob.calc[validation.sample$org.qSOFA_score==2 ])
+    val.est.prob.sum.org$none <- mean(val.org.prob.calc[validation.sample$org.qSOFA_score==0])
+    val.est.prob.sum.org$one <- mean(val.org.prob.calc[validation.sample$org.qSOFA_score==1])
+    val.est.prob.sum.org$two <- mean(val.org.prob.calc[validation.sample$org.qSOFA_score==2])
     ## since there were no cases with sum 3 and it can only go one way:
     beta <- coeff[1] + coeff[2]*1 + coeff[3]*1 + coeff[4]*1
     val.est.prob.sum.org$three <-  as.numeric(exp(beta)/(1+exp(beta)))
@@ -235,10 +235,10 @@ run_study <- function(original.data, rows, boot) {
 
     ## sum of qSOFA new
     real.prob.sum.new <- list()
-    real.prob.sum.new$none <- mean(as.numeric(test.sample$licu[test.sample$new.qSOFA_score==0 ] =="Yes"))
-    real.prob.sum.new$one <- mean(as.numeric(test.sample$licu[test.sample$new.qSOFA_score==1 ] =="Yes"))
-    real.prob.sum.new$two <- mean(as.numeric(test.sample$licu[test.sample$new.qSOFA_score==2 ] =="Yes"))
-    real.prob.sum.new$three <- mean(as.numeric(test.sample$licu[test.sample$new.qSOFA_score==3 ] =="Yes"))
+    real.prob.sum.new$none <- mean(as.numeric(test.sample$licu[test.sample$new.qSOFA_score==0] =="Yes"))
+    real.prob.sum.new$one <- mean(as.numeric(test.sample$licu[test.sample$new.qSOFA_score==1] =="Yes"))
+    real.prob.sum.new$two <- mean(as.numeric(test.sample$licu[test.sample$new.qSOFA_score==2] =="Yes"))
+    real.prob.sum.new$three <- mean(as.numeric(test.sample$licu[test.sample$new.qSOFA_score==3] =="Yes"))
 
     ## using the estimate probabilities from the validation sample
     est.prob.sum.new <- list()
@@ -347,10 +347,10 @@ run_study <- function(original.data, rows, boot) {
 
     ## as a sum for ICI plot
     sum.org.prob.calc <- as.numeric(test.sample$licu== "Yes")
-    sum.org.prob.calc[test.sample$new.qSOFA_score==0] <-  val.est.prob.sum.org$none
-    sum.org.prob.calc[test.sample$new.qSOFA_score==1] <-  val.est.prob.sum.org$one
-    sum.org.prob.calc[test.sample$new.qSOFA_score==2] <-  val.est.prob.sum.org$two
-    sum.org.prob.calc[test.sample$new.qSOFA_score==3] <-  val.est.prob.sum.org$three
+    sum.org.prob.calc[test.sample$org.qSOFA_score==0] <-  val.est.prob.sum.org$none
+    sum.org.prob.calc[test.sample$org.qSOFA_score==1] <-  val.est.prob.sum.org$one
+    sum.org.prob.calc[test.sample$org.qSOFA_score==2] <-  val.est.prob.sum.org$two
+    sum.org.prob.calc[test.sample$org.qSOFA_score==3] <-  val.est.prob.sum.org$three
 
     ICI <- data.frame(test.sample$licu,sum.org.prob.calc)
     loess.calibrate <- loess(as.numeric(test.sample.licu=="Yes")~ sum.org.prob.calc, ICI)
@@ -370,7 +370,7 @@ run_study <- function(original.data, rows, boot) {
     ## Calculate differences
     results$diff.ici.qsofa <- results$ICI.new - results$ICI.org
     results$diff.ici.qsofa.sum <- results$ICI.sum.new - results$ICI.sum.org
-    results$diff.auc.qsofa <-results$auc.new - results$auc.org
+    results$diff.auc.qsofa <- results$auc.new - results$auc.org
     results$diff.auc.qsofa.sum <- results$auc.new.sum - results$auc.org.sum
     
     boot.results$diff.ici.qsofa <- results$diff.ici.qsofa
@@ -387,8 +387,8 @@ run_study <- function(original.data, rows, boot) {
 
 
 ## Bootstrap
-set.seed(71)
-n.bootstraps <- 1000
+set.seed(17)
+n.bootstraps <- 10
 bootstrap.results <- bootstrap(part_data, run_study, n.bootstraps)
 results <- bootstrap.results$arbitrary[[1]]
 boot.list <- bootstrap.results$boot.list
@@ -427,6 +427,8 @@ colnames(boot.list$t) <- t.colnames
 #})
 ##names(boot.cis.norm) <- names(boot.list$t0)
 
+
+# Här hade vi ju bytt ut type till 'perc' men kommer inte ihåg vilken vi hade innan? Vi borde nog oavsett byta tillbaka det.
 boot.cis <- lapply(seq_len(length(boot.list$t0)), function(i) {
     ci <- boot.ci(boot.list, type = "perc", index = i)
     if(!is.null(ci)){
@@ -469,6 +471,9 @@ obs.sum.new <- as.numeric(obs.sum.new)
 plot(est.sum.new, obs.sum.new, xlim=c(0,1), ylim=c(0,1),main= "Updated qSOFA score", 
         xlab= "Predicted probability", ylab="Observed probability")
 lines(c(0,1),c(0,1))
+
+
+
  # ICI sum org -------
 est.sum.org <- c(boot.cis$est.prob.sum.org.none[["pe"]], boot.cis$est.prob.sum.org.one[["pe"]] , boot.cis$est.prob.sum.org.two[["pe"]], boot.cis$est.prob.sum.org.three[["pe"]]) 
 est.sum.org <- as.numeric(est.sum.org)
