@@ -45,7 +45,7 @@ create_figure1 <- function(results) {
       [6]: paste0('Participants died before admission: ', results$n.incl2)
       [7]: paste0('Participants with missing data: ', results$n.NA_TOT, '\\n', 'Missing ICU admission: ', results$n.NA_ICU, '\\n','Missing systolic blood preassure: ', results$n.NA_SBP, '\\n', 'Missing respiratory rate: ', results$n.NA_RR, '\\n', 'Missing Glascow coma scale: ', results$n.NA_GCS)
       [8]: paste0('Participants with self control of breathing: ', results$n.included)
-      [9]: paste0('Participant with externally controlled breathing*: ', results$n.intub.or.saw.before.arrival)
+      [9]: paste0('Participants with externally controlled breathing*: ', results$n.intub.or.saw.before.arrival)
 
 
 
