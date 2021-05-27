@@ -43,15 +43,13 @@ qSOFA score has lately been to be able to predict mortality in trauma patients
 
 The majority of the research done on trauma and trauma care is from high income
 counties and has studied the predictive power<!-- Of qSOFA?--> on mortality.
-Because low resource settings are disproportionately affected by trauma and and
-have limited resources a simple scoring system, such as qSOFA, to help
-prioritize resources such as ICU beds is important. For this we chose qSOFA as
-it is easy to perform and due to its singular cutoffs is easy to calculate. In
-this paper out aim was to asses the validity of qSOFA in predicting ICU
-admission in trauma patients admitted to hospitals in a low resource setting and
-to investigate whether the qSOFA model could be updated to increase its
-performance. 
-
+Because low resource settings are disproportionately affected by trauma and have
+limited resources a simple scoring system to help prioritize resources such as
+ICU beds is important. qSOFA is easy to perform and because of its singular
+cutoffs is easy to calculate. Therefore we aimed to asses the validity of qSOFA
+in predicting ICU admission in trauma patients admitted to hospitals in a low
+resource setting and to investigate whether the qSOFA model could be updated to
+increase its performance.
 
 Methods
 =======
@@ -101,28 +99,26 @@ representing the presence or absence of ICU admission.
 
 ## Predictors
 
-The predictors used in qSOFA were RR, GCS and SBP. Data on these predictors were
+The predictors used in qSOFA are RR, GCS and SBP. Data on these predictors were
 collected on arrival to hospital. In the original qSOFA these predictors were
 dichotomized using the cutoffs ≥ 22 for respiratory rate, ≤ 15 for the Glasgow
 coma scale, and ≤ 100 for systolic blood pressure. Using these dichotomized
 predictors qSOFA can be expressed as either a model, in which the coefficients
-or odds ratios associated with each predictor are used to estimate patient
-specific probabilities of the outcome, or a score equal to the sum of the
-dichotomized predictors ranging from 0 to 3. For this study we used the
-predictors as dichotomized in the original qSOFA publication [@Shankar2016]
-but also as continuous variables to identify new optimal cutoffs and associated
+associated with each predictor are used to estimate patient specific
+probabilities of the outcome, or a score equal to the sum of the dichotomized
+predictors ranging from 0 to 3. For this study we used the predictors as
+dichotomized in the original qSOFA publication [@Shankar2016] but also as
+continuous variables to identify new optimal cutoffs and associated
 coefficients, see Statistical analysis methods below.
 
 ## Sample size 
 We included all eligible patients from the TITCO cohort
 
 ## Missing data
-
 A complete case analysis was conducted. 
 
 
 ## Statistical analysis methods
-
 We used R for all statistical analyses [@Rstudio]. We described the sample
 characteristics using counts and percentages for qualitative variables and mean
 and standard deviations (SD) for quantitative variables. We use model to denote
@@ -130,14 +126,14 @@ the combination of predictor values and coefficients that can be used to
 estimate patient specific outcome probabilities and score to denote the sum of
 dichotomized predictor values.
 
-The study sample was randomly split into three parts called training sample,
-validation sample, and test samples with 60%, 20%, and 20% of the observations
-in each sample respectively. To update qSOFA we first used the training sample
-to identify new optimal cutoffs for each predictor. To identify optimal cutoffs
-we calculated the Youden index for all possible cutoffs for each predictor. We
-then defined the optimal cutoff for each predictor as the cutoff that maximized
-the Youden index. We then used the validation sample to estimate coefficients
-associated with the new optimal cutoffs with logistic regression. 
+The study sample was randomly split into three parts called the training sample,
+validation sample, and test samples with 60%, 20%, and 20% of the observations in
+each sample respectively. To update qSOFA we first used the training sample to
+identify new optimal cutoffs for each predictor. To identify optimal cutoffs we
+calculated the Youden index for all possible cutoffs for each predictor. We then
+defined the optimal cutoff for each predictor as the cutoff that maximized the
+Youden index. We then used lostistic regression in the validation sample to
+estimate coefficients associated with the new optimal cutoffs.
 
 We used the test sample to assess and compare the performances of the original
 and the updated qSOFA models. We assessed performance in terms of
@@ -149,15 +145,15 @@ standard for performance exists, but a lower index close to 0 corresponds to a
 better calibration. We compared the performances of the original and updated
 qSOFA models by calculating the absolute differences in performance estimates.
 
-We also compared the original and updated qSOFA scores. In the original qSOFA
-publication [@Seymour2016], odds ratios were only presented for the individual
-dichotomized predictors. We used those odds ratios, together with the presented
-mortality for patients with a score of 0, to construct a model and calculate the
-odds ratios for each level of the score (i.e. 0, 1, 2 and 3) by averaging the
-predicted probabilities of the outcome in all patients in the validation sample
-with the same score. We calculated the odds ratios associated with each level of
-the updated score using the same method and tabulated the odds ratios of the
-original and updated scores side by side.
+We also compared the performance of original and updated qSOFA scores. In the
+original qSOFA publication [@Seymour2016], odds ratios were only presented for
+the individual dichotomized predictors. We used those odds ratios, together with
+the presented mortality for patients with a score of 0, to construct a model and
+calculate the odds ratios for each level of the score (i.e. 0, 1, 2 and 3) by
+averaging the predicted probabilities of the outcome in all patients in the
+validation sample with the same score. We calculated the odds ratios associated
+with each level of the updated score using the same method and tabulated the
+odds ratios of the original and updated scores side by side.
 
 To estimate 95% confidence intervals (CIs) associated with new optimal cutoffs,
 performance estimates, differences in performance estimates, and odds ratios for
@@ -166,7 +162,6 @@ During each iteration, the entire study process – from splitting of the sample
 into training, validation, and test samples to the calculation of score level
 odds ratios – was repeated in a bootstrap sample of the same size as the
 original sample drawn with replacement.
- 
 
 Results
 ========
@@ -276,41 +271,44 @@ Discussion
 ========
 
 <!-- aim and how it went, --->
-The aim of this project was to assess the validity of the original qSOFA in
+Our aim was to assess the validity of the original qSOFA in
 predicting ICU admission in trauma patients admitted to hospitals in a low
 resource setting. We found that in the context of urban Indian hospitals the
 original qSOFA score, with its original cutoffs and coefficients, did not
-accurately predict ICU admission. The original model underestimated the
-probability of ICU admission and a max score of 3 did not result in an increased
-rate of ICU admission compared to a score of 0. When updating the model by
-adjusting the cutoffs and coefficients the new model performs significantly
-better both in terms of ICI and AUC. The AUC for the original and updated model
-remained below 0.7 and both models discriminated ICU admission poorly. The
-updated model performed only slightly better. The ICI was high for the original
-and lower for the updated model and score wich indicates improved calibration
-when updating both the model and the score.
+accurately predict ICU admission. The original model underestimated the probability
+of ICU admission and a max score of 3 did not result in an increased rate of ICU
+admission compared to a score of 0. After updating the model by adjusting the
+cutoffs and coefficients the new model performed significantly better both in
+terms of ICI and AUC. The AUC for the original and updated model remained
+below 0.7 and both models discriminated ICU admission poorly. The updated model
+performed only slightly
+better<!-- This appears to contradict the "significantly better" mentioned in the previous sentence. Maybe you can remove that sentence and keep this one?-->.
+The ICI was high for the original and lower for the updated model and score wich
+indicates improved calibration when updating both the model and the score.
 
 <!-- usage and limitation -->
 
-While developing the original qSOFA score as a screening tool for patients with
-an increased risk of dying from severe infection it was shown that a low score
+While developing the original qSOFA score as a screening tool for patients with an
+increased risk of dying from severe infection it was shown that a low score
 of 0-1 corresponded to a mortality of approximately 1-2 percent and that a high
 score of 2-3 corresponded to a significantly higher mortality of 7-20 %. When
 using the predetermined cutoff value of 2 points this result made the original
 qSOFA a useful tool to identify patients with a low risk of dying. On the other
 hand the results also allowed for that patients with a higher score could be
-more closely monitored and get access to treatment before they deteriorated. 
+more closely monitored and get access to treatment before they potentially
+deteriorated.
 
 In contrast, with our updated qSOFA for predicting ICU admission in trauma
 patients a low score of 0-1 corresponded to a probability for ICU admission of
-`r boot.cis$est.prob.sum.new.none[["pe"]]`-`r boot.cis$est.prob.sum.new.one[["pe"]]`%
-and a high score of 2-3 correspond to a mortality of
+`r boot.cis$est.prob.sum.new.none[["pe"]]\`-`r boot.cis$est.prob.sum.new.one[["pe"]]`% and
+a high score of 2-3 corresponded to a
+mortality<!-- Do you mean probability of ICU admission?--> of
 `r boot.cis$est.prob.sum.new.two[["pe"]]`-`r boot.cis$est.prob.sum.new.three[["pe"]]`
 %. This shows that regardless of the score the patients still have a relatively
-high risk for ICU admission. Although a higher score is shown to correlate with
-a higher risk of ICU admission it is not clear what clinical relevance this
-score would have in the process of deciding the adequate level of care for
-patients with trauma. 
+high risk for ICU admission. Although a higher score correlates with a higher
+risk of ICU admission it is not clear what clinical relevance this score would
+have in the process of deciding the adequate level of care for patients with
+trauma.
 
 Although no other studies have been done correlating qSOFA to ICU admission in
 low resource settings studies have explored the association between qSOFA and
@@ -320,7 +318,7 @@ studies show that there is a clear association between qSOFA and mortality.
 Comparing these results to ours the ORs are higher, and the AUC shows a slightly
 better discrimination for mortality than ICU admission. 
 
-The results also showed that out of the three parameters, the association
+Our results also showed that out of the three parameters, the association
 between respiratory rate and a higher risk of ICU admission was not
 statistically significant. In contrast the associations for SBP and GCS were
 statistically significant. This can be partially explained by that a new cutoff
@@ -329,13 +327,14 @@ while evaluating the model widening the confidence intervals. It also shows that
 in some bootstraps, a higher RR above the cutoff was associated with a lower
 risk for ICU admission, suggesting that the connection between RR and ICU
 admission is not strictly positive, as assumed in the construction of the qSOFA
-model. One possible explanation would be that both a high and a low RR is
-associated with higher risk of ICU admission, however this was not explored in
-this study. More research is needed to further explore the connection between RR
+model. One possible explanation is that the non-linear association between 
+RR and poor outcomes is not captured when a single cutoff is used. More research 
+is needed to further explore the connection between RR
 and ICU admission before the original, or an updated qSOFA score as presented in
 this study, can be used in clinical decision making in this context.   
 
-It can be argued that both ICU admission and mortality results from a more
+<!-- Shouldn't this paragraph come before the previous paragraph?-->It can be 
+argued that both ICU admission and mortality results from a more
 severe patient condition, and thus should be correlated. However, in this cohort
 mortality was high also in patients who were not admitted to the ICU, indicating
 that the association between trauma severity and ICU admission may be less
@@ -350,28 +349,8 @@ is 2.3 in India compared with for example 7.3 in Japan [@phua2020]. To be able
 to explore this question more thoroughly further research is needed.
 
 <!-- Clinical applications and future research -->
-The results from this study are not significant enough to merit direct clinical
-use of the original nor the updated model in the context of predicting ICU
-admission. This project should rather be considered as a basis for future
-research aimed to construct a more exact model to predict ICU admission in
-trauma patients. One way for future research to investigate the usage of qSOFA
-in predicting ICU admission would be to look at ICU admission, qSOFA score and
-mortality combined in order to better predict outcome. However, if the goal is
-to have a model to predict ICU admission the author would suggest developing an
-entirely new model using more predictors than used in this paper. The one-time
-values of our parameters are thought of to be too simplistic when assessing the
-need for intensive care. For future studies, a more diverse set of parameters as
-well as information about their dynamics in time should be considered for
-constructing a more precise model. 
-
-Furthermore, more research needs to be performed where trauma patients arrive at
-a wider range of healthcare facilities. Both in terms of urbanization as well as
-not only including specialized tertiary care trauma hospitals. This in order to
-better be able to follow the patients care from first contact until they are
-transferred to and treated at a specialized trauma hospital, and also to be able
-to draw conclusions that apply in a wider range of circumstances. A study like
-this will be difficult to design but would yield the most information regarding
-the care of trauma patients in low resource settings. 
+This study indicates that qSOFA should not be used to predict ICU admission in
+trauma patients in this context.<!-- Move to conclusion -->
 
 <!-- Strengths and limitations-->
 
@@ -396,10 +375,9 @@ missing data nor whether it can be assumed to have any particular distribution
 this further increases the uncertainty. The largest contributor of missing data
 was respiratory rate and since this was manually calculated by hospital staff it
 is possible that it was not prioritized for patients with the most severe
-injuries where other interventions where of greater importance and thus
+trauma where other interventions where of greater importance and thus
 excluding them from this study. It is unknown if this had any effect on this
 study and for more certain result more research is needed.
-
 
 ##Conclusion
 An updated qSOFA score can be used to estimate the overall risk for ICU
