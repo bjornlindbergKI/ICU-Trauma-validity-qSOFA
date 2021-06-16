@@ -6,7 +6,6 @@ bibliography: bibliography.bib
 csl: bmcemerg.csl
 output: pdf_document
 ---
-<!--Första steget är att korta ner. Tänk 1-1.5 sidor introduktion, 2-3 sidor metod, 1.5 sidor resultat, 2-3 sidor diskussion. Hellre åt det kortare än längre hållet. -->
 
 Introduction 
 ============
@@ -19,7 +18,6 @@ early intervention, often due to extensive bleeding for which surgery is vital
 for hemorrhage control [@King2019]. After severe trauma patients often need to
 be managed in the intensive care unit (ICU) to maintain adequate physiological
 functions.
-<!-- Add something here on the need for care in the ICU for trauma patients-->
 
 Because of the urgency and complexity of trauma care it is important to early
 assess trauma severity to guide further management, including the need for care
@@ -42,7 +40,7 @@ qSOFA score has lately been to be able to predict mortality in trauma patients
 [@Miyamoto2019; @Miyamoto2020].
 
 The majority of the research done on trauma and trauma care is from high income
-counties and has studied the predictive power<!-- Of qSOFA?--> on mortality.
+counties and has studied the predictive power of qSOFA on mortality.
 Because low resource settings are disproportionately affected by trauma and have
 limited resources a simple scoring system to help prioritize resources such as
 ICU beds is important. qSOFA is easy to perform and because of its singular
@@ -57,9 +55,7 @@ Methods
 ## Source of data
 
 We analysed the Towards Improved Trauma Care Outcomes (TITCO) in India cohort
-[@TITCO]
-<!-- TITCO collaborators (2017). TITCO dataset version 1. Available from https://github.com/titco/titco-I. (Behöver läggas in i .bib)-->
-. The TITCO cohort data was collected between July 2013 and December 2015 and
+[@TITCO]. The TITCO cohort data was collected between July 2013 and December 2015 and
 includes patients admitted to four public university hospitals. The hospitals
 included were; Jai Prakash Narayan Apex Trauma Center, connected to the All
 India Institute of Medical Sciences in New Delhi, a large center solely
@@ -277,12 +273,9 @@ resource setting. We found that in the context of urban Indian hospitals the
 original qSOFA score, with its original cutoffs and coefficients, did not
 accurately predict ICU admission. The original model underestimated the probability
 of ICU admission and a max score of 3 did not result in an increased rate of ICU
-admission compared to a score of 0. After updating the model by adjusting the
-cutoffs and coefficients the new model performed significantly better both in
-terms of ICI and AUC. The AUC for the original and updated model remained
+admission compared to a score of 0. The AUC for the original and updated model remained
 below 0.7 and both models discriminated ICU admission poorly. The updated model
-performed only slightly
-better<!-- This appears to contradict the "significantly better" mentioned in the previous sentence. Maybe you can remove that sentence and keep this one?-->.
+performed only slightly better.
 The ICI was high for the original and lower for the updated model and score wich
 indicates improved calibration when updating both the model and the score.
 
@@ -301,14 +294,13 @@ deteriorated.
 In contrast, with our updated qSOFA for predicting ICU admission in trauma
 patients a low score of 0-1 corresponded to a probability for ICU admission of
 `r boot.cis$est.prob.sum.new.none[["pe"]]\`-`r boot.cis$est.prob.sum.new.one[["pe"]]`% and
-a high score of 2-3 corresponded to a
-mortality<!-- Do you mean probability of ICU admission?--> of
+a high score of 2-3 corresponded to a probability of
 `r boot.cis$est.prob.sum.new.two[["pe"]]`-`r boot.cis$est.prob.sum.new.three[["pe"]]`
 %. This shows that regardless of the score the patients still have a relatively
-high risk for ICU admission. Although a higher score correlates with a higher
-risk of ICU admission it is not clear what clinical relevance this score would
-have in the process of deciding the adequate level of care for patients with
-trauma.
+high risk for ICU admission. Out data showed that a higher score correlates with
+a higher risk of ICU admission. However, it is not clear what clinical relevance 
+this difference would have in the process of deciding the adequate level of care 
+for patients with traumatic injuries.
 
 Although no other studies have been done correlating qSOFA to ICU admission in
 low resource settings studies have explored the association between qSOFA and
@@ -317,6 +309,20 @@ sepsis [@Seymour2016] and trauma patients [@Miyamoto2020;@Sepsis3]. These
 studies show that there is a clear association between qSOFA and mortality.
 Comparing these results to ours the ORs are higher, and the AUC shows a slightly
 better discrimination for mortality than ICU admission. 
+
+It can be argued that both ICU admission and mortality results from a more
+severe patient condition, and thus should be correlated. However, in this cohort
+mortality was high also in patients who were not admitted to the ICU, indicating
+that the association between trauma severity and ICU admission may be less
+straightforward in this setting compared with many high resource settings. This
+could be partly because these patients were so severely injured that they either
+died before they could be transferred to the ICU or it was decided that
+intensive care would not be of use for the patients. But it could also be due to
+a lack of ICU beds in the participating hospitals such that patients had to be
+prioritized for intensive care and not all patients who would benefit from it
+got admitted to the ICU. For context, the number of ICU beds per 100 000 people
+is 2.3 in India compared with for example 7.3 in Japan [@phua2020]. To be able
+to explore this question more thoroughly further research is needed.
 
 Our results also showed that out of the three parameters, the association
 between respiratory rate and a higher risk of ICU admission was not
@@ -331,26 +337,7 @@ model. One possible explanation is that the non-linear association between
 RR and poor outcomes is not captured when a single cutoff is used. More research 
 is needed to further explore the connection between RR
 and ICU admission before the original, or an updated qSOFA score as presented in
-this study, can be used in clinical decision making in this context.   
-
-<!-- Shouldn't this paragraph come before the previous paragraph?-->It can be 
-argued that both ICU admission and mortality results from a more
-severe patient condition, and thus should be correlated. However, in this cohort
-mortality was high also in patients who were not admitted to the ICU, indicating
-that the association between trauma severity and ICU admission may be less
-straightforward in this setting compared with many high resource settings. This
-could be partly because these patients were so severely injured that they either
-died before they could be transferred to the ICU or it was decided that
-intensive care would not be of use for the patients. But it could also be due to
-a lack of ICU beds in the participating hospitals such that patients had to be
-prioritized for intensive care and not all patients who would benefit from it
-got admitted to the ICU. For context, the number of ICU beds per 100 000 people
-is 2.3 in India compared with for example 7.3 in Japan [@phua2020]. To be able
-to explore this question more thoroughly further research is needed.
-
-<!-- Clinical applications and future research -->
-This study indicates that qSOFA should not be used to predict ICU admission in
-trauma patients in this context.<!-- Move to conclusion -->
+this study, can be used in clinical decision making in this context.
 
 <!-- Strengths and limitations-->
 
@@ -380,9 +367,10 @@ excluding them from this study. It is unknown if this had any effect on this
 study and for more certain result more research is needed.
 
 ##Conclusion
-An updated qSOFA score can be used to estimate the overall risk for ICU
-admission in trauma patients in urban Indian hospitals. Although the updated
-model had a good calibration on group level, the dicrimination was shown to be
-too low to merit any use in clinical decision making for the individual patient
-and thus more research is needed. 
+This study indicates that qSOFA should not be used to predict ICU admission in
+trauma patients in this context. Although an updated qSOFA score can be used 
+to estimate the overall risk for ICU admission in trauma patients in urban
+Indian hospitals and the updated model had a good calibration on
+group level, the discrimination was shown to be too low to merit any use in 
+clinical decision making for the individual patient and thus more research is needed. 
 

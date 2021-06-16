@@ -388,7 +388,7 @@ run_study <- function(original.data, rows, boot) {
 
 ## Bootstrap
 set.seed(17)
-n.bootstraps <- 10
+n.bootstraps <- 1000
 bootstrap.results <- bootstrap(part_data, run_study, n.bootstraps)
 results <- bootstrap.results$arbitrary[[1]]
 boot.list <- bootstrap.results$boot.list
