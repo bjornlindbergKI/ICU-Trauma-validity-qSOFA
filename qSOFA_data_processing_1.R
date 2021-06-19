@@ -483,7 +483,6 @@ plot(est.sum.org, obs.sum.org, xlim=c(0,1), ylim=c(0,1),main= "Original qSOFA sc
         xlab= "Predicted probability", ylab="Observed probability" )
 lines(c(0,1),c(0,1))
 
-multiplot(plotlist = c(newnew,org), cols = 1, layout = NULL)
 # ICI separate new
 est.new <- c(boot.cis$est.prob.new.none[["pe"]], boot.cis$est.prob.new.sbp[["pe"]], boot.cis$est.prob.new.rr[["pe"]], boot.cis$est.prob.new.gcs[["pe"]], boot.cis$est.prob.new.sbp.gcs[["pe"]], boot.cis$est.prob.new.sbp.rr[["pe"]], boot.cis$est.prob.new.rr.gcs[["pe"]], boot.cis$est.prob.new.sbp.rr.gcs[["pe"]])
 est.new <- as.numeric(est.new)
@@ -530,5 +529,5 @@ ICU.table <- tabOne$CatTable$Overall$`Admitted to the ICU`
 p.ICU <- round(ICU.table[ICU.table$level =="Yes","percent"])
 
 ## Compile paper ####
-render("study-plan.Rmd")
+render("Manus.Rmd")
 
