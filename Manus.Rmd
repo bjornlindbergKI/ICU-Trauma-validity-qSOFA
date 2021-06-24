@@ -1,7 +1,7 @@
 ---
 title: Predicting intensive care unit admission in trauma patients in India using the quick sequential organ failure assessment score (qSOFA) 
 
-author: BjÖrn Lindberg
+author: Björn Lindberg
 bibliography: bibliography.bib
 csl: bmcemerg.csl
 output: pdf_document
@@ -16,10 +16,10 @@ Trauma is a global health problem affecting at least 520 million people per year
 lost and 8% of deaths globally with the majority in low and middle income
 countries [@GBD2017DALY;@Mock2012]. Most deaths from trauma occur shortly
 after the injury and reducing mortality in patients with severe trauma requires
-early intervention, often due to extensive bleeding for which surgery is vital
-for hemorrhage control [@King2019]. After severe trauma patients often need to
+early intervention[@King2019]. After severe trauma patients often need to
 be managed in the intensive care unit (ICU) to maintain adequate physiological
 functions.
+<!-- I removed the part about surgery. In the first paragraph i would fokus on the broader need for early, and right intervention at the correct level in the trauma system. maybe tweak the last to sentences so that you can link them to the need for RTS and qSOFA? -->
 
 Because of the urgency and complexity of trauma care it is important to early
 assess trauma severity to guide further management, including the need for care
@@ -30,19 +30,19 @@ pressure (SBP) and respiratory rate (RR), and is rated 0-4 points on each
 parameter. Because of the multiple cutoffs involved for each parameter the RTS
 can be too complex for routine use, especially in low resource settings with
 high trauma loads.
-
+<!-- I know the RTS was developed as a triage score but to my understanding its main use today is outside the direct clinical practice (unlike qSOFA)? knit picking perhaps and i may be completely wrong. Ask Martin about this and how to formulate what RTS is needed and used for --> 
 The quick Sequential Organ Failure Assessment score (qSOFA score) was developed
 in 2016 and includes the same variables as RTS but with just one cutoff for each
-parameter. It was introduced as a screening tool coupled with the already
+parameter. Introduced as a screening tool coupled with the already
 existing Sequential Organ Failure Assessment score (SOFA score). The qSOFA score
 was meant to be used bedside to identify patients with high-risk of organ
 dysfunction due to infections [@David2017;@Shankar2016] and the SOFA score to
 more precisely evaluate the level of organ dysfunction [@Lambden2019]. The
-qSOFA score has lately been to be able to predict mortality in trauma patients
+qSOFA score has lately been able to predict mortality in trauma patients
 [@Miyamoto2019; @Miyamoto2020].
 
 The majority of the research done on trauma and trauma care is from high income
-counties and has studied the predictive power of qSOFA on mortality.
+counties including the studied predictive power of qSOFA on mortality.
 Because low resource settings are disproportionately affected by trauma and have
 limited resources a simple scoring system to help prioritize resources such as
 ICU beds is important. qSOFA is easy to perform and because of its singular
@@ -50,7 +50,7 @@ cutoffs is easy to calculate. Therefore we aimed to asses the validity of qSOFA
 in predicting ICU admission in trauma patients admitted to hospitals in a low
 resource setting and to investigate whether the qSOFA model could be updated to
 increase its performance.
-
+<!-- Changed the first sentence, still correct? -->
 Methods
 =======
 
@@ -174,6 +174,8 @@ surgical airway, were also excluded accounting for
 respiratory rate (`r results$n.NA_RR`), or GCS (`r results$n.NA_GCS`). The final
 sample included `r results$n.complete` patients. 
 
+<!-- The printed PDF results in Figure 1 coming in after table 3. Really strange? Otherwise superb section! -->
+
 ```{r figone, fig.align = 'center', out.width = "100%", fig.cap = "Flowchart showing the exclussion criteria andthe number of study participants. /n *Externally controlled breathing includes intubation orsurgical airway before arrival to a participating hospital", echo = FALSE}
 knitr::include_graphics("figone.png")
 ```
@@ -194,7 +196,7 @@ percentages.
  kableone(tabOne,caption = "Characteristics of the study population, both overall and stratified by ICU admission. SD- Standard deviation.", label = "table1")
 ```
 
-
+<!-- It took me a little while to understand that "yes" was the ICU population and "NO" was the rest. Maybe add something in the headline -->
 We identified the following revised optimal cutoffs:
 `r boot.cis$cut.sbp[["pe"]]` for SBP, `r boot.cis$cut.rr[["pe"]]` for RR and
 `r boot.cis$cut.gcs[["pe"]]` for GCS. We also identified corresponding ORs where
@@ -215,6 +217,8 @@ Abbreviations: OR-Odds ratio, CI-Confidence interval, SBP-Systolic blood pressur
 * OR for the original model refers to mortality.
 ** OR for the updated model refers to ICU admissions.
 
+<!-- The destription for table 2 is a little wordy and repeats some of the information from the corresponding text section, optimize? -->
+
 The predicted probability of ICU admission and corresponding OR for each score
 level given the OR from Table 2 is presented in Table 3 and 4 for the original
 and the updated models respectively. The presented ORs are weighted according to
@@ -224,6 +228,8 @@ from `r round(as.numeric(CIs$est.prob.sum.org.none),2)*100 `% to
 `r round(as.numeric(CIs$est.prob.sum.org.three,2))*100 `% and for the updated model, the
 predicted probability ranges from `r round(as.numeric(CIs$est.prob.sum.new.none,2))*100 `%
 to `r round(as.numeric(CIs$est.prob.sum.new.three,2))*100 `% for a score of 0-3.  
+
+<!-- Something is wrong with updated model, in the PDF it says"predicted probability ranges from NA% to NA%" -->
 
 | Original score | Estimated probability of ICU admission(95%CI) | Odds ratio(95% CI)          |
 |-----------------|-----------------------------------------------|-----------------------------|
@@ -245,6 +251,8 @@ Figures 2 and 3 shows comparisons between the estimated and observed
 probabilities for the new and updated model and table 5 compares the performance
 in terms of Integrated calibration index (ICI) and Area under the curve (AUC)
 for the receiver operating characteristics for the original and updated model.
+
+<!-- Figure 2 and 3 needs some clarification on what they are showing? Same "main" heading etc Also table 5 does not generate correctly for me?-->
 
 ```{r ICIorg, echo = FALSE}
 plot(est.sum.org, obs.sum.org, xlim=c(0,1), ylim=c(0,1),main= "Original qSOFA score", xlab= "Predicted probability", ylab="Observed probability" )
@@ -324,7 +332,7 @@ prioritized for intensive care and not all patients who would benefit from it
 got admitted to the ICU. For context, the number of ICU beds per 100 000 people
 is 2.3 in India compared with for example 7.3 in Japan [@phua2020]. To be able
 to explore this question more thoroughly further research is needed.
-
+<!-- when you say "would not be of use for the patient" do you mean that intensive care was deemed futile and not in the patients best interest? Or is it something else?-->
 Our results also showed that out of the three parameters, the association
 between respiratory rate and a higher risk of ICU admission was not
 statistically significant. In contrast the associations for SBP and GCS were
@@ -366,9 +374,9 @@ is possible that it was not prioritized for patients with the most severe
 trauma where other interventions where of greater importance and thus
 excluding them from this study. It is unknown if this had any effect on this
 study and for more certain result more research is needed.
-
+<!-- Great discussion! -->
 ##Conclusion
-
+========
 This study indicates that qSOFA should not be used to predict ICU admission in
 trauma patients in this context. Although an updated qSOFA score can be used 
 to estimate the overall risk for ICU admission in trauma patients in urban
