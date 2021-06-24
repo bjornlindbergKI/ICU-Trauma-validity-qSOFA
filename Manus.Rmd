@@ -50,7 +50,7 @@ cutoffs is easy to calculate. Therefore we aimed to asses the validity of qSOFA
 in predicting ICU admission in trauma patients admitted to hospitals in a low
 resource setting and to investigate whether the qSOFA model could be updated to
 increase its performance.
-<!-- Changed the first sentence, still correct? -->
+<!-- I changed the first sentence, still correct? -->
 Methods
 =======
 
