@@ -16,10 +16,10 @@ Trauma is a global health problem affecting at least 520 million people per year
 lost and 8% of deaths globally with the majority in low and middle income
 countries [@GBD2017DALY;@Mock2012]. Most deaths from trauma occur shortly
 after the injury and reducing mortality in patients with severe trauma requires
-early intervention[@King2019]. After severe trauma patients often need to
-be managed in the intensive care unit (ICU) to maintain adequate physiological
-functions.
-<!-- I removed the part about surgery. In the first paragraph i would fokus on the broader need for early, and right intervention at the correct level in the trauma system. maybe tweak the last to sentences so that you can link them to the need for RTS and qSOFA? -->
+early intervention[@King2019]. This includes knowing how to sort which patients
+to prioritize in the emergency room and which patients that need to be admitted 
+to an intensive care unit (ICU), as intensive care in many cases can be necessary 
+to maintain adequate physiological functions. 
 
 Because of the urgency and complexity of trauma care it is important to early
 assess trauma severity to guide further management, including the need for care
@@ -42,15 +42,16 @@ qSOFA score has lately been able to predict mortality in trauma patients
 [@Miyamoto2019; @Miyamoto2020].
 
 The majority of the research done on trauma and trauma care is from high income
-counties including the studied predictive power of qSOFA on mortality.
+countries including the studied predictive power of qSOFA on mortality.
 Because low resource settings are disproportionately affected by trauma and have
 limited resources a simple scoring system to help prioritize resources such as
-ICU beds is important. qSOFA is easy to perform and because of its singular
-cutoffs is easy to calculate. Therefore we aimed to asses the validity of qSOFA
+ICU beds is important. The qSOFA is easy to perform and because of its singular
+cutoffs it is easy to calculate. Therefore we aimed to asses the validity of qSOFA
 in predicting ICU admission in trauma patients admitted to hospitals in a low
 resource setting and to investigate whether the qSOFA model could be updated to
-increase its performance.
-<!-- I changed the first sentence, still correct? -->
+increase its performance. If successful qSOFA could be used as a tool to help
+practicing clinicians sort patients and in faster way decide the lever of care needed. 
+
 Methods
 =======
 
@@ -93,7 +94,9 @@ participating hospital.
 The outcome of interest was admission to the ICU during hospitalization as
 recorded in the TITCO database. This was recorded as hours in intensive care in
 the TITCO database and was for this study converted into a binary variable
-representing the presence or absence of ICU admission.
+representing the presence or absence of ICU admission. 
+<!-- KAPIL: Can we add some description here about how ICU  admissions are decided in the participating hospitals? In my opinon based on clinical  assessment of patients and clinical gestault along with availability of bed.No uniform protocol  mostly  --->
+<!-- BJÖRN: I agree that this would be of interest to have but i dont know where and how to best add. --> 
 
 ## Predictors
 
@@ -114,6 +117,12 @@ We included all eligible patients from the TITCO cohort
 
 ## Missing data
 A complete case analysis was conducted. 
+
+<!-- KAPIL: Would it be helpful if we do imputation of missing data ? -->
+<!-- Björn: Maybe we would get more precise results but i think that would add
+another layer of complexity and not affect the outcome. also there is nothing that says
+that the missing data is missing completely at random and i am not sure if we would add 
+additional biases by doing imputation...-->
 
 
 ## Statistical analysis methods
@@ -145,13 +154,15 @@ qSOFA models by calculating the absolute differences in performance estimates.
 
 We also compared the performance of original and updated qSOFA scores. In the
 original qSOFA publication [@Seymour2016], odds ratios were only presented for
-the individual dichotomized predictors. We used those odds ratios, together with
-the presented mortality for patients with a score of 0, to construct a model and
-calculate the odds ratios for each level of the score (i.e. 0, 1, 2 and 3) by
-averaging the predicted probabilities of the outcome in all patients in the
-validation sample with the same score. We calculated the odds ratios associated
-with each level of the updated score using the same method and tabulated the
-odds ratios of the original and updated scores side by side.
+the individual dichotomized predictors. We used those odds ratios together with
+the presented mortality for patients with a score of 0 to construct a model and
+calculate the odds ratios for each of the scores (i.e. 0, 1, 2 and 3). This was done by
+averaging the predicted probabilities of the outcome for all patients in the
+validation sample with the same score regardless of which parameters gave the total score. 
+We calculated the odds ratios associated with each score of the updated qSOFSA score using
+the same method and tabulated the odds ratios of the original and updated scores side by side.
+<!--This segment is slightly convoluted and unclear. -->
+<!-- Is it clearer? can it be done in another way? --> 
 
 To estimate 95% confidence intervals (CIs) associated with new optimal cutoffs,
 performance estimates, differences in performance estimates, and odds ratios for
@@ -174,7 +185,6 @@ surgical airway, were also excluded accounting for
 respiratory rate (`r results$n.NA_RR`), or GCS (`r results$n.NA_GCS`). The final
 sample included `r results$n.complete` patients. 
 
-<!-- The printed PDF results in Figure 1 coming in after table 3. Really strange? Otherwise superb section! -->
 
 ```{r figone, fig.align = 'center', out.width = "100%", fig.cap = "Flowchart showing the exclussion criteria andthe number of study participants. /n *Externally controlled breathing includes intubation orsurgical airway before arrival to a participating hospital", echo = FALSE}
 knitr::include_graphics("figone.png")
@@ -192,11 +202,11 @@ presented in \@ref(tab:table1) with corresponding standard deviations and
 percentages. 
 
 
-```{r table1, echo = FALSE}
- kableone(tabOne,caption = "Characteristics of the study population, both overall and stratified by ICU admission. SD- Standard deviation.", label = "table1")
+```{r table1, echo = FALSE, }
+ kableone(tabOne, caption = "Characteristics of the study population, both overall and stratified by ICU admission where 'Yes' and 'No' stands for whether or not the patients was admitted to the ICU. SD- Standard deviation.", label = "table1")
 ```
 
-<!-- It took me a little while to understand that "yes" was the ICU population and "NO" was the rest. Maybe add something in the headline -->
+
 We identified the following revised optimal cutoffs:
 `r boot.cis$cut.sbp[["pe"]]` for SBP, `r boot.cis$cut.rr[["pe"]]` for RR and
 `r boot.cis$cut.gcs[["pe"]]` for GCS. We also identified corresponding ORs where
@@ -206,30 +216,28 @@ together with the cutoffs, ORs and confidence intervals for the original model
 as taken from the original qSOFA publication.
 
 
-|           |Original cutoff | Original OR     | Updated OR(95%CI)         | Optimal cutoffs (95%CI) |
+|           |Original cutoff | Original OR*     | Updated OR(95%CI)**         | Optimal cutoffs (95%CI) |
 |-----------|----------------|----------------|---------------------------|-------------------------|
 | Intercept | -    | 0.01*           |  `r ors[["(Intercept)"]]`   |  -                      |
 | SBP       | <100 |2.61(2.40-2.85) | `r ors[["new.sbp_score"]]` |`r CIs$cut.sbp`          |
 | RR        | >22  | 3.18(2.89-3.50) | `r ors[["new.rr_score"]]`  |`r CIs$cut.rr`           |
 | GCS       | <15  |4.31(9.96-4.69) | `r ors[["new.gcs_score"]]` |`r CIs$cut.gcs`          |
-Table: Table 2 Overview of the original and updated model. Original and updated odds ratios (OR) for the logistic regression models as well as the cutoffs for each parameter for the original and updated model. The ORs describe the change in odds associated with a predictor value above or below the corresponding cutoff as appropriate.
-Abbreviations: OR-Odds ratio, CI-Confidence interval, SBP-Systolic blood pressure, RR-Respiratory rate, GCS-Glasgow coma scale. 
-* OR for the original model refers to mortality.
+Table: Table 2 Overview of the cutoff values and Odds ratios for the individual parameters in the original and updated model.
+Abbreviations: OR-Odds ratio, CI-Confidence interval, SBP-Systolic blood pressure, RR-Respiratory rate, GCS-Glasgow coma scale. * OR for the original model refers to mortality.
 ** OR for the updated model refers to ICU admissions.
 
-<!-- The destription for table 2 is a little wordy and repeats some of the information from the corresponding text section, optimize? -->
+<!-- This is actually a problem i dont really know how to solve that Dr Kapil Dev Soni pointed out. Sometimes the estimated point value is outside ( and sometimes way outside) the range of the CIs. for example this time 2450983.670 (0.574 - 3.294) 34 (16 - 30) for RR but this can happen everywhere and on different places it feels like but not everytime i run it. -->
+<!-- And then it of course affects values calculated using the affected parameter, in this case further down with the ORs for the score value of 3-->
 
 The predicted probability of ICU admission and corresponding OR for each score
 level given the OR from Table 2 is presented in Table 3 and 4 for the original
 and the updated models respectively. The presented ORs are weighted according to
 the distribution of the individual parameter scores for each total score as
 present in the study population. For the original model, the probability ranges
-from `r round(as.numeric(CIs$est.prob.sum.org.none),2)*100 `% to
-`r round(as.numeric(CIs$est.prob.sum.org.three,2))*100 `% and for the updated model, the
-predicted probability ranges from `r round(as.numeric(CIs$est.prob.sum.new.none,2))*100 `%
-to `r round(as.numeric(CIs$est.prob.sum.new.three,2))*100 `% for a score of 0-3.  
-
-<!-- Something is wrong with updated model, in the PDF it says"predicted probability ranges from NA% to NA%" -->
+from `r probs$est.prob.sum.org.none `% to
+`r probs$est.prob.sum.org.three `% and for the updated model, the
+predicted probability ranges from `r probs$est.prob.sum.new.none `%
+to `r probs$est.prob.sum.new.three `% for a score of 0-3.  
 
 | Original score | Estimated probability of ICU admission(95%CI) | Odds ratio(95% CI)          |
 |-----------------|-----------------------------------------------|-----------------------------|
@@ -252,24 +260,24 @@ probabilities for the new and updated model and table 5 compares the performance
 in terms of Integrated calibration index (ICI) and Area under the curve (AUC)
 for the receiver operating characteristics for the original and updated model.
 
-<!-- Figure 2 and 3 needs some clarification on what they are showing? Same "main" heading etc Also table 5 does not generate correctly for me?-->
-
-```{r ICIorg, echo = FALSE}
-plot(est.sum.org, obs.sum.org, xlim=c(0,1), ylim=c(0,1),main= "Original qSOFA score", xlab= "Predicted probability", ylab="Observed probability" )
+```{r ICIorg, echo = FALSE, fig.cap= "Figure showing the predicted probability vs the observed probability for the original qSOFA score where the diagonal line corresponds to optimal calibration" }
+plot(est.sum.org, obs.sum.org, xlim=c(0,1), ylim=c(0,1),main= "Original qSOFA score", xlab= "Predicted probability", ylab="Observed probability")
 lines(c(0,1),c(0,1))
 ```
-```{r ICInew, echo = FALSE}
-plot(est.sum.new, obs.sum.new, xlim=c(0,1), ylim=c(0,1),main= "Original qSOFA score", xlab= "Predicted probability", ylab="Observed probability" )
+```{r ICInew, echo = FALSE, fig.cap= "Figure showing the predicted probability vs the observed probability for the updated qSOFA score where the diagonal line corresponds to optimal calibration"}
+plot(est.sum.new, obs.sum.new, xlim=c(0,1), ylim=c(0,1),main= "Updated qSOFA score", xlab= "Predicted probability", ylab="Observed probability",  )
 lines(c(0,1),c(0,1))
 ```
 
-Table: Table 5. Comparison of performance, in terms of ICI and AUC, between the original and the updated qSOFA model as well as the ICI off the combined score for the original and the updated model.
-|              | ICI(95% CI)         | Diff ICI (95% CI)                  | AUC (95%CI)        | Diff AUC                  |
-|--------------|---------------------|------------------------------------|--------------------|---------------------------|
+
+
+|                      | ICI(95% CI)         | Diff ICI (95% CI)          | AUC (95%CI)        | Diff AUC                  |
+|----------------------|---------------------|----------------------------|--------------------|---------------------------|
 | Original qSOFA model | `r CIs$ICI.org`     | -                          | `r CIs$auc.org`    |  -                        |
 | Updated qSOFA model  | `r CIs$ICI.new`     | `r CIs$diff.ici.qsofa`     | `r CIs$auc.new`    |`r CIs$diff.auc.qsofa`     |
 | Original qSOFA score | `r CIs$ICI.sum.org` | -                          | `r CIs$auc.org.sum`|  -                        |
 | updated qSOFA score  | `r CIs$ICI.sum.new` | `r CIs$diff.ici.qsofa.sum` | `r CIs$auc.new.sum`|`r CIs$diff.auc.qsofa.sum` |
+Table: Table 5. Comparison of performance, in terms of ICI and AUC, between the original and the updated qSOFA model as well as the ICI off the combined score for the original and the updated model.
 Abbreviations: AUC Area under the curve, ICI Integrated calibration index
 
 Discussion
@@ -302,11 +310,11 @@ deteriorated.
 
 In contrast, with our updated qSOFA for predicting ICU admission in trauma
 patients a low score of 0-1 corresponded to a probability for ICU admission of
-`r boot.cis$est.prob.sum.new.none[["pe"]]`-`r boot.cis$est.prob.sum.new.one[["pe"]]`% and
+`r probs$est.prob.sum.new.none`-`r probs$est.prob.sum.new.one`% and
 a high score of 2-3 corresponded to a probability of
-`r boot.cis$est.prob.sum.new.two[["pe"]]`-`r boot.cis$est.prob.sum.new.three[["pe"]]`
+`r probs$est.prob.sum.new.two`-`r probs$est.prob.sum.new.three`
 %. This shows that regardless of the score the patients still have a relatively
-high risk for ICU admission. Out data showed that a higher score correlates with
+high risk for ICU admission. Our data showed that a higher score correlates with
 a higher risk of ICU admission. However, it is not clear what clinical relevance 
 this difference would have in the process of deciding the adequate level of care 
 for patients with traumatic injuries.
@@ -321,18 +329,18 @@ better discrimination for mortality than ICU admission.
 
 It can be argued that both ICU admission and mortality results from a more
 severe patient condition, and thus should be correlated. However, in this cohort
-mortality was high also in patients who were not admitted to the ICU, indicating
+mortality was high also in patients who were not admitted to the ICU. This indicating
 that the association between trauma severity and ICU admission may be less
 straightforward in this setting compared with many high resource settings. This
 could be partly because these patients were so severely injured that they either
 died before they could be transferred to the ICU or it was decided that
-intensive care would not be of use for the patients. But it could also be due to
-a lack of ICU beds in the participating hospitals such that patients had to be
-prioritized for intensive care and not all patients who would benefit from it
-got admitted to the ICU. For context, the number of ICU beds per 100 000 people
-is 2.3 in India compared with for example 7.3 in Japan [@phua2020]. To be able
-to explore this question more thoroughly further research is needed.
-<!-- when you say "would not be of use for the patient" do you mean that intensive care was deemed futile and not in the patients best interest? Or is it something else?-->
+intensive care was deemed futile and not in the patients best interest. 
+But it could also be due to a lack of ICU beds in the participating hospitals 
+such that patients had to be prioritized for intensive care and not all patients 
+who would benefit from it got admitted to the ICU. For context, the number of ICU 
+beds per 100 000 people is 2.3 in India compared with for example 7.3 in Japan [@phua2020].
+To be able to explore this question more thoroughly further research is needed.
+
 Our results also showed that out of the three parameters, the association
 between respiratory rate and a higher risk of ICU admission was not
 statistically significant. In contrast the associations for SBP and GCS were
@@ -375,7 +383,8 @@ trauma where other interventions where of greater importance and thus
 excluding them from this study. It is unknown if this had any effect on this
 study and for more certain result more research is needed.
 <!-- Great discussion! -->
-##Conclusion
+
+Conclusion
 ========
 This study indicates that qSOFA should not be used to predict ICU admission in
 trauma patients in this context. Although an updated qSOFA score can be used 
@@ -383,4 +392,6 @@ to estimate the overall risk for ICU admission in trauma patients in urban
 Indian hospitals and the updated model had a good calibration on
 group level, the discrimination was shown to be too low to merit any use in 
 clinical decision making for the individual patient and thus more research is needed. 
+
+## References
 

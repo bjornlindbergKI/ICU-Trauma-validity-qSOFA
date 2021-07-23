@@ -388,7 +388,7 @@ run_study <- function(original.data, rows, boot) {
 
 ## Bootstrap
 set.seed(17)
-n.bootstraps <- 1000
+n.bootstraps <- 10
 bootstrap.results <- bootstrap(part_data, run_study, n.bootstraps)
 results <- bootstrap.results$arbitrary[[1]]
 boot.list <- bootstrap.results$boot.list
@@ -451,6 +451,14 @@ ors <- lapply(coefs, function(x) sprintf("%.3f", exp(x)))
 names(ors) <- sub("updated.coefs.", "", names(ors))
 ors <- lapply(ors, function(or) paste0(or[1], " (", or[2], " - ", or[3], ")"))
 
+probs <- boot.cis[grep(".prob.", names(boot.cis))]
+probs <- lapply(probs, function(x){
+    round(x,2)*100
+})
+probs <- lapply(probs, function(or){
+        paste0(or[1])
+}) 
+
 
 CIs <- boot.cis
 CIs <- lapply(CIs, function(or){
@@ -460,6 +468,8 @@ CIs <- lapply(CIs, function(or){
         paste0(or[1])
     }
 }) 
+
+
 
 ## plots ####
 
